@@ -1,0 +1,13 @@
+{
+  "typescript.suggest.paths": true,
+  "javascript.suggest.paths": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "css.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": ["css", "postcss", "scss"]
+}
