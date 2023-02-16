@@ -15,7 +15,8 @@ function App() {
           <div className="space-y-5">
             <h1 className="text-2xl font-black">Giga React Starter 🗿</h1>
             <h1 className="text-xl font-bold">
-              Vite + React + Typescript + Tailwind + Eslint + Stylelint & Prettier 🔥
+              Vite + React + Typescript + Tailwind + Eslint + Stylelint &
+              Prettier 🔥
             </h1>
           </div>
 

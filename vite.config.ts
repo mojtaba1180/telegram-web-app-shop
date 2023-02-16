@@ -6,9 +6,9 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   server: {
     open: true,
-    port: 3000,
+    port: 3000
   },
   build: {
-    minify: "terser",
-  },
+    minify: "terser"
+  }
 });

@@ -1,27 +1,29 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es2021: true
   },
-
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
     "airbnb",
-    "airbnb/hooks",
+    "airbnb/hooks"
   ],
-
   plugins: ["react", "@typescript-eslint", "simple-import-sort"],
   overrides: [],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: "latest",
-    sourceType: "module",
+    sourceType: "module"
   },
-
   rules: {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
     "linebreak-style": ["error", "unix"],
     quotes: ["warn", "double"],
     "no-console": "off",
@@ -36,16 +38,15 @@ module.exports = {
       "error",
       {},
       {
-        usePrettierrc: true,
-      },
+        usePrettierrc: true
+      }
     ],
     "react/jsx-filename-extension": [
       "error",
       {
-        extensions: [".ts", ".tsx"],
-      },
+        extensions: [".ts", ".tsx"]
+      }
     ],
-
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -53,18 +54,15 @@ module.exports = {
         js: "never",
         jsx: "never",
         ts: "never",
-        tsx: "never",
-      },
-    ],
-
-    "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
+        tsx: "never"
+      }
+    ]
   },
-
   settings: {
     "import/resolver": {
       node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"],
-      },
-    },
-  },
+        extensions: [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
 };

@@ -9,5 +9,11 @@
   },
   "css.validate": false,
   "scss.validate": false,
-  "stylelint.validate": ["css", "postcss", "scss"]
+  "stylelint.validate": ["css", "postcss", "scss"],
+  "editor.snippetSuggestions": "inline",
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "search.sortOrder": "type",
+  "explorer.sortOrder": "type"
 }
