@@ -10,5 +10,10 @@
   "css.validate": false,
   "scss.validate": false,
   "stylelint.validate": ["css", "postcss", "scss"],
-  "editor.snippetSuggestions": "bottom"
+  "editor.snippetSuggestions": "inline",
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "search.sortOrder": "type",
+  "explorer.sortOrder": "type"
 }
