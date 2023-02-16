@@ -7,7 +7,9 @@
     "orta.vscode-jest",
     "styled-components.vscode-styled-components",
     "xabikos.ReactSnippets",
-    "Yummygum.city-lights-icon-vsc",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "formulahendry.auto-rename-tag",
+    "miguelsolorio.fluent-icons",
+    "orta.vscode-twoslash-queries"
   ]
 }
