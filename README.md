@@ -66,4 +66,4 @@ Run eslint fixer: this command will fix all of those problem
 
 Just press this ⭐️ little star button ^\_^
 
-Made with ❤️ by Hesam Yusefpur ༼ つ ◕_◕ ༽つ
+Made with ❤️ by TypeVelopers ༼ つ ◕_◕ ༽つ
