@@ -10,7 +10,7 @@ import Router from "./router";
 function App() {
   const isReady = useIsTelegramWebAppReady();
   const tgApp = useTelegramWebApp();
-
+  alert(tgApp);
   // eslint-disable-next-line operator-linebreak
   const mode =
     import.meta.env.VITE_DEV_MODE === "true"
