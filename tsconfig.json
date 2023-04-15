@@ -20,7 +20,9 @@
       "@/*": ["./src/*"],
       "@component/*": ["./src/components/*"],
       "@image/*": ["./src/assets/images/*"],
-      "@style/*": ["./src/assets/styles/*"]
+      "@style/*": ["./src/assets/styles/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@router/*": ["./src/router/"]
     },
     "baseUrl": "."
   },

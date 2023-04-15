@@ -1,35 +1,25 @@
 import "@style/app.scss";
 
-import Counter from "@component/counter";
-import ReactLogo from "@image/logo.svg";
+import {
+  useIsTelegramWebAppReady,
+  useTelegramWebApp
+} from "react-telegram-webapp";
+
+import Router from "./router";
 
 function App() {
+  const isReady = useIsTelegramWebAppReady();
+  const tgApp = useTelegramWebApp();
+
+  // eslint-disable-next-line operator-linebreak
+  const mode =
+    import.meta.env.VITE_DEV_MODE === "true"
+      ? true
+      : isReady && tgApp.initDataUnsafe && tgApp.initDataUnsafe.user;
   return (
-    <div className="app bg-gray-900">
-      <div className="box flex h-[24rem] w-5/6 max-w-3xl rounded-xl bg-gray-800/80 p-5 shadow-lg">
-        <div className="flex w-2/5 items-center justify-center">
-          <img className="app-logo" src={ReactLogo} alt="ReactLogo" />
-        </div>
-
-        <div className="flex flex-1 flex-col items-center justify-center gap-5 p-2">
-          <div className="space-y-5">
-            <h1 className="text-2xl font-black">Giga React Starter 🗿</h1>
-            <h1 className="text-xl font-bold">
-              Vite + React + Typescript + Tailwind + Eslint + Stylelint &
-              Prettier 🔥
-            </h1>
-          </div>
-
-          <Counter />
-
-          <div className="links flex gap-1 text-sm">
-            <a href="https://beta.reactjs.org/">Learn React</a>
-
-            <span>|</span>
-
-            <a href="https://vitejs.dev/guide/">Learn Vite</a>
-          </div>
-        </div>
+    <div className=" app h-screen w-full  py-7 ">
+      <div className="h-full w-full !max-w-[450px]">
+        {mode ? <Router /> : <>agha boro ba telegram biya farbod</>}
       </div>
     </div>
   );

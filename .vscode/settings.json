@@ -15,5 +15,6 @@
     "javascript": "javascriptreact"
   },
   "search.sortOrder": "type",
-  "explorer.sortOrder": "type"
+  "explorer.sortOrder": "type",
+  "cSpell.words": ["Formik", "Signup"]
 }

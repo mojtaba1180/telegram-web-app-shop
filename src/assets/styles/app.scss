@@ -1,3 +1,6 @@
+body {
+  @apply bg-cyan-900;
+}
 .app {
   display: flex;
   align-items: center;
@@ -7,8 +10,10 @@
 
   color: white;
   text-align: center;
+  button {
+    @apply select-none rounded-lg bg-blue-400 text-white transition-all;
+  }
 }
-
 .app-logo {
   pointer-events: none;
   scale: 1.3;
