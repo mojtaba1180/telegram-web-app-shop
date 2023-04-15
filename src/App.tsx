@@ -13,8 +13,9 @@ function App() {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   if (window.Telegram) {
-    const { username } = window.Telegram.WebApp.initDataUnsafe.user;
-    alert(username);
+    const { id } = window.Telegram.WebApp.initDataUnsafe.user;
+
+    alert(id);
   }
   // eslint-disable-next-line operator-linebreak
   const mode =
