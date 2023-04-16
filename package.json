@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc & vite build",
     "prev": "vite preview",
     "lint:eslint": "eslint . --ext .ts,.tsx",
     "fix:eslint": "eslint --fix  . --ext .ts,.tsx",
@@ -12,6 +12,8 @@
     "fix:stylelint": "stylelint --fix ./src/**/*.{css,scss,tsx}"
   },
   "dependencies": {
+    "@vkruglikov/react-telegram-web-app": "^1.8.0",
+    "antd": "^5.4.2",
     "clsx": "^1.2.1",
     "eslint-plugin-simple-import-sort": "^9.0.0",
     "formik": "^2.2.9",

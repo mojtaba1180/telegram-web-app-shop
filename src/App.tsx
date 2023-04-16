@@ -12,16 +12,9 @@ function App() {
   const tgApp = useTelegramWebApp();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  if (window.Telegram) {
-    const { id } = window.Telegram.WebApp.initDataUnsafe.user;
 
-    alert(id);
-  }
   // eslint-disable-next-line operator-linebreak
-  const mode =
-    import.meta.env.VITE_DEV_MODE === "true"
-      ? true
-      : isReady && tgApp.initDataUnsafe && tgApp.initDataUnsafe.user;
+  const mode = import.meta.env.VITE_DEV_MODE === "true" ? true : isReady;
   return (
     <div className=" app h-screen w-full  py-7 ">
       <div className="h-full w-full !max-w-[450px]">
