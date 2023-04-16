@@ -18,14 +18,7 @@ function App() {
   return (
     <div className=" app h-screen w-full  py-7 ">
       <div className="h-full w-full !max-w-[450px]">
-        {mode ? (
-          <>
-            {alert(tgApp.initDataUnsafe.user)}
-            <Router />
-          </>
-        ) : (
-          <>agha boro ba telegram biya farbod</>
-        )}
+        {mode ? <Router /> : <>agha boro ba telegram biya farbod</>}
       </div>
     </div>
   );
