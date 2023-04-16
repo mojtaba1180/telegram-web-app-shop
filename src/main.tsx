@@ -1,23 +1,14 @@
 import "@style/index.css";
 
 import { createRoot } from "react-dom/client";
-import { TelegramWebApp } from "react-telegram-webapp";
 
 import App from "./App";
+import { TelegramType } from "./types";
 
-async function validateHash(hash: string) {
-  const response = await fetch("/api/validate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ hash })
-  });
-
-  return response.ok;
+declare global {
+  interface Window {
+    Telegram: TelegramType;
+  }
 }
-createRoot(document.getElementById("root") as HTMLElement).render(
-  <TelegramWebApp validateHash={validateHash}>
-    <App />
-  </TelegramWebApp>
-);
+
+createRoot(document.getElementById("root") as HTMLElement).render(<App />);

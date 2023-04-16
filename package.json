@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc & vite build",
+    "build": "vite build",
     "prev": "vite preview",
     "lint:eslint": "eslint . --ext .ts,.tsx",
     "fix:eslint": "eslint --fix  . --ext .ts,.tsx",

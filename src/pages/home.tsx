@@ -1,9 +1,15 @@
-import { useTelegramWebApp } from "react-telegram-webapp";
+import useTelegram from "@/hooks/useTelegram";
 
 function Home() {
-  const tgApp = useTelegramWebApp();
-  const userID = tgApp.initData.user.id;
-  return <div>userID</div>;
+  const tgApp = useTelegram();
+
+  const userId = tgApp.initDataUnsafe.user.id;
+  return (
+    <div>
+      userId
+      {userId}
+    </div>
+  );
 }
 
 export default Home;

@@ -22,7 +22,8 @@
       "@image/*": ["./src/assets/images/*"],
       "@style/*": ["./src/assets/styles/*"],
       "@pages/*": ["./src/pages/*"],
-      "@router/*": ["./src/router/"]
+      "@router/*": ["./src/router/"],
+      "@hooks/*": ["./src/hooks/*"]
     },
     "baseUrl": "."
   },
