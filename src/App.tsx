@@ -12,7 +12,6 @@ function App() {
   const tgApp = useTelegramWebApp();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
   // eslint-disable-next-line operator-linebreak
   const mode = import.meta.env.VITE_DEV_MODE === "true" ? true : isReady;
   return (
