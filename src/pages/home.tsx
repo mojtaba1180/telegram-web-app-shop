@@ -9,7 +9,7 @@ import useTelegram from "@/hooks/useTelegram";
 
 function Home() {
   const tgApp = useTelegram();
-  const [coloeScheme, themeParams] = useThemeParams();
+  const [colorScheme, themeParams] = useThemeParams();
   // const userId = tgApp.initDataUnsafe.user.id;
   return (
     <div>
