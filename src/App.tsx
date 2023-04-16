@@ -1,19 +1,11 @@
 import "@style/app.scss";
 
-import {
-  useIsTelegramWebAppReady,
-  useTelegramWebApp
-} from "react-telegram-webapp";
-
 import Router from "./router";
 
 function App() {
-  const isReady = useIsTelegramWebAppReady();
-  const tgApp = useTelegramWebApp();
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // eslint-disable-next-line operator-linebreak
-  const mode = import.meta.env.VITE_DEV_MODE === "true" ? true : isReady;
+  const mode = import.meta.env.VITE_DEV_MODE !== "true";
   return (
     <div className=" app h-screen w-full  py-7 ">
       <div className="h-full w-full !max-w-[450px]">
