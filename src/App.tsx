@@ -12,7 +12,7 @@ function App() {
   return (
     <div className=" app h-screen w-full  py-7 ">
       <div className="h-full w-full !max-w-[450px]">
-        {mode ? <Router /> : <>agha boro ba telegram biya farbod</>}
+        {mode ? <Router /> : <>going to telegram</>}
       </div>
     </div>
   );
