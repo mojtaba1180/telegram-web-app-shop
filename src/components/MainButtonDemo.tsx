@@ -1,7 +1,8 @@
-import {  MainButton,
-  MainButtonProps,
+import {
+  MainButton,
+  MainButtonProps
 } from "@vkruglikov/react-telegram-web-app";
-import { Button, Form, Input, Switch, Typography } from "antd";
+import { Button, Form, Input, Switch } from "antd";
 import { FC, useState } from "react";
 
 const MainButtonDemo: FC = () => {
@@ -13,46 +14,46 @@ const MainButtonDemo: FC = () => {
     text: "hey",
     show: false,
     progress: false,
-    disable: false,
+    disable: false
   });
   const onFinish = (values: any) => setButtonState(values);
 
   return (
     <>
-      <Typography.Title level={3}>MainButton</Typography.Title>
+      {/* <Typography.Title level={3}>MainButton</Typography.Title> */}
       <Form
         labelCol={{ span: 6 }}
-        name='basic'
-        layout='horizontal'
+        name="basic"
+        layout="horizontal"
         initialValues={buttonState}
         onFinish={onFinish}
-        autoComplete='off'>
-        <Form.Item label='Text' name='text'>
+        autoComplete="off">
+        <Form.Item label="Text" name="text">
           <Input
             onChange={({ target }) =>
               setButtonState({
                 ...buttonState,
-                text: target.value,
+                text: target.value
               })
             }
           />
         </Form.Item>
-        <Form.Item name='progress' label='progress' valuePropName='checked'>
+        <Form.Item name="progress" label="progress" valuePropName="checked">
           <Switch
             onChange={(value) =>
               setButtonState({
                 ...buttonState,
-                progress: value,
+                progress: value
               })
             }
           />
         </Form.Item>
-        <Form.Item name='disable' label='disable' valuePropName='checked'>
+        <Form.Item name="disable" label="disable" valuePropName="checked">
           <Switch
             onChange={(value) =>
               setButtonState({
                 ...buttonState,
-                disable: value,
+                disable: value
               })
             }
           />
@@ -60,11 +61,11 @@ const MainButtonDemo: FC = () => {
         <Form.Item>
           <Button
             block
-            type='primary'
+            type="primary"
             onClick={() =>
               setButtonState({
                 ...buttonState,
-                show: !buttonState?.show,
+                show: !buttonState?.show
               })
             }>
             {buttonState?.show ? "Hide MainButton" : "Show MainButton"}

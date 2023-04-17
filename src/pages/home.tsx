@@ -1,50 +1,27 @@
-import { useThemeParams } from "@vkruglikov/react-telegram-web-app";
-import { ConfigProvider, theme } from "antd";
-
-import BackButtonDemo from "@/components/BackButtonDemo";
-import HapticFeedbackDemo from "@/components/HapticFeedbackDemo";
-import MainButtonDemo from "@/components/MainButtonDemo";
-import ShowPopupDemo from "@/components/ShowPopupDemo";
-import useTelegram from "@/hooks/useTelegram";
+import BackButtonDemo from "@component/BackButtonDemo";
+import HapticFeedbackDemo from "@component/HapticFeedbackDemo";
+import MainButtonDemo from "@component/MainButtonDemo";
+import ShowPopupDemo from "@component/ShowPopupDemo";
+import useTelegram from "@hooks/useTelegram";
+import { Link } from "react-router-dom";
 
 function Home() {
   const tgApp = useTelegram();
-  const [colorScheme, themeParams] = useThemeParams();
+
   // const userId = tgApp.initDataUnsafe.user.id;
   return (
     <div>
-      <ConfigProvider
-        theme={
-          themeParams.text_color
-            ? {
-                algorithm:
-                  colorScheme === "dark"
-                    ? theme.darkAlgorithm
-                    : theme.defaultAlgorithm,
-                token: {
-                  colorText: themeParams.text_color,
-                  colorPrimary: themeParams.button_color,
-                  colorBgBase: themeParams.bg_color
-                }
-              }
-            : undefined
-        }>
-        <header className="App-header">
-          <img src="/vite.svg" className="App-logo" alt="logo" />
-        </header>
-        <div className="contentWrapper">
-          <input
-            type="file"
-            className="changeimage"
-            id="changeimage"
-            accept="image/*"
-          />
-          <MainButtonDemo />
-          <BackButtonDemo />
-          <ShowPopupDemo />
-          <HapticFeedbackDemo />
-        </div>
-      </ConfigProvider>
+      <input
+        type="file"
+        className="changeimage"
+        id="changeimage"
+        accept="image/*"
+      />
+      <MainButtonDemo />
+      <BackButtonDemo />
+      <ShowPopupDemo />
+      <HapticFeedbackDemo />
+      <Link to="/products/add">AddProduct</Link>
     </div>
   );
 }
