@@ -11,8 +11,8 @@ function App() {
   // eslint-disable-next-line operator-linebreak
   const mode = import.meta.env.VITE_DEV_MODE !== "true";
   return (
-    <div className=" app h-screen w-full  py-7 ">
-      <div className="h-full w-full !max-w-[450px]">
+    <div className=" app w-full  py-1  ">
+      <div className=" w-full !max-w-[450px]">
         {mode ? (
           <ConfigProvider
             theme={

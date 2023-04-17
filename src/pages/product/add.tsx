@@ -6,9 +6,7 @@ import {
   Form,
   Input,
   InputNumber,
-  message,
-  Upload,
-  UploadProps
+  Upload
 } from "antd";
 import { useState } from "react";
 
@@ -53,43 +51,30 @@ const options: Option[] = [
   }
 ];
 
-const UploadImageProps: UploadProps = {
-  beforeUpload: (file) => {
-    console.log(file.type);
-
-    const isPNG = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isPNG) {
-      message.error(`${file.name} لصفا عکس اپلود کنید`);
-    }
-    return isPNG || Upload.LIST_IGNORE;
-  },
-  onChange: (info) => {
-    console.log(info.fileList);
-  }
-};
-
 function Add() {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
   const onChange = (value: any) => {
     console.log(value);
   };
   return (
-    <Form
-      labelCol={{ span: 5 }}
-      wrapperCol={{ span: 20 }}
-      layout="horizontal"
-      disabled={componentDisabled}
-      onFinish={(e) => console.log(e)}>
-      <Form.Item name="name" label="نام محصول">
-        <Input />
-      </Form.Item>
-      {/* <Form.Item name="type" label="Radio">
+    <>
+      <h1>افزودن محصول جدید </h1>
+      <Form
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 20 }}
+        layout="horizontal"
+        disabled={componentDisabled}
+        onFinish={(e) => console.log(e)}>
+        <Form.Item name="name" label="نام محصول">
+          <Input />
+        </Form.Item>
+        {/* <Form.Item name="type" label="Radio">
         <Radio.Group>
           <Radio value="apple"> Apple </Radio>
           <Radio value="pear"> Pear </Radio>
         </Radio.Group>
       </Form.Item> */}
-      {/* <Form.Item name="treeSelect" label="TreeSelect">
+        {/* <Form.Item name="treeSelect" label="TreeSelect">
         <TreeSelect
           treeData={[
             {
@@ -100,51 +85,52 @@ function Add() {
           ]}
         />
       </Form.Item> */}
-      <Form.Item name="categories" label="دسته بندی">
-        <Cascader
-          style={{ width: "100%" }}
-          options={options}
-          onChange={onChange}
-          multiple
-          maxTagCount="responsive"
-        />
-      </Form.Item>
-      {/* <Form.Item label="DatePicker">
+        <Form.Item name="categories" label="دسته بندی">
+          <Cascader
+            style={{ width: "100%" }}
+            options={options}
+            onChange={onChange}
+            multiple
+            maxTagCount="responsive"
+          />
+        </Form.Item>
+        {/* <Form.Item label="DatePicker">
         <DatePicker />
       </Form.Item>
       <Form.Item label="RangePicker">
         <RangePicker />
       </Form.Item> */}
-      <Form.Item label="قیمت (تومان) " name="price">
-        <InputNumber />
-      </Form.Item>
-      <Form.Item label="تعداد موجودی " name="stock">
-        <InputNumber />
-      </Form.Item>
-      <Form.Item label="توضیحات" name="description">
-        <TextArea rows={4} />
-      </Form.Item>
-      {/* <Form.Item label="Switch" valuePropName="checked">
+        <Form.Item label="قیمت (تومان) " name="price">
+          <InputNumber type="number" />
+        </Form.Item>
+        <Form.Item label="تعداد موجودی " name="stock">
+          <InputNumber type="number" />
+        </Form.Item>
+        <Form.Item label="توضیحات" name="description">
+          <TextArea rows={4} />
+        </Form.Item>
+        {/* <Form.Item label="Switch" valuePropName="checked">
         <Switch />
       </Form.Item> */}
-      <Form.Item name="images" label="عکس محصول" valuePropName="images">
-        <Upload {...UploadImageProps} multiple listType="picture-card">
-          <div>
-            <PlusOutlined />
-            <div style={{ marginTop: 8 }}>افزودن</div>
-          </div>
-        </Upload>
-      </Form.Item>
+        <Form.Item name="images" label="عکس محصول" valuePropName="images">
+          <Upload accept="image/*" multiple listType="picture-card">
+            <div>
+              <PlusOutlined />
+              <div style={{ marginTop: 8 }}>افزودن</div>
+            </div>
+          </Upload>
+        </Form.Item>
 
-      <Button
-        type="primary"
-        style={{ width: "100%" }}
-        size="large"
-        htmlType="submit">
-        {" "}
-        ذخیره
-      </Button>
-    </Form>
+        <Button
+          type="primary"
+          style={{ width: "100%" }}
+          size="large"
+          htmlType="submit">
+          {" "}
+          ذخیره
+        </Button>
+      </Form>
+    </>
   );
 }
 
