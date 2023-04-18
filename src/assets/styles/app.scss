@@ -7,9 +7,6 @@
 
   color: white;
   text-align: center;
-  button {
-    @apply select-none rounded-lg bg-blue-400 text-white transition-all;
-  }
 }
 .app-logo {
   pointer-events: none;

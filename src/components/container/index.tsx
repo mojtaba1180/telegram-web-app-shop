@@ -9,6 +9,7 @@ interface Props {
   customButton?: boolean;
   customButtonTitle?: string;
   customButtonOnClick?: React.MouseEventHandler;
+  titleType?: "small" | "default";
 }
 
 function Container({
@@ -17,12 +18,20 @@ function Container({
   backwardUrl,
   customButton,
   customButtonTitle,
-  customButtonOnClick
+  customButtonOnClick,
+  titleType
 }: Props) {
   const navigate = useNavigate();
+
+  // eslint-disable-next-line operator-linebreak
+  const headerStyle =
+    titleType === "default"
+      ? "sticky top-1 z-30 flex items-center justify-between rounded-lg bg-[var(--tg-theme-secondary-bg-color)] p-3"
+      : " z-20 text-sm text-left -mb-2 border-b-[1px] pb-1 ";
+
   return (
     <div>
-      <div className="sticky top-1 z-30 flex items-center justify-between rounded-lg bg-[var(--tg-theme-secondary-bg-color)] p-3   ">
+      <div className={headerStyle}>
         <h1>{title}</h1>
         {customButton && (
           <Button onClick={customButtonOnClick}>{customButtonTitle}</Button>
@@ -39,6 +48,8 @@ Container.defaultProps = {
   backwardUrl: undefined,
   customButton: false,
   customButtonTitle: "",
-  customButtonOnClick: () => {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  customButtonOnClick: () => {},
+  titleType: "default"
 };
 export default Container;

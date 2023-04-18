@@ -18,7 +18,7 @@
     // define your module paths here:
     "paths": {
       "@/*": ["./src/*"],
-      "@component/*": ["./src/components/*"],
+      "@components/*": ["./src/components/*"],
       "@image/*": ["./src/assets/images/*"],
       "@style/*": ["./src/assets/styles/*"],
       "@pages/*": ["./src/pages/*"],

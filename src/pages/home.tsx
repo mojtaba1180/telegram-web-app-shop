@@ -6,13 +6,14 @@ function Home() {
 
   // const userId = tgApp.initDataUnsafe.user.id;
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       {/*
       <MainButtonDemo />
       <BackButtonDemo />
       <ShowPopupDemo />
       <HapticFeedbackDemo /> */}
       <Link to="/products/add">AddProduct</Link>
+      <Link to="/categories">categories</Link>
     </div>
   );
 }
