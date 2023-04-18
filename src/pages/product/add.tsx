@@ -1,5 +1,4 @@
 import { PlusOutlined } from "@ant-design/icons";
-import Container from "@component/container";
 import {
   Button,
   Cascader,
@@ -12,6 +11,7 @@ import {
 } from "antd";
 import { useRef, useState } from "react";
 
+import Container from "@/components/container";
 import { getFileBase64 } from "@/helpers/getFileBase64";
 
 const { TextArea } = Input;
