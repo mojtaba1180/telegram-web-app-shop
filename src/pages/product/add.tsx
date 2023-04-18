@@ -1,16 +1,19 @@
 import { PlusOutlined } from "@ant-design/icons";
+import Container from "@component/container";
 import {
   Button,
   Cascader,
-  DatePicker,
   Form,
   Input,
   InputNumber,
-  Upload
+  Upload,
+  UploadFile,
+  UploadProps
 } from "antd";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-const { RangePicker } = DatePicker;
+import { getFileBase64 } from "@/helpers/getFileBase64";
+
 const { TextArea } = Input;
 interface Option {
   value: string | number;
@@ -56,9 +59,41 @@ function Add() {
   const onChange = (value: any) => {
     console.log(value);
   };
+  const uploadRef = useRef(null);
+  const [fileList, setFileList] = useState<UploadFile[]>([
+    {
+      uid: "123",
+      name: "xxx.png",
+      status: "done",
+      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+    }
+  ]);
+
+  const handleOnChangeUploadFile: UploadProps["onChange"] = (e) => {
+    let newFileList: UploadFile[] = [...e.fileList];
+    console.log(newFileList);
+    newFileList = newFileList.map((item) => {
+      const imageBase64 = getFileBase64(item.originFileObj);
+      imageBase64.then((res) => console.log(res));
+      return {
+        name: item.name,
+        uid: item.uid,
+        url: item.url,
+        originFileObj: item.originFileObj
+      };
+    });
+    setFileList(newFileList);
+  };
+  const uploadFileListProps = {
+    accept: "image/*",
+    onChange: handleOnChangeUploadFile,
+    multiple: true,
+    showUploadList: true,
+    ref: uploadRef,
+    listType: "picture-card"
+  };
   return (
-    <>
-      <h1>افزودن محصول جدید </h1>
+    <Container backwardUrl="/" title="افزودن محصول جدید">
       <Form
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 20 }}
@@ -103,6 +138,9 @@ function Add() {
         <Form.Item label="قیمت (تومان) " name="price">
           <InputNumber type="number" />
         </Form.Item>
+        <Form.Item label="تخفیف (تومان) " name="quantity">
+          <InputNumber type="number" />
+        </Form.Item>
         <Form.Item label="تعداد موجودی " name="stock">
           <InputNumber type="number" />
         </Form.Item>
@@ -112,8 +150,12 @@ function Add() {
         {/* <Form.Item label="Switch" valuePropName="checked">
         <Switch />
       </Form.Item> */}
-        <Form.Item name="images" label="عکس محصول" valuePropName="images">
-          <Upload accept="image/*" multiple listType="picture-card">
+        <Form.Item
+          className="w-full"
+          name="images"
+          label="عکس محصول"
+          valuePropName="images">
+          <Upload fileList={fileList} {...uploadFileListProps}>
             <div>
               <PlusOutlined />
               <div style={{ marginTop: 8 }}>افزودن</div>
@@ -125,12 +167,12 @@ function Add() {
           type="primary"
           style={{ width: "100%" }}
           size="large"
+          // className="sticky bottom-3"
           htmlType="submit">
-          {" "}
           ذخیره
         </Button>
       </Form>
-    </>
+    </Container>
   );
 }
 
