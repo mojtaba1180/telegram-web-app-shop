@@ -1,7 +1,7 @@
 import "@style/app.scss";
 
 import { useThemeParams } from "@vkruglikov/react-telegram-web-app";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, theme } from "antd";
 
 import Router from "./router";
 
