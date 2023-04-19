@@ -164,7 +164,7 @@ function Add() {
         </Form.Item>
 
         <Button
-          type="default"
+          type="primary"
           style={{ width: "100%" }}
           size="large"
           // className="sticky bottom-3"

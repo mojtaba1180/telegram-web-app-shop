@@ -35,10 +35,14 @@ function Container({
         <h1>{title}</h1>
         <div className="mr-auto" />
         {customButton && (
-          <Button onClick={customButtonOnClick}>{customButtonTitle}</Button>
+          <Button type="primary" onClick={customButtonOnClick}>
+            {customButtonTitle}
+          </Button>
         )}
         {backwardUrl && (
-          <Button onClick={() => navigate(backwardUrl)}>بازگشت</Button>
+          <Button type="primary" onClick={() => navigate(backwardUrl)}>
+            بازگشت
+          </Button>
         )}
       </div>
       <div className="mt-5 w-full">{children}</div>
