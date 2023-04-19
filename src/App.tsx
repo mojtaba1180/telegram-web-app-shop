@@ -1,4 +1,5 @@
 import "@style/app.scss";
+import "antd/dist/reset.css";
 
 import { useThemeParams } from "@vkruglikov/react-telegram-web-app";
 import { ConfigProvider, theme } from "antd";

@@ -167,6 +167,7 @@ function Add() {
           type="primary"
           style={{ width: "100%" }}
           size="large"
+          ghost
           // className="sticky bottom-3"
           htmlType="submit">
           ذخیره

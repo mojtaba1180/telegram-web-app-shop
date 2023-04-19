@@ -35,12 +35,12 @@ function Container({
         <h1>{title}</h1>
         <div className="mr-auto" />
         {customButton && (
-          <Button type="primary" onClick={customButtonOnClick}>
+          <Button type="primary" ghost onClick={customButtonOnClick}>
             {customButtonTitle}
           </Button>
         )}
         {backwardUrl && (
-          <Button type="primary" onClick={() => navigate(backwardUrl)}>
+          <Button type="primary" ghost onClick={() => navigate(backwardUrl)}>
             بازگشت
           </Button>
         )}
