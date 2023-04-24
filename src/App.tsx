@@ -16,6 +16,7 @@ function App() {
       <div className=" w-full !max-w-[450px]">
         {mode ? (
           <ConfigProvider
+            direction="rtl"
             theme={
               themeParams.text_color
                 ? {

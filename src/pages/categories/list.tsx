@@ -1,14 +1,13 @@
 /* eslint-disable object-curly-newline */
-import {
-  DeleteOutlined,
-  EditOutlined,
-  ExclamationCircleFilled
-} from "@ant-design/icons";
-import { Button, Input, Modal, Space, Table } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Button, Modal, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
+import { useState } from "react";
 
 // eslint-disable-next-line import/extensions
 import Container from "@/components/container";
+
+import CategoriesAdd from "./add";
 
 const { confirm } = Modal;
 interface DataType {
@@ -54,29 +53,20 @@ const data: DataType[] = [
 ];
 
 function List() {
-  const handleSubmitAddCategories = () =>
-    new Promise((resolve, reject) => {
-      setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-    }).catch(() => console.log("Oops errors!"));
+  const [AddCategories, setAddCategories] = useState(false);
+  const showDrawerAddCat = () => {
+    setAddCategories(true);
+  };
 
-  const showPromiseConfirm = () => {
-    confirm({
-      title: "افزودن دسته بندی جدید",
-      icon: <ExclamationCircleFilled />,
-      content: <Input />,
-
-      onOk() {
-        return handleSubmitAddCategories;
-      },
-      okType: "default"
-    });
+  const onClose = () => {
+    setAddCategories(false);
   };
   return (
     <Container
       backwardUrl="/"
       customButton
       customButtonTitle="افزودن"
-      customButtonOnClick={showPromiseConfirm}
+      customButtonOnClick={showDrawerAddCat}
       title="دسته بندی ها">
       {/* <Container titleType="small" title="افزودن دسته بندی">
         <div className="flex gap-2">
@@ -88,6 +78,7 @@ function List() {
       {/* <Container titleType="small" title="لیست دسته ها "> */}
       <Table columns={columns} dataSource={data} />
       {/* </Container> */}
+      <CategoriesAdd isOpen={AddCategories} onClose={onClose} />
     </Container>
   );
 }
