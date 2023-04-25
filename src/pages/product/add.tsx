@@ -1,4 +1,6 @@
 import { PlusOutlined } from "@ant-design/icons";
+import Container from "@components/container";
+import { getFileBase64 } from "@helpers/getFileBase64";
 import {
   Button,
   Cascader,
@@ -10,9 +12,6 @@ import {
   UploadProps
 } from "antd";
 import { useRef, useState } from "react";
-
-import Container from "@/components/container";
-import { getFileBase64 } from "@/helpers/getFileBase64";
 
 const { TextArea } = Input;
 interface Option {

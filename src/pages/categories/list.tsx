@@ -1,11 +1,10 @@
 /* eslint-disable object-curly-newline */
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+// eslint-disable-next-line import/extensions
+import Container from "@components/container";
 import { Button, Modal, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useState } from "react";
-
-// eslint-disable-next-line import/extensions
-import Container from "@/components/container";
 
 import CategoriesAdd from "./add";
 
