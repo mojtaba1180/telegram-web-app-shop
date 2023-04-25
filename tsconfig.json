@@ -17,7 +17,6 @@
     "jsx": "react-jsx",
     // define your module paths here:
     "paths": {
-      "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@image/*": ["./src/assets/images/*"],
       "@style/*": ["./src/assets/styles/*"],

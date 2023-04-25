@@ -15,8 +15,13 @@ function Home() {
       <BackButtonDemo />
       <ShowPopupDemo />
       <HapticFeedbackDemo /> */}
-      <Button onClick={() => navigate("/products/add")}>افزودن محصول</Button>
-      <Button onClick={() => navigate("/categories")}> دسته بندی ها </Button>
+      <Button onClick={() => navigate("/admin/products/add")}>
+        افزودن محصول
+      </Button>
+      <Button onClick={() => navigate("/admin/categories")}>
+        دسته بندی ها
+      </Button>
+      <Button onClick={() => navigate("/admin/orders")}> سفارشات admin</Button>
     </div>
   );
 }
