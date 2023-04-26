@@ -25,16 +25,17 @@ const columns: ColumnsType<DataType> = [
       </Link>
     )
   },
-  {
-    title: "زمان",
-    dataIndex: "time",
-    key: "time",
-    render: (text) => <p>{text}</p>
-  },
+
   {
     title: "وضعیت",
     dataIndex: "status",
     key: "status",
+    render: (text) => <p>{text}</p>
+  },
+  {
+    title: "زمان",
+    dataIndex: "time",
+    key: "time",
     render: (text) => <p>{text}</p>
   },
   {

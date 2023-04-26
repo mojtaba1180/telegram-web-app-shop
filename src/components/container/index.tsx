@@ -31,7 +31,7 @@ function Container({
 
   return (
     <div>
-      <div className={headerStyle}>
+      <div className={`transition-all ${headerStyle} `}>
         <h1>{title}</h1>
         <div className="mr-auto" />
         {customButton && (
