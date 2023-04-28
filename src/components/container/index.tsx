@@ -32,7 +32,7 @@ function Container({
   return (
     <div>
       <div className={`transition-all ${headerStyle} `}>
-        <h1>{title}</h1>
+        <p className="m-0 p-0">{title}</p>
         <div className="mr-auto" />
         {customButton && (
           <Button type="primary" ghost onClick={customButtonOnClick}>
