@@ -6,7 +6,7 @@ import ProductLists from "./components/product-list";
 
 function ProductList() {
   return (
-    <Container title="محصولات">
+    <Container title="محصولات" backwardUrl="/">
       <Suspense fallback={<ProductsSkeleton />}>
         <ProductLists />
       </Suspense>
