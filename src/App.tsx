@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import "@style/app.scss";
 import "antd/dist/reset.css";
 

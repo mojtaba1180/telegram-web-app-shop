@@ -72,6 +72,9 @@ function CategoriesAdd({ onClose, isOpen }: AddCategoryProps) {
         <Form.Item name="name" required label="نام">
           <Input required />
         </Form.Item>
+        <Form.Item name="description" required label="توضیحات">
+          <Input.TextArea required />
+        </Form.Item>
 
         <Form.Item name="categories" label=" دسته بندی پدر یا زیر مجموعه">
           <Cascader
