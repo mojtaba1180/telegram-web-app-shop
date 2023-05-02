@@ -11,13 +11,3 @@ steps:
     image: node:14
     commands:
       - npm run build
-
-  - name: deploy
-    image: ubuntu:20.04
-    commands:
-      - apt-get update && apt-get install -y openssh-client
-      - mkdir -p ~/.ssh
-      - echo "$SSH_KEY" > ~/.ssh/id_rsa
-      - chmod 600 ~/.ssh/id_rsa
-      - ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
-      - scp -r build/* $SSH_USER@$SSH_HOST:$SSH_PATH
