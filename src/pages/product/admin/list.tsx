@@ -1,8 +1,7 @@
 import Container from "@components/container";
+import ProductLists from "@components/product/product-list";
 import ProductsSkeleton from "@components/skeleton/products";
 import { Suspense } from "react";
-
-import ProductLists from "./components/product-list";
 
 function ProductList() {
   return (
