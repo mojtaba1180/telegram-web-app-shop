@@ -17,7 +17,7 @@ steps:
     commands:
       - apt-get update && apt-get install -y openssh-client
       - mkdir -p ~/.ssh
-      - echo "${SSH_KEY}" > ~/.ssh/id_rsa
+      - echo "${test} $test" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
       - cat ~/.ssh/id_rsa
       - scp -r build/* $SSH_USER@$SSH_HOST:$SSH_PATH
