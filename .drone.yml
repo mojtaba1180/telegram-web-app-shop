@@ -31,7 +31,7 @@ steps:
       - echo "$SSH_KEY" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
       - cat ~/.ssh/id_rsa
-      - sshpass -p "$SSH_PASS" scp -r build/* $SSH_USER@$SSH_HOST:$SSH_PATH
+      - sshpass -p "mosgr0080" scp -r build/* $SSH_USER@$SSH_HOST:$SSH_PATH
   # - name: deploy
   #   image: appleboy/drone-ssh:1.6.2
   #   settings:
