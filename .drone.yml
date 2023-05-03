@@ -20,6 +20,7 @@ steps:
       - echo "servername 8.8.8.8" > /etc/resolv.conf
       - echo "$SSH_KEY" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
+      - ls ~/.ssh/id_rsa
       - scp -r build/* telegramshop@193.36.85.250:$SSH_PATH
   # - name: deploy
   #   image: appleboy/drone-ssh:1.6.2
