@@ -21,8 +21,8 @@ steps:
         from_secret: SSH_USER
       key:
         from_secret: SSH_KEY
-      password:
-        from_secret: SSH_PASS
+      # password:
+      #   from_secret: SSH_PASS
       port: 22
       target:
         from_secret: SSH_PATH
