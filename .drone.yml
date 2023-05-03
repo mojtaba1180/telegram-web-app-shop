@@ -19,10 +19,10 @@ steps:
         from_secret: SSH_HOST
       username:
         from_secret: SSH_USER
-      key:
-        from_secret: SSH_KEY
-      # password:
-      #   from_secret: SSH_PASS
+      # key:
+      #   from_secret: SSH_KEY
+      password:
+        from_secret: SSH_PASS
       port: 22
       target:
         from_secret: SSH_PATH
