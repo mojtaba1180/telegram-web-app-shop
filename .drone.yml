@@ -30,6 +30,7 @@ steps:
       - mkdir -p ~/.ssh
       - echo "$SSH_KEY" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
+      - ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
       - sshpass -p $SSH_PASS scp -r build/* $SSH_USER@$SSH_HOST:$SSH_PATH
   # - name: deploy
   #   image: appleboy/drone-ssh:1.6.2
