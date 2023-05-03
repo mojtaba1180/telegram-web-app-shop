@@ -13,15 +13,6 @@ steps:
       - npm run build
 
   - name: deploy
-    environment:
-      KEY:
-        from_secret: SSH_KEY
-      USER:
-        from_secret: SSH_USER
-      HOST:
-        from_secret: SSH_HOST
-      PATH:
-        from_secret: SSH_PATH
     image: ubuntu:20.04
     commands:
       - apt-get update && apt-get install -y openssh-client
