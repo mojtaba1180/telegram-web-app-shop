@@ -19,8 +19,8 @@ steps:
         from_secret: $SSH_HOST
       username:
         from_secret: $SSH_USER
-      password:
-        from_secret: "mosgr0080"
+      key:
+        from_secret: $SSH_KEY
       port: 22
       target:
         from_secret: $SSH_PATH
