@@ -19,15 +19,15 @@ steps:
         from_secret: SSH_HOST
       username:
         from_secret: SSH_USER
-      key:
-        from_secret: SSH_KEY
+      password:
+        from_secret: SSH_PASS
       port: 22
       target:
-        from_secret: $SSH_PATH
+        from_secret: SSH_PATH
       source: build/
       script:
-        - sudo rm -rf /home/telegramshop/www/frontend/*
-        - sudo cp -R build/* /home/telegramshop/www/frontend/
+        - sudo rm -rf $SSH_PATH/*
+        - sudo cp -R build/* $SSH_PATH
 
     # - name: deploy
     #   image: ubuntu:20.04
