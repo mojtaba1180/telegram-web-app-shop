@@ -1,6 +1,9 @@
 kind: pipeline
 name: telegram-front
 
+trigger:
+  branch:
+    - deploy
 steps:
   - name: install
     image: node:14
@@ -11,3 +14,25 @@ steps:
     image: node:14
     commands:
       - npm run build
+
+  - name: deploy
+    image: ubuntu:20.04
+    environment:
+      SSH_KEY:
+        from_secret: SSH_KEY
+      SSH_USER:
+        from_secret: SSH_USER
+      SSH_HOST:
+        from_secret: SSH_HOST
+      SSH_PATH:
+        from_secret: SSH_PATH
+      SSH_PASS:
+        from_secret: SSH_PASS
+    commands:
+      - apt-get update && apt-get install -y openssh-client sshpass
+      - mkdir -p ~/.ssh
+      - echo "$SSH_KEY" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+      - ls
+      - sshpass -p $SSH_PASS scp -r dist/* $SSH_USER@$SSH_HOST:$SSH_PATH
