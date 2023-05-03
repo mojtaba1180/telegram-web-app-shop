@@ -32,7 +32,7 @@ steps:
       - chmod 600 ~/.ssh/id_rsa
       - ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
       - ls
-      - sshpass -p $SSH_PASS scp -r build/* $SSH_USER@$SSH_HOST:$SSH_PATH
+      - sshpass -p $SSH_PASS scp -r dist/* $SSH_USER@$SSH_HOST:$SSH_PATH
   # - name: deploy
   #   image: appleboy/drone-ssh:1.6.2
   #   settings:
