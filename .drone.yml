@@ -13,10 +13,27 @@ steps:
       - npm run build
 
   - name: deploy
-    image: ubuntu:20.04
-    commands:
-      - apt-get update && apt-get install -y openssh-client
-      - mkdir -p ~/.ssh
-      - echo "$SSH_KEY" > ~/.ssh/id_rsa
-      - chmod 600 ~/.ssh/id_rsa
-      - scp -r build/* $SSH_USER@$SSH_HOST:$SSH_PATH
+    image: appleboy/drone-ssh:1.6.2
+    settings:
+      host:
+        from_secret: $SSH_HOST
+      username:
+        from_secret: $SSH_USER
+      password:
+        from_secret: "mosgr0080"
+      port: 22
+      target:
+        from_secret: $SSH_PATH
+      source: build/
+      script:
+        - sudo rm -rf /home/telegramshop/www/frontend/*
+        - sudo cp -R build/* /home/telegramshop/www/frontend/
+
+    # - name: deploy
+    #   image: ubuntu:20.04
+    #   commands:
+    #     - apt-get update && apt-get install -y openssh-client
+    #     - mkdir -p ~/.ssh
+    #     - echo "$SSH_KEY" > ~/.ssh/id_rsa
+    #     - chmod 600 ~/.ssh/id_rsa
+    #     - scp -r build/* $SSH_USER@$SSH_HOST:$SSH_PATH
