@@ -14,13 +14,22 @@ steps:
 
   - name: deploy
     image: ubuntu:20.04
+    environment:
+      KEY:
+        from_secret: SSH_KEY
+      USER:
+        from_secret: SSH_USER
+      HOST:
+        from_secret: SSH_HOST
+      PATH:
+        from_secret: SSH_PATH
     commands:
       - apt-get update && apt-get install -y openssh-client
       - mkdir -p ~/.ssh
-      - echo "$SSH_KEY" > ~/.ssh/id_rsa
+      - echo "$KEY" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
       - cat ~/.ssh/id_rsa
-      - scp -r build/* $SSH_USER@$SSH_HOST:$SSH_PATH
+      - scp -r build/* $USER@$HOST:$PATH
   # - name: deploy
   #   image: appleboy/drone-ssh:1.6.2
   #   settings:
