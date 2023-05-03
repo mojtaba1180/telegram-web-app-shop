@@ -16,10 +16,11 @@ steps:
     image: appleboy/drone-ssh:1.6.2
     settings:
       host:
-        from_secret: $SSH_HOST
+        from_secret: SSH_HOST
       username:
-        from_secret: $SSH_USER
-      password: mosgr0080
+        from_secret: SSH_USER
+      key:
+        from_secret: SSH_KEY
       port: 22
       target:
         from_secret: $SSH_PATH
