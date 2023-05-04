@@ -16,5 +16,11 @@
   },
   "search.sortOrder": "type",
   "explorer.sortOrder": "type",
-  "cSpell.words": ["Formik", "Signup"]
+  "cSpell.words": ["Formik", "Signup"],
+  "[properties]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[nginx]": {
+    "editor.defaultFormatter": "raynigon.nginx-formatter"
+  }
 }
