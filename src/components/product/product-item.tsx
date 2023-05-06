@@ -1,6 +1,20 @@
-function ProductItem() {
+import { useNavigate } from "react-router";
+
+interface Props {
+  url: string;
+}
+
+function ProductItem({ url }: Props) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(url);
+  };
+
   return (
-    <div className=" flex h-[120px] w-full overflow-hidden  rounded-lg border-2 border-[var(--tg-theme-secondary-bg-color)]">
+    <div
+      onClick={handleClick}
+      className=" flex h-[120px] w-full overflow-hidden  rounded-lg border-2 border-[var(--tg-theme-secondary-bg-color)]">
       <div className="flex w-2/3 flex-col items-center justify-between p-2">
         <p className="mb-1 ml-auto h-5 w-full select-none text-right ">title</p>
         <p className="mb-1 ml-auto h-5 w-full select-none text-right text-gray-500 ">
