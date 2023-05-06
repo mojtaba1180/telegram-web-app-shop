@@ -2,7 +2,7 @@ import { Divider } from "antd";
 
 function Boxes() {
   const itemClass =
-    "w-full h-20 border-2 flex border-[var(--tg-theme-secondary-bg-color)] items-center justify-center rounded-lg  ";
+    "w-full h-20 border-2 flex border-[var(--tg-theme-button-color)] items-center justify-center rounded-lg  ";
   return (
     <div className="flex w-full flex-col gap-3">
       <div> منو </div>
