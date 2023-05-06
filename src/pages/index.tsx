@@ -1,6 +1,10 @@
-export { default as Categories } from "./categories/list";
+// Admin pages
+export { default as Categories } from "./admin/categories/list";
+export { default as AdminOrders } from "./admin/orders/list";
+export { default as AdminOrdersSingle } from "./admin/orders/single";
+export { default as ProductAdd } from "./admin/product/add";
+export { default as ProductEdit } from "./admin/product/edit";
+export { default as AdminProductList } from "./admin/product/list";
 export { default as HomePage } from "./home";
-export { default as AdminOrders } from "./orders/admin/list";
-export { default as AdminOrdersSingle } from "./orders/admin/single";
-export { default as ProductAdd } from "./product/admin/add";
-export { default as ProductList } from "./product/admin/list";
+// User pages
+export { default as ProductList } from "./user/product/list";

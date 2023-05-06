@@ -53,7 +53,7 @@ const options: Option[] = [
   }
 ];
 
-function Add() {
+function Edit() {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
   const onChange = (value: any) => {
     console.log(value);
@@ -83,16 +83,8 @@ function Add() {
     });
     setFileList(newFileList);
   };
-  const uploadFileListProps = {
-    accept: "image/*",
-    onChange: handleOnChangeUploadFile,
-    multiple: true,
-    showUploadList: true,
-    ref: uploadRef,
-    listType: "picture-card"
-  };
   return (
-    <Container backwardUrl="/" title="افزودن محصول جدید">
+    <Container backwardUrl={-1} title="ویرایش محصول">
       <Form
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 20 }}
@@ -154,7 +146,14 @@ function Add() {
           name="images"
           label="عکس محصول"
           valuePropName="images">
-          <Upload fileList={fileList} {...uploadFileListProps}>
+          <Upload
+            accept="image/*"
+            onChange={handleOnChangeUploadFile}
+            multiple
+            showUploadList
+            ref={uploadRef}
+            listType="picture-card"
+            fileList={fileList}>
             <div>
               <PlusOutlined />
               <div style={{ marginTop: 8 }}>افزودن</div>
@@ -176,4 +175,4 @@ function Add() {
   );
 }
 
-export default Add;
+export default Edit;
