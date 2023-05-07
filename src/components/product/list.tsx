@@ -1,7 +1,7 @@
 import ProductsSkeleton from "@components/skeleton/products";
 import { lazy, Suspense } from "react";
 
-const ProductItem = lazy(() => import("./product-item")); // Lazy-loaded
+const ProductItem = lazy(() => import("./item")); // Lazy-loaded
 
 interface Props {
   pageType: "admin" | "user";
