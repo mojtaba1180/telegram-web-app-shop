@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 interface Props {
   title: string;
   children: React.ReactNode;
-  backwardUrl?: string | undefined;
+  backwardUrl?: string | undefined | number;
   customButton?: boolean;
   customButtonTitle?: string;
   customButtonOnClick?: React.MouseEventHandler;

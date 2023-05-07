@@ -23,7 +23,8 @@
       "@pages/*": ["./src/pages/*"],
       "@router/*": ["./src/router/"],
       "@hooks/*": ["./src/hooks/*"],
-      "@helpers/*": ["./src/helpers/*"]
+      "@helpers/*": ["./src/helpers/*"],
+      "@containers/*": ["./src/containers/*"]
     },
     "baseUrl": "."
   },

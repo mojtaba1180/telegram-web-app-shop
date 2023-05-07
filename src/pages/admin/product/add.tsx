@@ -92,7 +92,7 @@ function Add() {
     listType: "picture-card"
   };
   return (
-    <Container backwardUrl="/" title="افزودن محصول جدید">
+    <Container backwardUrl={-1} title="افزودن محصول جدید">
       <Form
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 20 }}
@@ -154,7 +154,14 @@ function Add() {
           name="images"
           label="عکس محصول"
           valuePropName="images">
-          <Upload fileList={fileList} {...uploadFileListProps}>
+          <Upload
+            fileList={fileList}
+            accept="image/*"
+            onChange={handleOnChangeUploadFile}
+            multiple
+            showUploadList
+            ref={uploadRef}
+            listType="picture-card">
             <div>
               <PlusOutlined />
               <div style={{ marginTop: 8 }}>افزودن</div>
