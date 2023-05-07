@@ -12,6 +12,7 @@
     "fix:stylelint": "stylelint --fix ./src/**/*.{css,scss,tsx}"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.0.1",
     "@vkruglikov/react-telegram-web-app": "^1.8.0",
     "antd": "^5.4.2",
     "clsx": "^1.2.1",

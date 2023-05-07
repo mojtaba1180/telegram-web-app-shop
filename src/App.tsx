@@ -15,7 +15,7 @@ function App() {
   // console.log(JSON.parse(sessionStorage.getItem("__telegram__initParams")));
   return (
     <div className=" app w-full  py-1  ">
-      <div className=" w-full !max-w-[450px]">
+      <div className="  w-full !max-w-[450px]">
         {mode ? (
           <ConfigProvider
             direction="rtl"
