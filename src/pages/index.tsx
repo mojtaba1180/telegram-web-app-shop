@@ -8,3 +8,4 @@ export { default as AdminProductList } from "./admin/product/list";
 export { default as HomePage } from "./home";
 // User pages
 export { default as ProductList } from "./user/product/list";
+export { default as ProductSingle } from "./user/product/single";
