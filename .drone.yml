@@ -4,6 +4,8 @@ name: telegram-front
 trigger:
   branch:
     - deploy
+  event:
+    - push
 steps:
   - name: install
     image: node:14
