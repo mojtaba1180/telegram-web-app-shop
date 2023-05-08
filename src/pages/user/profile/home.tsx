@@ -29,7 +29,7 @@ function UserProfileHome() {
     }
   ];
   return (
-    <Container title="حساب کاربری">
+    <Container title="حساب کاربری" backwardUrl="/">
       <div className="grid h-52 w-full grid-cols-2 gap-2">
         {BoxItem.map((item) => (
           <StatusBox title={item.title} total={item.total} />
