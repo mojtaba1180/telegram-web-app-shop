@@ -12,10 +12,11 @@ function App() {
   const [colorScheme, themeParams] = useThemeParams();
   // eslint-disable-next-line operator-linebreak
   const mode = import.meta.env.VITE_DEV_MODE !== "true";
+  console.log(window.Telegram.WebApp);
   // console.log(JSON.parse(sessionStorage.getItem("__telegram__initParams")));
   return (
-    <div className=" app w-full  py-1  ">
-      <div className="  w-full !max-w-[450px]">
+    <div className="app w-full py-1">
+      <div className="w-full !max-w-[450px]">
         {mode ? (
           <ConfigProvider
             direction="rtl"
