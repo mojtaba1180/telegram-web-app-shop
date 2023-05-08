@@ -12,7 +12,6 @@ function UserProfile() {
       <div className="fixed bottom-0 left-0 z-50 w-full ">
         <UserProfileButtonMenu />
       </div>
-
       {/* </Container> */}
     </div>
   );
