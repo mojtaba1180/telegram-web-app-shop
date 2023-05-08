@@ -3,7 +3,7 @@ name: telegram-front
 
 trigger:
   branch:
-    - deploy
+    - main
   event:
     - push
 steps:
