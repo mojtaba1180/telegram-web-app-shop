@@ -7,7 +7,9 @@ import { Link } from "react-router-dom";
 
 function UserProfileButtonMenu() {
   return (
-    <div className="mx-auto flex h-12 w-[90%] max-w-[450px] justify-between rounded-lg bg-[var(--tg-theme-bg-color)] shadow-lg ">
+    <div
+      style={{ boxShadow: "0 0 10px -6px" }}
+      className=" mx-auto flex h-16 w-[90%] max-w-[450px] justify-between rounded-lg border-b-2 border-[var(--tg-theme-button-color)] bg-[var(--tg-theme-bg-color)] p-2 shadow-lg ">
       <Link
         to="/profile"
         className="flex w-1/3 flex-col items-center justify-center gap-1 ">

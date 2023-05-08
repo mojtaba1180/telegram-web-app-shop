@@ -1,5 +1,6 @@
 // eslint-disable-next-line object-curly-newline
 import {
+  AdminHome,
   AdminOrders,
   AdminOrdersSingle,
   AdminProductList,
@@ -11,7 +12,8 @@ import {
   ProductSingle,
   UserProfile,
   UserProfileHome,
-  UserProfileOrder
+  UserProfileOrder,
+  UserProfileOrderSingle
 } from "@pages/index";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -21,6 +23,7 @@ export const routes = createBrowserRouter([
     element: <HomePage />
   },
   // admin
+  { path: "/admin", element: <AdminHome /> },
   //  ## products
   { path: "/admin/products", element: <AdminProductList /> },
   { path: "/admin/products/add", element: <ProductAdd /> },
@@ -53,6 +56,11 @@ export const routes = createBrowserRouter([
         index: true,
         path: "order",
         element: <UserProfileOrder />
+      },
+      {
+        index: true,
+        path: "order/:id",
+        element: <UserProfileOrderSingle />
       },
       {
         index: true,

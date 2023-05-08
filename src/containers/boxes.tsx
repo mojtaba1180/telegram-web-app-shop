@@ -16,8 +16,8 @@ function Boxes() {
         <Link className={itemClass} to="/profile">
           حساب کاربری
         </Link>
-        <Link className={itemClass} to="/cart">
-          سبد خرید
+        <Link className={itemClass} to="/admin">
+          ادمین
         </Link>
         <Link className={itemClass} to="/categories">
           دسته بندی ها

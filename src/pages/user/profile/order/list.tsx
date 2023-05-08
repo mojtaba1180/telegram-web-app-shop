@@ -18,7 +18,7 @@ const columns: ColumnsType<DataType> = [
     key: "name",
     render: (text, record) => (
       <Link
-        to={`/admin/orders/${record.key}`}
+        to={`/profile/order/${record.key}`}
         className="text-blue-[var(--tg-theme-button-color)]">
         {text}
         {console.log(record)}
@@ -131,8 +131,10 @@ const data: DataType[] = [
 ];
 function AdminOrderList() {
   return (
-    <Container backwardUrl="/" title="لیست سفارشات">
-      <Table columns={columns} scroll={{ x: 400 }} dataSource={data} />
+    <Container title="لیست سفارشات">
+      <div className="mb-16">
+        <Table columns={columns} scroll={{ x: 400 }} dataSource={data} />
+      </div>
     </Container>
   );
 }
