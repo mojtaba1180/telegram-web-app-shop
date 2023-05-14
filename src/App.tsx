@@ -2,6 +2,8 @@
 import "@style/app.scss";
 import "antd/dist/reset.css";
 
+import useGetUserInfo from "@framework/user-information";
+import useTelegramUser from "@hooks/useTelegramUser";
 import { useThemeParams } from "@vkruglikov/react-telegram-web-app";
 import { ConfigProvider, theme } from "antd";
 
@@ -12,8 +14,9 @@ function App() {
   const [colorScheme, themeParams] = useThemeParams();
   // eslint-disable-next-line operator-linebreak
   const mode = import.meta.env.VITE_DEV_MODE !== "true";
-  alert(window.Telegram.WebApp.platform);
-  // console.log(JSON.parse(sessionStorage.getItem("__telegram__initParams")));
+  const { id } = useTelegramUser();
+  const { data } = useGetUserInfo({ userId: id });
+  console.log(data);
   return (
     <div className="app w-full py-1">
       <div className="w-full !max-w-[450px]">
