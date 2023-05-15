@@ -5,7 +5,8 @@ const { VITE_API_URL, VITE_API_VERSION, VITE_SHOP_NAME } = import.meta.env;
 const Api = axios.create({
   baseURL: `${VITE_API_URL}/${VITE_API_VERSION}/${VITE_SHOP_NAME}`,
   headers: {
-    "Access-Control-Allow-Origin": "*"
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json"
   }
 });
 
