@@ -1,5 +1,9 @@
+/* eslint-disable indent */
+/* eslint-disable object-curly-newline */
 // eslint-disable-next-line object-curly-newline
-import { Button, Cascader, Drawer, Form, Input, InputNumber } from "antd";
+import useAddCategories from "@framework/api/categories/add";
+import useTelegramUser from "@hooks/useTelegramUser";
+import { Button, Cascader, Drawer, Form, Input } from "antd";
 import React from "react";
 
 interface AddCategoryProps {
@@ -14,14 +18,14 @@ interface Option {
 const options: Option[] = [
   {
     label: "Light",
-    value: "34324234234",
+    value: "1",
     children: new Array(20)
       .fill(null)
       .map((_, index) => ({ label: `Number ${index}`, value: index }))
   },
   {
     label: "Bamboo",
-    value: "2343424234234",
+    value: "2",
     children: [
       {
         label: "Little",
@@ -44,12 +48,16 @@ const options: Option[] = [
     ]
   }
 ];
+
+interface FromProps {
+  name: string;
+  categories: Array<Array<string | number>>;
+  description?: string;
+}
 function CategoriesAdd({ onClose, isOpen }: AddCategoryProps) {
   const [form] = Form.useForm();
-
-  const onChange = (value: any) => {
-    console.log(value);
-  };
+  const mutation = useAddCategories();
+  const { id } = useTelegramUser();
 
   return (
     <Drawer
@@ -64,31 +72,42 @@ function CategoriesAdd({ onClose, isOpen }: AddCategoryProps) {
         wrapperCol={{ span: 20 }}
         layout="horizontal"
         className="flex  h-full flex-col items-stretch justify-start"
-        onFinish={(e) => {
-          console.log(e);
+        onFinish={({ name, categories }: FromProps) => {
+          const parentId = categories.length
+            ? categories[categories.length - 1]
+                .toLocaleString()
+                .split(",")
+                .at(-1)
+            : 0;
+          console.log("params", name, parentId);
+          mutation.mutate({
+            user_id: `${id}`,
+            category_name: name,
+            parent_id: parentId
+          });
           form.resetFields();
           onClose();
         }}>
         <Form.Item name="name" required label="نام">
           <Input required />
         </Form.Item>
-        <Form.Item name="description" required label="توضیحات">
-          <Input.TextArea required />
-        </Form.Item>
+
+        {/* <Form.Item name="description" label="توضیحات">
+          <Input.TextArea />
+        </Form.Item> */}
 
         <Form.Item name="categories" label=" دسته بندی پدر یا زیر مجموعه">
           <Cascader
             style={{ width: "100%" }}
             options={options}
-            onChange={onChange}
             multiple
             maxTagCount="responsive"
           />
         </Form.Item>
-
+        {/*
         <Form.Item label="تخفیف (تومان) " name="quantity">
           <InputNumber className="w-full" type="number" />
-        </Form.Item>
+        </Form.Item> */}
 
         <Button
           type="primary"

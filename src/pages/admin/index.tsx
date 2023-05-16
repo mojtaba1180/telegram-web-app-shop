@@ -14,9 +14,6 @@ function Admin() {
       <BackButtonDemo />
       <ShowPopupDemo />
       <HapticFeedbackDemo /> */}
-      <Button onClick={() => navigate("/admin/products/add")}>
-        افزودن محصول
-      </Button>
       <Button onClick={() => navigate("/admin/products")}>محصولات</Button>
       <Button onClick={() => navigate("/admin/categories")}>
         دسته بندی ها

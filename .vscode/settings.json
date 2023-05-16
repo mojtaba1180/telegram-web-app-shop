@@ -22,5 +22,8 @@
   },
   "[nginx]": {
     "editor.defaultFormatter": "raynigon.nginx-formatter"
+  },
+  "[dockercompose]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
   }
 }
