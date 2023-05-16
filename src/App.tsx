@@ -8,7 +8,17 @@ import Main from "./layouts/main";
 import Router from "./router";
 
 function App() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        retry: false,
+        staleTime: 5 * 60 * 1000
+      }
+    }
+  });
   return (
     <QueryClientProvider client={queryClient}>
       <Main>

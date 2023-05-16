@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import useGetUserInfo from "@framework/user-information";
+import useGetUserInfo from "@framework/api/user-information";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { useThemeParams } from "@vkruglikov/react-telegram-web-app";
 import { ConfigProvider, theme } from "antd";
