@@ -12,8 +12,7 @@ interface Props {
 function Main({ children }: Props) {
   const [colorScheme, themeParams] = useThemeParams();
   const { id } = useTelegramUser();
-  const { data } = useGetUserInfo({ userId: id });
-  console.log(data);
+  const { data } = useGetUserInfo({ user_Id: id });
 
   return (
     <div className="app w-full py-1">

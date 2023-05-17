@@ -18,8 +18,11 @@ const useTelegramUser = () => {
     sessionStorage.getItem("__telegram__initParams") || ""
   );
   const TGparse = qs.parse(tgWebAppData);
-  const user: TGUser = JSON.parse(TGparse.user);
-
-  return user;
+  try {
+    const user: TGUser = JSON.parse(TGparse.user);
+    return user;
+  } catch {
+    return null;
+  }
 };
 export default useTelegramUser;
