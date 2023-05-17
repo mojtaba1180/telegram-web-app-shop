@@ -10,4 +10,4 @@ const fetch = async ({ queryKey }: any) => {
   return data as TypeOrders;
 };
 
-export const useGetCategories = () => useQuery<TypeOrders>(["orders"], fetch);
+export const useGetOrders = () => useQuery<TypeOrders>(["orders"], fetch);

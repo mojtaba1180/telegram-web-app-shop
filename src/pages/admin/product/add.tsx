@@ -70,7 +70,7 @@ function Add() {
 
   const handleOnChangeUploadFile: UploadProps["onChange"] = (e) => {
     let newFileList: UploadFile[] = [...e.fileList];
-    console.log(newFileList);
+    // console.log(newFileList);
     newFileList = newFileList.map((item) => {
       const imageBase64 = getFileBase64(item.originFileObj);
       imageBase64.then((res) => console.log(res));
