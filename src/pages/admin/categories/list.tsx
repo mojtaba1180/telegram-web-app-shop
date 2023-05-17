@@ -2,6 +2,7 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 // eslint-disable-next-line import/extensions
 import Container from "@components/container";
+import { useGetCategories } from "@framework/api/categories/get";
 import { Button, Modal, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useState } from "react";
@@ -36,29 +37,30 @@ const columns: ColumnsType<DataType> = [
     )
   }
 ];
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown"
-  },
-  {
-    key: "2",
-    name: "Jim Green"
-  },
-  {
-    key: "3",
-    name: "Joe Black"
-  }
-];
+// const data: DataType[] = [
+//   {
+//     key: "1",
+//     name: "John Brown"
+//   },
+//   {
+//     key: "2",
+//     name: "Jim Green"
+//   },
+//   {
+//     key: "3",
+//     name: "Joe Black"
+//   }
+// ];
 
 function List() {
-  const [AddCategories, setAddCategories] = useState(false);
+  const [AddCategoriesDrawer, setAddCategoriesDrawer] = useState(false);
+  const { data, isLoading, isFetching } = useGetCategories();
   const showDrawerAddCat = () => {
-    setAddCategories(true);
+    setAddCategoriesDrawer(true);
   };
 
   const onClose = () => {
-    setAddCategories(false);
+    setAddCategoriesDrawer(false);
   };
   return (
     <Container
@@ -75,9 +77,13 @@ function List() {
       </Container> */}
       <div className="mb-3" />
       {/* <Container titleType="small" title="لیست دسته ها "> */}
-      <Table columns={columns} dataSource={data} />
+      <Table
+        columns={columns}
+        loading={isLoading || isFetching}
+        dataSource={data}
+      />
       {/* </Container> */}
-      <CategoriesAdd isOpen={AddCategories} onClose={onClose} />
+      <CategoriesAdd isOpen={AddCategoriesDrawer} onClose={onClose} />
     </Container>
   );
 }
