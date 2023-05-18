@@ -5,7 +5,7 @@ import Container from "@components/container";
 import { useGetCategories } from "@framework/api/categories/get";
 import { Button, Modal, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import CategoriesAdd from "./add";
 
@@ -54,17 +54,22 @@ const columns: ColumnsType<DataType> = [
 
 function List() {
   const [AddCategoriesDrawer, setAddCategoriesDrawer] = useState(false);
-  const { data, isLoading, isFetching } = useGetCategories();
+  const { data, isLoading, isFetching, refetch } = useGetCategories();
   const showDrawerAddCat = () => {
     setAddCategoriesDrawer(true);
   };
-
+  useEffect(() => {
+    if (!AddCategoriesDrawer) {
+      refetch();
+    }
+  }, [AddCategoriesDrawer, refetch]);
   const onClose = () => {
     setAddCategoriesDrawer(false);
   };
+
   return (
     <Container
-      backwardUrl="/"
+      backwardUrl={-1}
       customButton
       customButtonTitle="افزودن"
       customButtonOnClick={showDrawerAddCat}

@@ -2,9 +2,10 @@
 /* eslint-disable object-curly-newline */
 // eslint-disable-next-line object-curly-newline
 import useAddCategories from "@framework/api/categories/add";
+import { useGetCategories } from "@framework/api/categories/get";
 import useTelegramUser from "@hooks/useTelegramUser";
-import { Button, Cascader, Drawer, Form, Input } from "antd";
-import React from "react";
+import { Button, Cascader, Drawer, Form, Input, message } from "antd";
+import React, { useEffect } from "react";
 
 interface AddCategoryProps {
   onClose: (e?: React.MouseEvent | React.KeyboardEvent) => void;
@@ -12,42 +13,9 @@ interface AddCategoryProps {
 }
 interface Option {
   value: string | number;
-  label: string;
+  label: string | number;
   children?: Option[];
 }
-const options: Option[] = [
-  {
-    label: "Light",
-    value: "1",
-    children: new Array(20)
-      .fill(null)
-      .map((_, index) => ({ label: `Number ${index}`, value: index }))
-  },
-  {
-    label: "Bamboo",
-    value: "2",
-    children: [
-      {
-        label: "Little",
-        value: "3244324234234",
-        children: [
-          {
-            label: "Toy Fish",
-            value: "234324324"
-          },
-          {
-            label: "Toy Cards",
-            value: "234324324234"
-          },
-          {
-            label: "Toy Bird",
-            value: "23432432423423"
-          }
-        ]
-      }
-    ]
-  }
-];
 
 interface FromProps {
   name: string;
@@ -58,7 +26,20 @@ function CategoriesAdd({ onClose, isOpen }: AddCategoryProps) {
   const [form] = Form.useForm();
   const mutation = useAddCategories();
   const { id } = useTelegramUser();
-
+  const { data, refetch, isLoading, isFetching } = useGetCategories();
+  const isLoadCategories = isLoading || isFetching;
+  useEffect(() => {
+    if (isOpen) {
+      refetch();
+    }
+  }, [isOpen, refetch]);
+  const categoriesList: Option[] = data?.map(
+    (item): Option => ({
+      label: item.categories_Name,
+      value: item.categories_Id,
+      ...item.children
+    })
+  );
   return (
     <Drawer
       title="افزودن دسته بندی جدید"
@@ -73,20 +54,30 @@ function CategoriesAdd({ onClose, isOpen }: AddCategoryProps) {
         layout="horizontal"
         className="flex  h-full flex-col items-stretch justify-start"
         onFinish={({ name, categories }: FromProps) => {
-          const parentId = categories.length
+          const parentId = categories?.length
             ? categories[categories.length - 1]
                 .toLocaleString()
                 .split(",")
                 .at(-1)
             : 0;
-          console.log("params", name, parentId);
-          mutation.mutate({
-            user_id: `${id}`,
-            category_name: name,
-            parent_id: parentId
-          });
-          form.resetFields();
-          onClose();
+          // console.log("params", name, parentId);
+          mutation.mutate(
+            {
+              user_id: `${id}`,
+              category_name: name,
+              parent_id: parentId
+            },
+            {
+              onSuccess: () => {
+                message.success("دسته بندی شما با موفقیت ثبت شد");
+                form.resetFields();
+                onClose();
+              },
+              onError: (err) => {
+                console.log(err);
+              }
+            }
+          );
         }}>
         <Form.Item name="name" required label="نام">
           <Input required />
@@ -98,8 +89,10 @@ function CategoriesAdd({ onClose, isOpen }: AddCategoryProps) {
 
         <Form.Item name="categories" label=" دسته بندی پدر یا زیر مجموعه">
           <Cascader
+            loading={isLoadCategories}
+            disabled={isLoadCategories}
             style={{ width: "100%" }}
-            options={options}
+            options={categoriesList}
             multiple
             maxTagCount="responsive"
           />
@@ -111,6 +104,7 @@ function CategoriesAdd({ onClose, isOpen }: AddCategoryProps) {
 
         <Button
           type="primary"
+          disabled={isLoadCategories || mutation.isLoading}
           style={{ width: "100%" }}
           size="large"
           ghost
