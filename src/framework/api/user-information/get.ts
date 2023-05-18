@@ -11,6 +11,7 @@ interface QueryProps {
 export const fetch = async ({ queryKey }: any) => {
   const [_key, user_Id] = queryKey;
   const { data } = await Api.get(`/users/${user_Id}/GetUser`);
+  console.log(data);
   return data as TypeUserInfo;
 };
 
