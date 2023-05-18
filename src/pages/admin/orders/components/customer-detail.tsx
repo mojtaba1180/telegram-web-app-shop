@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 
-import useGetUserInfo from "@framework/api/user-information";
+import useGetUserInfo from "@framework/api/user-information/get";
 
 /* eslint-disable camelcase */
 interface Props {
