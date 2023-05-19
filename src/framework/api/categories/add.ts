@@ -12,7 +12,7 @@ const useAddCategories = () =>
       Api.post("/categories", {
         user_id,
         category_name,
-        parent_id: parent_id || 0
+        parent_id: parent_id || null
       })
   });
 

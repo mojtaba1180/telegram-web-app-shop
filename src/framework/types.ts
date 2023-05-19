@@ -10,8 +10,8 @@ export interface TypeUserInfo {
   updated_At: string;
 }
 export interface TypeCategories {
-  categories_Id: string | number;
-  categories_Name: string | number;
+  category_Id: string | number;
+  category_Name: string | number;
   parent_Id: string | number;
   children: Array<TypeCategories>;
 }
@@ -68,4 +68,32 @@ export interface TypeSingleOrder {
   success: boolean;
   message: string;
   order: Order;
+}
+// Products
+
+export interface Product {
+  product_Id: number;
+  product_Name: string;
+  price: number;
+  discountedPrice: number;
+  quantity: number;
+  photo_path: string;
+  updated_At: string;
+}
+export interface TypeListProducts {
+  page: number;
+  limit: number;
+  totalRows: number;
+  products: Product[];
+}
+
+// ## Add
+export interface TypeProductPost {
+  user_id: string;
+  product_name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  category_ids: number[];
+  photos: string[];
 }

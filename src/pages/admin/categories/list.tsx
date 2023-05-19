@@ -3,24 +3,21 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 // eslint-disable-next-line import/extensions
 import Container from "@components/container";
 import { useGetCategories } from "@framework/api/categories/get";
+import { TypeCategories } from "@framework/types";
 import { Button, Modal, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { useEffect, useState } from "react";
-
-import CategoriesAdd from "./add";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 const { confirm } = Modal;
-interface DataType {
-  key: string;
-  name: string;
-}
 
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<TypeCategories> = [
   {
     title: "نام",
     dataIndex: "name",
     key: "name",
-    render: (text) => <p>{text}</p>
+    render: (_, record) => <p>{record.category_Name}</p>
   },
   {
     title: "عملیات",
@@ -33,46 +30,51 @@ const columns: ColumnsType<DataType> = [
         <Button type="link" size="small" danger>
           <DeleteOutlined />
         </Button>
+        <Link to={`/admin/categories/${record.category_Id}`}>
+          افزودن زیرمجموعه
+        </Link>
       </Space>
     )
   }
 ];
-// const data: DataType[] = [
-//   {
-//     key: "1",
-//     name: "John Brown"
-//   },
-//   {
-//     key: "2",
-//     name: "Jim Green"
-//   },
-//   {
-//     key: "3",
-//     name: "Joe Black"
-//   }
-// ];
-
 function List() {
-  const [AddCategoriesDrawer, setAddCategoriesDrawer] = useState(false);
-  const { data, isLoading, isFetching, refetch } = useGetCategories();
-  const showDrawerAddCat = () => {
-    setAddCategoriesDrawer(true);
-  };
-  useEffect(() => {
-    if (!AddCategoriesDrawer) {
-      refetch();
-    }
-  }, [AddCategoriesDrawer, refetch]);
-  const onClose = () => {
-    setAddCategoriesDrawer(false);
+  const { data, error, isLoading, isFetching, refetch } = useGetCategories();
+  const navigate = useNavigate();
+  const customizeData = () => {
+    const childHandler = (childItem) => {
+      if (childItem.length > 0) {
+        return childItem.map((item) => {
+          const c = {
+            ...item,
+            key: item.category_Id
+          };
+
+          if (item.children && item.children.length > 0) {
+            c.children = childHandler(item.children);
+          } else {
+            c.children = null;
+          }
+          return c;
+        });
+      }
+      return null;
+    };
+    return data?.map((item) => ({
+      ...item,
+      key: item.category_Id,
+      children: childHandler(item.children)
+    }));
   };
 
+  useEffect(() => {
+    refetch();
+  }, []);
   return (
     <Container
-      backwardUrl={-1}
+      backwardUrl="/admin"
       customButton
       customButtonTitle="افزودن"
-      customButtonOnClick={showDrawerAddCat}
+      customButtonOnClick={() => navigate("/admin/categories/null")}
       title="دسته بندی ها">
       {/* <Container titleType="small" title="افزودن دسته بندی">
         <div className="flex gap-2">
@@ -85,10 +87,10 @@ function List() {
       <Table
         columns={columns}
         loading={isLoading || isFetching}
-        dataSource={data}
+        dataSource={customizeData()}
       />
       {/* </Container> */}
-      <CategoriesAdd isOpen={AddCategoriesDrawer} onClose={onClose} />
+      {/* <CategoriesAdd isOpen={AddCategoriesDrawer} onClose={onClose} /> */}
     </Container>
   );
 }

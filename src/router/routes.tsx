@@ -1,4 +1,5 @@
 // eslint-disable-next-line object-curly-newline
+import CategoriesAdd from "@pages/admin/categories/add";
 import {
   AdminHome,
   AdminOrders,
@@ -30,6 +31,7 @@ export const routes = createBrowserRouter([
   { path: "/admin/products/:id", element: <ProductEdit /> },
   // ## categories
   { path: "/admin/categories", element: <Categories /> },
+  { path: "/admin/categories/:parentId", element: <CategoriesAdd /> },
   // ## order
   { path: "/admin/orders", element: <AdminOrders /> },
   { path: "/admin/orders/:id", element: <AdminOrdersSingle /> },
