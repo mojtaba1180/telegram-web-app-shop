@@ -77,6 +77,8 @@ export interface Product {
   price: number;
   discountedPrice: number;
   quantity: number;
+  description?: string;
+  categoryIds: Array<number | string>;
   photo_path: string;
   updated_At: string;
 }
@@ -96,4 +98,8 @@ export interface TypeProductPost {
   quantity: number;
   category_ids: number[];
   photos: string[];
+}
+// ## photos
+export interface TypeProductPhotos {
+  photo_base64: string;
 }

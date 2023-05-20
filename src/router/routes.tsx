@@ -28,7 +28,7 @@ export const routes = createBrowserRouter([
   //  ## products
   { path: "/admin/products", element: <AdminProductList /> },
   { path: "/admin/products/add", element: <ProductAdd /> },
-  { path: "/admin/products/:id", element: <ProductEdit /> },
+  { path: "/admin/products/:product_id", element: <ProductEdit /> },
   // ## categories
   { path: "/admin/categories", element: <Categories /> },
   { path: "/admin/categories/:parentId", element: <CategoriesAdd /> },
