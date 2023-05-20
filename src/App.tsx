@@ -13,8 +13,8 @@ function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
+        refetchOnWindowFocus: true,
+        refetchOnMount: true,
         refetchOnReconnect: true,
         retry: false,
         staleTime: 5 * 60 * 1000
