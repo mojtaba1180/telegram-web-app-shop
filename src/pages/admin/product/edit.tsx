@@ -1,60 +1,55 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable camelcase */
 import { PlusOutlined } from "@ant-design/icons";
 import Container from "@components/container";
-import { getFileBase64 } from "@helpers/getFileBase64";
+import { useGetCategories } from "@framework/api/categories/get";
+import { useGetProductsById } from "@framework/api/product/get-by-id";
+import useUpdateProduct from "@framework/api/product/update";
+import { TypeProductPost } from "@framework/types";
+import useTelegramUser from "@hooks/useTelegramUser";
 import {
   Button,
   Cascader,
   Form,
   Input,
   InputNumber,
+  message,
+  Spin,
   Upload,
-  UploadFile,
-  UploadProps
+  UploadFile
 } from "antd";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 
 const { TextArea } = Input;
-interface Option {
-  value: string | number;
-  label: string;
-  children?: Option[];
-}
-const options: Option[] = [
-  {
-    label: "Light",
-    value: "light",
-    children: new Array(20)
-      .fill(null)
-      .map((_, index) => ({ label: `Number ${index}`, value: index }))
-  },
-  {
-    label: "Bamboo",
-    value: "bamboo",
-    children: [
-      {
-        label: "Little",
-        value: "little",
-        children: [
-          {
-            label: "Toy Fish",
-            value: "fish"
-          },
-          {
-            label: "Toy Cards",
-            value: "cards"
-          },
-          {
-            label: "Toy Bird",
-            value: "bird"
-          }
-        ]
-      }
-    ]
-  }
-];
-
 function Edit() {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+  const { product_id } = useParams();
+  const {
+    data: categoriesData,
+    isLoading: isCatLoading,
+    refetch: catRefetch,
+    isFetching: isCatFetching
+  } = useGetCategories();
+  const {
+    data: productData,
+    isLoading: isProductLoading,
+    isFetching: isProductFetching,
+    refetch: productRefetch
+  } = useGetProductsById({ product_id });
+  const mutation = useUpdateProduct({ product_id });
+  const { id } = useTelegramUser();
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    catRefetch();
+    productRefetch();
+  }, []);
+  useEffect(() => {
+    setComponentDisabled(isProductLoading || isProductFetching);
+  }, [isProductLoading, isProductFetching]);
+
   const onChange = (value: any) => {
     console.log(value);
   };
@@ -67,110 +62,124 @@ function Edit() {
       url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
     }
   ]);
-
-  const handleOnChangeUploadFile: UploadProps["onChange"] = (e) => {
-    let newFileList: UploadFile[] = [...e.fileList];
-    console.log(newFileList);
-    newFileList = newFileList.map((item) => {
-      const imageBase64 = getFileBase64(item.originFileObj);
-      imageBase64.then((res) => console.log(res));
-      return {
-        name: item.name,
-        uid: item.uid,
-        url: item.url,
-        originFileObj: item.originFileObj
-      };
-    });
-    setFileList(newFileList);
-  };
   return (
-    <Container backwardUrl={-1} title="ویرایش محصول">
-      <Form
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 20 }}
-        layout="horizontal"
-        disabled={componentDisabled}
-        onFinish={(e) => console.log(e)}>
-        <Form.Item name="name" label="نام محصول">
-          <Input />
-        </Form.Item>
-        {/* <Form.Item name="type" label="Radio">
-        <Radio.Group>
-          <Radio value="apple"> Apple </Radio>
-          <Radio value="pear"> Pear </Radio>
-        </Radio.Group>
-      </Form.Item> */}
-        {/* <Form.Item name="treeSelect" label="TreeSelect">
-        <TreeSelect
-          treeData={[
-            {
-              title: "Light",
-              value: "light",
-              children: [{ title: "Bamboo", value: "bamboo" }]
-            }
-          ]}
-        />
-      </Form.Item> */}
-        <Form.Item name="categories" label="دسته بندی">
-          <Cascader
-            style={{ width: "100%" }}
-            options={options}
-            onChange={onChange}
-            multiple
-            maxTagCount="responsive"
-          />
-        </Form.Item>
-        {/* <Form.Item label="DatePicker">
+    <Container backwardUrl="/admin/products" title="بروز رسانی محصول ">
+      <Spin spinning={componentDisabled} tip="در حال بارگیری ...">
+        {componentDisabled ? (
+          <div className="h-screen" />
+        ) : (
+          <Form
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 20 }}
+            layout="horizontal"
+            initialValues={{
+              description: productData?.description,
+              product_name: productData?.product_Name,
+              price: productData?.price,
+              quantity: productData?.quantity,
+              category_ids: productData?.categoryIds
+            }}
+            disabled={componentDisabled}
+            onFinish={({
+              category_ids,
+              description,
+              price,
+              product_name,
+              quantity
+            }: TypeProductPost) => {
+              mutation.mutate(
+                {
+                  category_ids: category_ids.flat(),
+                  description,
+                  photos: [],
+                  price,
+                  product_name,
+                  quantity,
+                  user_id: id.toString()
+                },
+                {
+                  onSuccess: () => {
+                    message.success(" محصول شما با موفقیت اپدیت شد");
+                    form.resetFields();
+                    navigate("/admin/products");
+                  },
+                  onError: (err) => {
+                    console.log(err);
+                  }
+                }
+              );
+            }}>
+            <Form.Item name="product_name" required label="نام محصول">
+              <Input required />
+            </Form.Item>
+            <Form.Item name="category_ids" required label="دسته بندی">
+              <Cascader
+                style={{ width: "100%" }}
+                options={categoriesData}
+                onChange={onChange}
+                multiple
+                maxTagCount="responsive"
+                loading={isCatLoading || isCatFetching}
+                fieldNames={{
+                  label: "category_Name",
+                  value: "category_Id",
+                  children: "children"
+                }}
+              />
+            </Form.Item>
+            {/* <Form.Item label="DatePicker">
         <DatePicker />
       </Form.Item>
       <Form.Item label="RangePicker">
         <RangePicker />
       </Form.Item> */}
-        <Form.Item label="قیمت (تومان) " name="price">
+            <Form.Item label="قیمت (تومان) " required name="price">
+              <InputNumber required type="number" />
+            </Form.Item>
+            <Form.Item label="تعداد موجودی" required name="quantity">
+              <InputNumber required type="number" />
+            </Form.Item>
+            {/* <Form.Item label="تعداد موجودی " name="stock">
           <InputNumber type="number" />
-        </Form.Item>
-        <Form.Item label="تخفیف (تومان) " name="quantity">
-          <InputNumber type="number" />
-        </Form.Item>
-        <Form.Item label="تعداد موجودی " name="stock">
-          <InputNumber type="number" />
-        </Form.Item>
-        <Form.Item label="توضیحات" name="description">
-          <TextArea rows={4} />
-        </Form.Item>
-        {/* <Form.Item label="Switch" valuePropName="checked">
+        </Form.Item> */}
+            <Form.Item label="توضیحات" required name="description">
+              <TextArea rows={4} />
+            </Form.Item>
+            {/* <Form.Item label="Switch" valuePropName="checked">
         <Switch />
       </Form.Item> */}
-        <Form.Item
-          className="w-full"
-          name="images"
-          label="عکس محصول"
-          valuePropName="images">
-          <Upload
-            accept="image/*"
-            onChange={handleOnChangeUploadFile}
-            multiple
-            showUploadList
-            ref={uploadRef}
-            listType="picture-card"
-            fileList={fileList}>
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>افزودن</div>
-            </div>
-          </Upload>
-        </Form.Item>
+            <Form.Item
+              className="w-full"
+              name="photos"
+              label="عکس محصول"
+              valuePropName="photos">
+              <Upload
+                fileList={fileList}
+                accept="image/*"
+                // onChange={handleOnChangeUploadFile}
+                multiple
+                showUploadList
+                ref={uploadRef}
+                listType="picture-card">
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>افزودن</div>
+                </div>
+              </Upload>
+            </Form.Item>
 
-        <Button
-          type="primary"
-          style={{ width: "100%" }}
-          size="large"
-          ghost
-          // className="sticky bottom-3"
-          htmlType="submit">
-          ذخیره
-        </Button>
-      </Form>
+            <Button
+              type="primary"
+              style={{ width: "100%" }}
+              size="large"
+              ghost
+              // className="sticky bottom-3"
+              htmlType="submit">
+              ذخیره
+            </Button>
+          </Form>
+        )}
+      </Spin>
     </Container>
   );
 }
