@@ -22,7 +22,7 @@ function ProductList({ pageType, data }: Props) {
             url={
               pageType === "admin"
                 ? `/admin/products/${item?.product_Id}`
-                : "/products/1234"
+                : `/products/${item?.product_Id}`
             }
             key={item?.product_Id}
           />

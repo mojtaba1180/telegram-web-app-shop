@@ -41,7 +41,7 @@ export const routes = createBrowserRouter([
     element: <ProductList />
   },
   {
-    path: "/products/:id",
+    path: "/products/:product_id",
     element: <ProductSingle />
   },
   // ## profile
