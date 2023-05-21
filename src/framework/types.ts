@@ -21,7 +21,10 @@ export interface TypePostCategories {
   category_name: string;
   parent_id: number | string | undefined;
 }
-
+export interface TypeDeleteCategories {
+  user_id: string;
+  category_id: string;
+}
 // order lists
 export interface OrderItem {
   order_Item_Id: number;

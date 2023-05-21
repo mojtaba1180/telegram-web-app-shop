@@ -4,7 +4,6 @@
 // eslint-disable-next-line object-curly-newline
 import Container from "@components/container";
 import useAddCategories from "@framework/api/categories/add";
-import { useGetCategories } from "@framework/api/categories/get";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { Button, Form, Input, message } from "antd";
 import { useNavigate, useParams } from "react-router";
@@ -18,8 +17,8 @@ function CategoriesAdd() {
   const [form] = Form.useForm();
   const mutation = useAddCategories();
   const { id } = useTelegramUser();
-  const { data, refetch, isLoading, isFetching } = useGetCategories();
-  const isLoadCategories = isLoading || isFetching;
+  // const { data, refetch, isLoading, isFetching } = useGetCategories();
+  // const isLoadCategories = isLoading || isFetching;
   const { parentId } = useParams();
   const navigate = useNavigate();
   return (
@@ -81,7 +80,7 @@ function CategoriesAdd() {
 
         <Button
           type="primary"
-          disabled={isLoadCategories || mutation.isLoading}
+          disabled={mutation.isLoading}
           style={{ width: "100%" }}
           size="large"
           ghost

@@ -85,7 +85,7 @@ function Add() {
           console.log(photos);
           mutation.mutate(
             {
-              category_ids: category_ids.flat(),
+              category_ids: category_ids?.flat() || [],
               description,
               photos: [],
               price,
@@ -108,9 +108,8 @@ function Add() {
         <Form.Item name="product_name" required label="نام محصول">
           <Input required />
         </Form.Item>
-        <Form.Item name="category_ids" required label="دسته بندی">
+        <Form.Item name="category_ids" label="دسته بندی">
           <Cascader
-            required
             style={{ width: "100%" }}
             options={categoriesData}
             onChange={onChange}
