@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable object-curly-newline */
 import Container from "@components/container";
 import ProductLists from "@components/product/list";
@@ -12,12 +13,6 @@ function ProductList() {
   useEffect(() => {
     refetch();
   }, []);
-  if (isLoading || isFetching) {
-    return <ProductsSkeleton />;
-  }
-  if (error) {
-    return <div>Error</div>;
-  }
 
   return (
     <Container
@@ -27,7 +22,13 @@ function ProductList() {
       customButtonTitle="افزودن"
       customButtonOnClick={() => navigate("/admin/products/add")}>
       {/* <Suspense fallback={<ProductsSkeleton />}> */}
-      <ProductLists pageType="admin" data={data} />
+      {isLoading || isFetching ? (
+        <ProductsSkeleton />
+      ) : error ? (
+        <>مشکلی رخ داده</>
+      ) : (
+        <ProductLists pageType="admin" data={data} />
+      )}
       {/* </Suspense> */}
     </Container>
   );

@@ -106,3 +106,13 @@ export interface TypeProductPost {
 export interface TypeProductPhotos {
   photo_base64: string;
 }
+// Cart
+
+export interface TypeCartItems {
+  product_id: number;
+  quantity: number;
+}
+export interface TypeAddToCart {
+  user_id: string;
+  cart_items: TypeCartItems[];
+}

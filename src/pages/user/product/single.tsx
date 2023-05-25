@@ -1,21 +1,26 @@
+/* eslint-disable radix */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable camelcase */
 /* eslint-disable object-curly-newline */
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import Container from "@components/container";
 import UserSingleProductSkeleton from "@components/skeleton/user-single-product";
+import useAddToCart from "@framework/api/cart/add";
 import { useGetProductsById } from "@framework/api/product/get-by-id";
-import { Button, InputNumber, Tabs, TabsProps } from "antd";
+import useTelegramUser from "@hooks/useTelegramUser";
+import { Button, InputNumber, Tabs, message } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 function ProductSingle() {
   const [count, setcount] = useState(1);
   const { product_id } = useParams();
+  const mutation = useAddToCart();
+  const { id } = useTelegramUser();
   const { data, isLoading, refetch, isFetching } = useGetProductsById({
     product_id: product_id || 0
   });
-
+  // const [cartItems, setCartItems] = useAtom(userCartItems);
   useEffect(() => {
     refetch();
   }, []);
@@ -24,21 +29,28 @@ function ProductSingle() {
     console.log(key);
   };
 
+  const handleAddToCart = () => {
+    mutation.mutate(
+      {
+        user_id: `${id}`,
+        cart_items: [
+          {
+            product_id: parseInt(product_id),
+            quantity: count
+          }
+        ]
+      },
+      {
+        onSuccess: () => {
+          message.success("محصول شما به سبد اضافه شد ");
+        }
+      }
+    );
+  };
+
   const decriment = () => count > 1 && setcount(count - 1);
   const incriment = () => count < 100 && setcount(count + 1);
 
-  const items: TabsProps["items"] = [
-    {
-      key: "1",
-      label: "معرفی",
-      children: "Content of Tab Pane 1"
-    },
-    {
-      key: "2",
-      label: "مشخصات",
-      children: "Content of Tab Pane 2"
-    }
-  ];
   return (
     <Container title="نام محصول" backwardUrl={-1}>
       {isFetching || isLoading ? (
@@ -85,7 +97,12 @@ function ProductSingle() {
             <div>قیمت : 1200000 تومان</div>
           </div>
           <div className="my-4">
-            <Button className="w-full" size="large" type="primary" ghost>
+            <Button
+              className="w-full"
+              onClick={handleAddToCart}
+              size="large"
+              type="primary"
+              ghost>
               افزودن به سبد
             </Button>
           </div>

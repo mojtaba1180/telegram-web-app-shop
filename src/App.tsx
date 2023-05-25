@@ -21,6 +21,7 @@ function App() {
       }
     }
   });
+
   if (!isTG) return <>open in telegram app </>;
   return (
     <QueryClientProvider client={queryClient}>

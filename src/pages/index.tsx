@@ -1,4 +1,5 @@
 // Admin pages
+export { default as CategoriesEdit } from "./admin/categories/edit";
 export { default as Categories } from "./admin/categories/list";
 export { default as AdminHome } from "./admin/index";
 export { default as AdminOrders } from "./admin/orders/list";

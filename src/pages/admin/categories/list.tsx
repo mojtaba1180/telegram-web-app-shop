@@ -1,47 +1,27 @@
+/* eslint-disable camelcase */
 /* eslint-disable object-curly-newline */
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 // eslint-disable-next-line import/extensions
 import Container from "@components/container";
+import useDeleteCategories from "@framework/api/categories/delete";
 import { useGetCategories } from "@framework/api/categories/get";
 import { TypeCategories } from "@framework/types";
-import { Button, Modal, Space, Table } from "antd";
+import useTelegramUser from "@hooks/useTelegramUser";
+import { Button, message, Modal, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 const { confirm } = Modal;
-
-const columns: ColumnsType<TypeCategories> = [
-  {
-    title: "نام",
-    dataIndex: "name",
-    key: "name",
-    render: (_, record) => <p>{record.category_Name}</p>
-  },
-  {
-    title: "عملیات",
-    key: "action",
-    render: (_, record) => (
-      <Space size="small">
-        <Button type="link" size="small">
-          <EditOutlined />
-        </Button>
-        <Button type="link" size="small" danger>
-          <DeleteOutlined />
-        </Button>
-        <Link to={`/admin/categories/${record.category_Id}`}>
-          افزودن زیرمجموعه
-        </Link>
-      </Space>
-    )
-  }
-];
 function List() {
   const { data, error, isLoading, isFetching, refetch } = useGetCategories();
+  const mutationDelete = useDeleteCategories();
+  const { id } = useTelegramUser();
   const navigate = useNavigate();
+
   const customizeData = () => {
-    const childHandler = (childItem) => {
+    const childHandler = (childItem: any[]) => {
       if (childItem.length > 0) {
         return childItem.map((item) => {
           const c = {
@@ -66,9 +46,68 @@ function List() {
     }));
   };
 
+  const handleDelete = (cat_id: any) => {
+    mutationDelete.mutate(
+      { category_id: cat_id, user_id: id },
+      {
+        onSuccess: () => {
+          message.success("دسته بندی حذف شد");
+          refetch();
+        },
+        onError: () => {
+          message.error("حذف با مشکل مواجه شد");
+          refetch();
+        }
+      }
+    );
+  };
+  const config = (cat_id) => ({
+    title: " برای حذف این دسته بندی اطمینان دارید ؟",
+    content: <>sdd</>,
+    okType: "danger",
+    cancelText: "انصراف",
+    okText: "حذف",
+    onOk: () => handleDelete(cat_id)
+  });
   useEffect(() => {
     refetch();
   }, []);
+  const columns: ColumnsType<TypeCategories> = [
+    {
+      title: "نام",
+      dataIndex: "name",
+      key: "name",
+      render: (_, record) => (
+        <div className="m-0 w-full">{record.category_Name}</div>
+      )
+    },
+    {
+      title: "عملیات",
+      key: "action",
+      render: (_, record) => (
+        <Space size="small">
+          <Link
+            state={record}
+            to={`/admin/categories/edit/${record.category_Id}`}>
+            <EditOutlined />
+          </Link>
+          <Button
+            type="link"
+            onClick={() => {
+              confirm(config(record.category_Id));
+            }}
+            size="small"
+            danger>
+            <DeleteOutlined />
+          </Button>
+          <Link to={`/admin/categories/${record.category_Id}`}>
+            افزودن زیرمجموعه
+          </Link>
+        </Space>
+      )
+    }
+  ];
+
   return (
     <Container
       backwardUrl="/admin"
