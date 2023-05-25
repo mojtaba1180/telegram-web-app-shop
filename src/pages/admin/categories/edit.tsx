@@ -1,11 +1,12 @@
+/* eslint-disable camelcase */
 /* eslint-disable operator-linebreak */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable indent */
 /* eslint-disable object-curly-newline */
 // eslint-disable-next-line object-curly-newline
 import Container from "@components/container";
-import useAddCategories from "@framework/api/categories/add";
 import { useGetCategories } from "@framework/api/categories/get";
+import useUpdateCategory from "@framework/api/categories/update";
 import { TypeCategories } from "@framework/types";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { Button, Cascader, Form, Input, message, Spin } from "antd";
@@ -14,14 +15,14 @@ import { useLocation, useNavigate, useParams } from "react-router";
 
 interface FromProps {
   name: string;
-  description?: string;
+  categories?: Array<number>;
 }
 
 function CategoriesEdit() {
-  const { parentId } = useParams();
+  const { cat_id } = useParams();
   const location = useLocation();
   const [form] = Form.useForm();
-  const mutation = useAddCategories();
+  const mutation = useUpdateCategory({ category_id: cat_id });
   const { id } = useTelegramUser();
   const [thisCat, setThisCat] = useState<TypeCategories>({});
   const { data, isLoading, isFetching } = useGetCategories();
@@ -29,12 +30,12 @@ function CategoriesEdit() {
   const navigate = useNavigate();
   const removeChildren = (categories: TypeCategories[]): TypeCategories[] =>
     categories?.map((cat) => {
-      if (
-        cat.children &&
-        cat.children.length > 0 &&
-        cat.category_Id === parseInt(parentId, 10)
-      ) {
+      if (cat.children && cat.category_Id === parseInt(cat_id, 10)) {
         // If category_Id matches parent_Id, remove the children
+        console.log({
+          ...cat,
+          disabled: true
+        });
         return {
           ...cat,
           disabled: true
@@ -42,6 +43,7 @@ function CategoriesEdit() {
       }
       if (cat.children && cat.children.length > 0) {
         // Recursively remove children for child categories
+
         return {
           ...cat,
           children: removeChildren(cat.children)
@@ -63,16 +65,22 @@ function CategoriesEdit() {
             layout="horizontal"
             initialValues={{
               name: location.state.category_Name
-              // categories: location.state.category_Id
+              // categories: location.state.parent_Id
             }}
             className="flex  h-full flex-col items-stretch justify-start"
-            onFinish={({ name }: FromProps) => {
-              // console.log("params", name, parentId);
+            onFinish={({ name, categories }: FromProps) => {
+              console.log(categories);
+              console.log({
+                user_id: `${id}`,
+                category_name: name,
+                parent_id: categories?.slice(-1)[0] || location.state.parent_Id
+              });
               mutation.mutate(
                 {
                   user_id: `${id}`,
                   category_name: name,
-                  parent_id: (parentId && parseInt(parentId)) || null
+                  parent_id:
+                    categories?.slice(-1)[0] || location.state.parent_Id
                 },
                 {
                   onSuccess: () => {

@@ -33,7 +33,7 @@ export const routes = createBrowserRouter([
   // ## categories
   { path: "/admin/categories", element: <Categories /> },
   { path: "/admin/categories/:parentId", element: <CategoriesAdd /> },
-  { path: "/admin/categories/edit/:parentId", element: <CategoriesEdit /> },
+  { path: "/admin/categories/edit/:cat_id", element: <CategoriesEdit /> },
   // ## order
   { path: "/admin/orders", element: <AdminOrders /> },
   { path: "/admin/orders/:id", element: <AdminOrdersSingle /> },
