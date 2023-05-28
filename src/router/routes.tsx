@@ -16,6 +16,7 @@ import {
   UserProfile,
   UserProfileAddAddresses,
   UserProfileAddresses,
+  UserProfileEditAddresses,
   UserProfileHome,
   UserProfileOrder,
   UserProfileOrderSingle
@@ -86,6 +87,11 @@ export const routes = createBrowserRouter([
         index: true,
         path: "address/add",
         element: <UserProfileAddAddresses />
+      },
+      {
+        index: true,
+        path: "address/:address_id",
+        element: <UserProfileEditAddresses />
       }
     ]
   }

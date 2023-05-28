@@ -14,6 +14,7 @@ export { default as UserCart } from "./user/cart/index";
 export { default as ProductList } from "./user/product/list";
 export { default as ProductSingle } from "./user/product/single";
 export { default as UserProfileAddAddresses } from "./user/profile/addresses/add";
+export { default as UserProfileEditAddresses } from "./user/profile/addresses/edit";
 export { default as UserProfileAddresses } from "./user/profile/addresses/list";
 export { default as UserProfileHome } from "./user/profile/home";
 export { default as UserProfile } from "./user/profile/index";

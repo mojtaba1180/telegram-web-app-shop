@@ -13,9 +13,9 @@ const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
 
-function AddAddress() {
+function EditAddress() {
   return (
-    <Container title="افزودن ادرس جدید" backwardUrl={-1}>
+    <Container title="ویرایش ادرس " backwardUrl={-1}>
       <Form
         name="basic"
         style={{ maxWidth: 600 }}
@@ -58,4 +58,4 @@ function AddAddress() {
   );
 }
 
-export default AddAddress;
+export default EditAddress;
