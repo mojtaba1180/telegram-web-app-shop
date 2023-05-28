@@ -1,3 +1,7 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable prettier/prettier */
+/* eslint-disable camelcase */
+/* eslint-disable react/jsx-wrap-multilines */
 import {
   SettingOutlined,
   UnorderedListOutlined,
@@ -24,7 +28,7 @@ function UserProfileButtonMenu() {
         <UserOutlined />
       </div> */}
       <Link
-        to="/profile/setting"
+        to="/profile/address"
         className="flex w-1/3 flex-col items-center justify-center gap-1 ">
         <SettingOutlined /> تنظیمات
       </Link>

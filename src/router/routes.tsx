@@ -1,5 +1,5 @@
 // eslint-disable-next-line object-curly-newline
-import CategoriesAdd from "@pages/admin/categories/add"
+import CategoriesAdd from "@pages/admin/categories/add";
 import {
   AdminHome,
   AdminOrders,
@@ -14,11 +14,13 @@ import {
   ProductSingle,
   UserCart,
   UserProfile,
+  UserProfileAddAddresses,
+  UserProfileAddresses,
   UserProfileHome,
   UserProfileOrder,
   UserProfileOrderSingle
-} from "@pages/index"
-import { createBrowserRouter } from "react-router-dom"
+} from "@pages/index";
+import { createBrowserRouter } from "react-router-dom";
 
 export const routes = createBrowserRouter([
   {
@@ -77,9 +79,14 @@ export const routes = createBrowserRouter([
       },
       {
         index: true,
-        path: "setting",
-        element: <UserProfileHome />
+        path: "address",
+        element: <UserProfileAddresses />
+      },
+      {
+        index: true,
+        path: "address/add",
+        element: <UserProfileAddAddresses />
       }
     ]
   }
-])
+]);

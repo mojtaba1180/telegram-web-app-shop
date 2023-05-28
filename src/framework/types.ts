@@ -123,3 +123,25 @@ export interface TypeDeleteCartItem {
   user_id: string
   product_id: string | number
 }
+
+export interface TypeAddressItems {
+  address_Id?: number
+  user_Id?: string
+  country: string
+  state: string
+  city: string
+  street: string
+  zipcode: string
+}
+export interface TypeAddAddress extends TypeAddressItems {
+  user_id: string
+}
+
+export interface TypeAddresses {
+  addresses: TypeAddressItems[]
+}
+
+export interface TypeDeleteAddressItem {
+  user_id: string
+  address_id: string
+}
