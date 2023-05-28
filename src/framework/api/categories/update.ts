@@ -8,7 +8,7 @@ const useUpdateCategory = ({ category_id }: { category_id: string | number }) =>
   useMutation({
     mutationKey: [`edit-categories-${category_id}`],
     mutationFn: ({ user_id, category_name, parent_id }: TypePostCategories) =>
-      Api.post("/categories", {
+      Api.put(`/categories/${category_id}`, {
         user_id,
         category_name,
         parent_id: parent_id || null

@@ -5,11 +5,11 @@ import { useMutation } from "@tanstack/react-query";
 
 import Api from "../utils/api-config";
 
-const useAddProduct = () =>
+const useAddProductImage = () =>
   useMutation({
-    mutationKey: ["add-Product"],
+    mutationKey: ["add-Product-image"],
     mutationFn: ({ photo_base64 }: TypeProductPhotos) =>
-      Api.post("/products", { photo_base64 })
+      Api.post("/product_photos", { photo_base64 })
   });
 
-export default useAddProduct;
+export default useAddProductImage;

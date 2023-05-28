@@ -1,77 +1,74 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable operator-linebreak */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable camelcase */
-import Container from "@components/container";
-import { useGetCategories } from "@framework/api/categories/get";
-import useAddProduct from "@framework/api/product/add";
-import { TypeProductPost } from "@framework/types";
-import { getFileBase64 } from "@helpers/getFileBase64";
-import useTelegramUser from "@hooks/useTelegramUser";
-import {
-  Button,
-  Cascader,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  UploadFile,
-  UploadProps
-} from "antd";
-import { useEffect, useRef, useState } from "react";
-import ImageUploading from "react-images-uploading";
-import { useNavigate } from "react-router";
+import Container from "@components/container"
+import { useGetCategories } from "@framework/api/categories/get"
+import useAddProductImage from "@framework/api/photos-upload/add"
+import useAddProduct from "@framework/api/product/add"
+import { TypeProductPost } from "@framework/types"
+import useTelegramUser from "@hooks/useTelegramUser"
+import { Button, Cascader, Form, Input, InputNumber, message } from "antd"
+import { useEffect, useState } from "react"
+import ImageUploading from "react-images-uploading"
+import { useNavigate } from "react-router"
 
-const { TextArea } = Input;
+const { TextArea } = Input
 function Add() {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+  const [componentDisabled, setComponentDisabled] = useState<boolean>(false)
   const {
     data: categoriesData,
     isLoading: isCatLoading,
     refetch: catRefetch,
     isFetching: isCatFetching
-  } = useGetCategories();
-  const mutation = useAddProduct();
-  const { id } = useTelegramUser();
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
+  } = useGetCategories()
+  const mutation = useAddProduct()
+  const mutationUploadPhotos = useAddProductImage()
+  const { id } = useTelegramUser()
+  const [form] = Form.useForm()
+  const navigate = useNavigate()
   useEffect(() => {
-    catRefetch();
-  }, []);
+    catRefetch()
+  }, [])
 
-  const onChange = (value: any) => {
-    console.log(value?.slice(-1));
-  };
-  const uploadRef = useRef(null);
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: "123",
-      name: "xxx.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-    }
-  ]);
-  const [images, setImages] = useState([]);
-  const onChangeImage = (imageList, addUpdateIndex) => {
+  const [imageLinkList, setImageLinkList] = useState<Array<string>>([])
+  const [images, setImages] = useState([])
+  const onChangeImage = async (imageList) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
-    setImages(imageList);
-  };
-  const handleOnChangeUploadFile: UploadProps["onChange"] = (e) => {
-    let newFileList: UploadFile[] = [...e.fileList];
-    // console.log(newFileList);
-    newFileList = newFileList.map((item) => {
-      const imageBase64 = getFileBase64(item.originFileObj);
-      imageBase64.then((res) => console.log(res));
-      // console.log(item.originFileObj);
-      return {
-        name: item.name,
-        uid: item.uid,
-        url: item.url,
-        originFileObj: item.originFileObj
-      };
-    });
-    setFileList(newFileList);
-  };
-
+    imageList.length &&
+      (await imageList.map(async (i: { data_url: string }) => {
+        mutationUploadPhotos.mutate(
+          { photo_base64: i.data_url.split(",")[1] },
+          {
+            onSuccess: (e) => {
+              console.log(`${import.meta.env.VITE_API_URL}/${e.data}`)
+              console.log("upload done")
+              setImageLinkList([
+                ...imageLinkList,
+                `${import.meta.env.VITE_API_URL}/${e.data}`
+              ])
+            }
+          }
+        )
+      }))
+    setImages(imageList)
+  }
+  const handleRemoveSingleImage = (idx) => {
+    const arr = [...imageLinkList]
+    if (idx !== -1) {
+      arr.splice(idx, 1)
+      setImageLinkList(arr)
+    }
+  }
+  // const uploadRef = useRef(null)
+  // const [fileList, setFileList] = useState<UploadFile[]>([
+  //   {
+  //     uid: "123",
+  //     name: "xxx.png",
+  //     status: "done",
+  //     url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+  //   }
+  // ])
   return (
     <Container backwardUrl={-1} title="افزودن محصول جدید">
       <Form
@@ -87,12 +84,13 @@ function Add() {
           product_name,
           quantity
         }: TypeProductPost) => {
-          console.log(photos);
+          // const phs = photos.map((ph) => ph.data_url.split(",")[1])
+          // console.log(phs)
           mutation.mutate(
             {
               category_ids: category_ids?.slice(-1) || [],
               description,
-              photos: [],
+              photos: imageLinkList || [],
               price,
               product_name,
               quantity,
@@ -100,15 +98,16 @@ function Add() {
             },
             {
               onSuccess: () => {
-                message.success(" محصول شما با موفقیت ثبت شد");
-                form.resetFields();
-                navigate("/admin/products");
+                message.success(" محصول شما با موفقیت ثبت شد")
+                form.resetFields()
+                navigate("/admin/products")
               },
               onError: (err) => {
-                console.log(err);
+                // console.log(err)
+                message.error(err.response.data.title)
               }
             }
-          );
+          )
         }}>
         <Form.Item name="product_name" required label="نام محصول">
           <Input required />
@@ -117,7 +116,6 @@ function Add() {
           <Cascader
             style={{ width: "100%" }}
             options={categoriesData}
-            onChange={onChange}
             multiple={false}
             changeOnSelect
             showSearch
@@ -152,7 +150,7 @@ function Add() {
         <Switch />
       </Form.Item> */}
         <Form.Item
-          className="w-full"
+          className="mb-14 w-full"
           name="photos"
           label="عکس محصول"
           valuePropName="photos">
@@ -163,10 +161,8 @@ function Add() {
             maxNumber={4}
             dataURLKey="data_url">
             {({
-              imageList,
               onImageUpload,
               onImageRemoveAll,
-              onImageUpdate,
               onImageRemove,
               isDragging,
               dragProps
@@ -186,31 +182,32 @@ function Add() {
                   <button
                     className="h-full w-20 bg-red-600 "
                     type="button"
-                    onClick={onImageRemoveAll}>
+                    onClick={() => {
+                      onImageRemoveAll()
+                      setImageLinkList([])
+                    }}>
                     حذف همه
                   </button>
                 </div>
-                <div className="flex gap-4 ">
-                  {imageList.map((image, index) => (
-                    <div
-                      key={index}
-                      className="image-item h-24 w-24  rounded-lg">
+                <div className="grid h-[240px] w-full grid-cols-2 grid-rows-2  gap-y-7 overflow-x-auto overflow-y-scroll  ">
+                  {imageLinkList?.map((image, index) => (
+                    <div key={index} className=" h-24 w-36 rounded-lg">
                       <img
-                        src={image.data_url}
+                        src={image}
                         alt=""
                         className="h-full w-full rounded-lg "
                       />
                       <div className="flex justify-between gap-3">
-                        <button
-                          type="button"
-                          onClick={() => onImageUpdate(index)}>
-                          تعویض
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => onImageRemove(index)}>
+                        <Button
+                          danger
+                          className="w-full"
+                          htmlType="button"
+                          onClick={() => {
+                            handleRemoveSingleImage(index)
+                            // onImageRemove(index)
+                          }}>
                           حذف
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   ))}
@@ -221,16 +218,22 @@ function Add() {
           {/* <Upload
             fileList={fileList}
             accept="image/*"
-            onChange={handleOnChangeUploadFile}
+            // onChange={(e) => console.log(e)}
             multiple
             showUploadList
+            customRequest={(e) => {
+              getFileBase64(e.file).then((r) => {
+                // console.log(r)
+              })
+            }}
             beforeUpload={(e) => {
-              // const reader = new FileReader();
-              // reader.onload = (z) => {
-              //   console.log(z?.target.result);
-              // };
-              // console.log(reader.readAsText({ e }));
-              // return false;
+              console.log(e)
+              const reader = new FileReader()
+              reader.onload = (z) => {
+                console.log(z?.target.result)
+              }
+              console.log(reader.readAsText({ e }))
+              return false
             }}
             // customRequest={async (e) => {
             //   // const file = await file2Base64(e.file);
@@ -250,13 +253,14 @@ function Add() {
           style={{ width: "100%" }}
           size="large"
           ghost
+          loading={mutation.isLoading}
           // className="sticky bottom-3"
           htmlType="submit">
           ذخیره
         </Button>
       </Form>
     </Container>
-  );
+  )
 }
 
-export default Add;
+export default Add
