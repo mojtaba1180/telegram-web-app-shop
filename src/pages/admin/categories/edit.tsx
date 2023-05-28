@@ -51,7 +51,7 @@ function CategoriesEdit() {
       }
       return cat;
     });
-  console.log(location);
+  // console.log(location);
   return (
     <Container title="ویرایش دسته بندی " backwardUrl={-1}>
       <Spin spinning={isLoadCategories} tip="در حال بارگیری ...">
@@ -107,7 +107,6 @@ function CategoriesEdit() {
                 loading={isLoadCategories}
                 disabled={isLoadCategories}
                 style={{ width: "100%" }}
-                onChange={(e) => console.log(e)}
                 options={removeChildren(data)}
                 fieldNames={{
                   label: "category_Name",
