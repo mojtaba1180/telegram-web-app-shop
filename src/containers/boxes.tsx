@@ -19,8 +19,8 @@ function Boxes() {
         <Link className={itemClass} to="/admin">
           ادمین
         </Link>
-        <Link className={itemClass} to="/categories">
-          دسته بندی ها
+        <Link className={itemClass} to="/cart">
+          سبد خرید
         </Link>
       </div>
     </div>

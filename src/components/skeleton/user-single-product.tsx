@@ -3,7 +3,7 @@ import { Divider } from "antd";
 function UserSingleProductSkeleton() {
   return (
     <div className="mb-10 flex flex-col items-end">
-      <div className=" flex h-[270px] w-full animate-pulse items-center justify-center  bg-[var(--tg-theme-secondary-bg-color)]" />
+      <div className=" flex h-[170px] w-full animate-pulse items-center justify-center  bg-[var(--tg-theme-secondary-bg-color)]" />
       <div className=" my-6 h-6 w-1/2 animate-pulse bg-[var(--tg-theme-secondary-bg-color)]   " />
       <div className="flex w-full animate-pulse justify-between  ">
         <div className="flex h-6 w-20 animate-pulse items-center justify-center  bg-[var(--tg-theme-secondary-bg-color)] " />

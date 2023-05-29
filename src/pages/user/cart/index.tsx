@@ -4,6 +4,7 @@
 import Container from "@components/container";
 import useClearCart from "@framework/api/cart/clear";
 import useDeleteCartItem from "@framework/api/cart/delete";
+import { useGetCarts } from "@framework/api/cart/get";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { Button, List, message, Popconfirm } from "antd";
 import React from "react";
@@ -15,21 +16,9 @@ function Cart() {
   const { id } = useTelegramUser();
   const [openClearModal, setOpenClearModal] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
+  const { data } = useGetCarts(id);
+  console.log(data);
 
-  const data = [
-    {
-      title: "Ant Design Title 1"
-    },
-    {
-      title: "Ant Design Title 2"
-    },
-    {
-      title: "Ant Design Title 3"
-    },
-    {
-      title: "Ant Design Title 4"
-    }
-  ];
   const handleDeleteCartItem = (product_id: string | number) => {
     delCartItemMutation.mutate(
       {
@@ -41,7 +30,7 @@ function Cart() {
           message.success("حذف شد");
         },
         onError: () => {
-          message.success("مشکلی رخ داده. دوباره تلاش کنید");
+          message.error("مشکلی رخ داده. دوباره تلاش کنید");
         }
       }
     );
@@ -58,7 +47,7 @@ function Cart() {
           setConfirmLoading(false);
         },
         onError: () => {
-          message.success("مشکلی رخ داده. دوباره تلاش کنید");
+          message.error("مشکلی رخ داده. دوباره تلاش کنید");
           setConfirmLoading(false);
         }
       }
@@ -70,7 +59,7 @@ function Cart() {
         <div className=" rounded-lg bg-[var(--tg-theme-secondary-bg-color)] p-3 transition-all ">
           <List
             itemLayout="horizontal"
-            dataSource={data}
+            dataSource={data?.cartItems}
             renderItem={(item, index) => (
               <List.Item key={index}>
                 <List.Item.Meta
@@ -81,18 +70,20 @@ function Cart() {
                   // }
                   title={
                     <div className="w-full text-start">
-                      <Link to="/products/product-1">{item.title}</Link>
+                      <Link to={`/products/${item.product_Id}`}>
+                        {item.product_Name}
+                      </Link>
                     </div>
                   }
                   description={
                     <div className="flex gap-3  ">
                       <div className="flex flex-row-reverse gap-2">
                         <span>تومان</span>
-                        <span>120000</span>
+                        <span>{item.price}</span>
                       </div>
                       <div>
                         <span>عدد</span>
-                        <span>2</span>
+                        <span>{item.quantity}</span>
                       </div>
                     </div>
                   }
@@ -102,7 +93,7 @@ function Cart() {
                   <Popconfirm
                     placement="left"
                     title="حذف این محصول ؟"
-                    onConfirm={() => handleDeleteCartItem(index)}
+                    onConfirm={() => handleDeleteCartItem(item.product_Id)}
                     okText="حذف"
                     okType="default"
                     cancelText="انصراف">
@@ -137,9 +128,13 @@ function Cart() {
         </div>
         <div className="flex flex-col gap-5  rounded-lg bg-[var(--tg-theme-secondary-bg-color)] p-3 transition-all">
           <div>
-            <p>assa</p>
+            <p>
+              <span>قیمت کل: </span>
+              <span>{data?.totalPrice} </span>
+              <span>تومان</span>
+            </p>
           </div>
-          <div>sdsd</div>
+
           <div>
             <Button disabled={confirmLoading} className="w-full" size="large">
               پرداخت

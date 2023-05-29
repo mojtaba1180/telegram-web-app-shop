@@ -8,7 +8,7 @@ import UserSingleProductSkeleton from "@components/skeleton/user-single-product"
 import useAddToCart from "@framework/api/cart/add";
 import { useGetProductsById } from "@framework/api/product/get-by-id";
 import useTelegramUser from "@hooks/useTelegramUser";
-import { Button, InputNumber, Tabs, message } from "antd";
+import { Button, Carousel, InputNumber, Tabs, message } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
@@ -57,8 +57,20 @@ function ProductSingle() {
         <UserSingleProductSkeleton />
       ) : (
         <div className="flex flex-col">
-          <div className=" flex h-[270px] w-full items-center justify-center  bg-[var(--tg-theme-secondary-bg-color)]">
-            image
+          <div className=" flex h-[170px] w-full items-center justify-center ">
+            <Carousel className="h-full w-full" rootClassName="w-full h-full">
+              {data?.photos?.map((img) => (
+                // <div
+                //   className="bg-conver h-full w-full"
+                //   style={{ backgroundImage: `url("${img}")` }}
+                // />
+                <img
+                  src={img}
+                  alt={data?.product_Name}
+                  className="h-full w-full"
+                />
+              ))}
+            </Carousel>
           </div>
           <div className=" my-6 text-right">{data?.product_Name}</div>
           <div className="flex w-full justify-between">
