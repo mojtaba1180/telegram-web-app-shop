@@ -2,37 +2,37 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable camelcase */
-import Container from "@components/container"
-import { useGetCategories } from "@framework/api/categories/get"
-import useAddProductImage from "@framework/api/photos-upload/add"
-import useAddProduct from "@framework/api/product/add"
-import { TypeProductPost } from "@framework/types"
-import useTelegramUser from "@hooks/useTelegramUser"
-import { Button, Cascader, Form, Input, InputNumber, message } from "antd"
-import { useEffect, useState } from "react"
-import ImageUploading from "react-images-uploading"
-import { useNavigate } from "react-router"
+import Container from "@components/container";
+import { useGetCategories } from "@framework/api/categories/get";
+import useAddProductImage from "@framework/api/photos-upload/add";
+import useAddProduct from "@framework/api/product/add";
+import { TypeProductPost } from "@framework/types";
+import useTelegramUser from "@hooks/useTelegramUser";
+import { Button, Cascader, Form, Input, InputNumber, message } from "antd";
+import { useEffect, useState } from "react";
+import ImageUploading from "react-images-uploading";
+import { useNavigate } from "react-router";
 
-const { TextArea } = Input
+const { TextArea } = Input;
 function Add() {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(false)
+  const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
   const {
     data: categoriesData,
     isLoading: isCatLoading,
     refetch: catRefetch,
     isFetching: isCatFetching
-  } = useGetCategories()
-  const mutation = useAddProduct()
-  const mutationUploadPhotos = useAddProductImage()
-  const { id } = useTelegramUser()
-  const [form] = Form.useForm()
-  const navigate = useNavigate()
+  } = useGetCategories();
+  const mutation = useAddProduct();
+  const mutationUploadPhotos = useAddProductImage();
+  const { id } = useTelegramUser();
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
   useEffect(() => {
-    catRefetch()
-  }, [])
+    catRefetch();
+  }, []);
 
-  const [imageLinkList, setImageLinkList] = useState<Array<string>>([])
-  const [images, setImages] = useState([])
+  const [imageLinkList, setImageLinkList] = useState<Array<string>>([]);
+  const [images, setImages] = useState([]);
   const onChangeImage = async (imageList) => {
     // data for submit
     imageList.length &&
@@ -41,25 +41,25 @@ function Add() {
           { photo_base64: i.data_url.split(",")[1] },
           {
             onSuccess: (e) => {
-              console.log(`${import.meta.env.VITE_API_URL}/${e.data}`)
-              console.log("upload done")
+              console.log(`${import.meta.env.VITE_API_URL}/${e.data}`);
+              console.log("upload done");
               setImageLinkList([
                 ...imageLinkList,
                 `${import.meta.env.VITE_API_URL}/${e.data}`
-              ])
+              ]);
             }
           }
-        )
-      }))
-    setImages(imageList)
-  }
+        );
+      }));
+    setImages(imageList);
+  };
   const handleRemoveSingleImage = (idx) => {
-    const arr = [...imageLinkList]
+    const arr = [...imageLinkList];
     if (idx !== -1) {
-      arr.splice(idx, 1)
-      setImageLinkList(arr)
+      arr.splice(idx, 1);
+      setImageLinkList(arr);
     }
-  }
+  };
   // const uploadRef = useRef(null)
   // const [fileList, setFileList] = useState<UploadFile[]>([
   //   {
@@ -98,16 +98,16 @@ function Add() {
             },
             {
               onSuccess: () => {
-                message.success(" محصول شما با موفقیت ثبت شد")
-                form.resetFields()
-                navigate("/admin/products")
+                message.success(" محصول شما با موفقیت ثبت شد");
+                form.resetFields();
+                navigate("/admin/products");
               },
               onError: (err) => {
                 // console.log(err)
-                message.error(err.response.data.title)
+                message.error(err.response.data.title);
               }
             }
-          )
+          );
         }}>
         <Form.Item name="product_name" required label="نام محصول">
           <Input required />
@@ -183,8 +183,8 @@ function Add() {
                     className="h-full w-20 bg-red-600 "
                     type="button"
                     onClick={() => {
-                      onImageRemoveAll()
-                      setImageLinkList([])
+                      onImageRemoveAll();
+                      setImageLinkList([]);
                     }}>
                     حذف همه
                   </button>
@@ -203,7 +203,7 @@ function Add() {
                           className="w-full"
                           htmlType="button"
                           onClick={() => {
-                            handleRemoveSingleImage(index)
+                            handleRemoveSingleImage(index);
                             // onImageRemove(index)
                           }}>
                           حذف
@@ -260,7 +260,7 @@ function Add() {
         </Button>
       </Form>
     </Container>
-  )
+  );
 }
 
-export default Add
+export default Add;

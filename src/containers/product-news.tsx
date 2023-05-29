@@ -22,6 +22,7 @@ function ProductNews() {
             <Card
               key={`p-${item.product_Id}`}
               price={item.price}
+              imageURL={item.photo_path}
               quantity={item.quantity}
               title={item.product_Name}
               url={`/products/${item.product_Id}`}

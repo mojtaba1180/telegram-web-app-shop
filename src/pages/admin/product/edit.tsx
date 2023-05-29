@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 import Container from "@components/container";
 import { useGetCategories } from "@framework/api/categories/get";
+import useAddProductImage from "@framework/api/photos-upload/add";
 import { useGetProductsById } from "@framework/api/product/get-by-id";
 import useUpdateProduct from "@framework/api/product/update";
 import { TypeProductPost } from "@framework/types";
@@ -13,10 +14,9 @@ import {
   Input,
   InputNumber,
   message,
-  Spin,
-  UploadFile
+  Spin
 } from "antd";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 import { useNavigate, useParams } from "react-router";
 
@@ -40,11 +40,35 @@ function Edit() {
   const { id } = useTelegramUser();
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const mutationUploadPhotos = useAddProductImage();
+  const [imageLinkList, setImageLinkList] = useState<Array<string>>([]);
   const [images, setImages] = useState([]);
-  const onChangeImage = (imageList, addUpdateIndex) => {
+  const onChangeImage = async (imageList) => {
     // data for submit
-    console.log(imageList[0].split(","), addUpdateIndex);
+    imageList.length &&
+      (await imageList.map(async (i: { data_url: string }) => {
+        mutationUploadPhotos.mutate(
+          { photo_base64: i.data_url.split(",")[1] },
+          {
+            onSuccess: (e) => {
+              // console.log(`${import.meta.env.VITE_API_URL}/${e.data}`);
+              // console.log("upload done");
+              setImageLinkList([
+                ...imageLinkList,
+                `${import.meta.env.VITE_API_URL}/${e.data}`
+              ]);
+            }
+          }
+        );
+      }));
     setImages(imageList);
+  };
+  const handleRemoveSingleImage = (idx) => {
+    const arr = [...imageLinkList];
+    if (idx !== -1) {
+      arr.splice(idx, 1);
+      setImageLinkList(arr);
+    }
   };
   useEffect(() => {
     catRefetch();
@@ -54,18 +78,16 @@ function Edit() {
     setComponentDisabled(isProductLoading || isProductFetching);
   }, [isProductLoading, isProductFetching]);
 
+  useEffect(() => {
+    if (!componentDisabled) {
+      setImageLinkList(productData?.photos);
+    }
+  }, [componentDisabled]);
+
   const onChange = (value: any) => {
     console.log(value);
   };
-  const uploadRef = useRef(null);
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: "123",
-      name: "xxx.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-    }
-  ]);
+
   return (
     <Container backwardUrl="/admin/products" title="بروز رسانی محصول ">
       <Spin spinning={componentDisabled} tip="در حال بارگیری ...">
@@ -95,7 +117,7 @@ function Edit() {
                 {
                   category_ids: category_ids?.slice(-1) || [],
                   description,
-                  photos: [],
+                  photos: imageLinkList || [],
                   price,
                   product_name,
                   quantity,
@@ -165,10 +187,8 @@ function Edit() {
                 maxNumber={4}
                 dataURLKey="data_url">
                 {({
-                  imageList,
                   onImageUpload,
                   onImageRemoveAll,
-                  onImageUpdate,
                   onImageRemove,
                   isDragging,
                   dragProps
@@ -188,31 +208,32 @@ function Edit() {
                       <button
                         className="h-full w-20 bg-red-600 "
                         type="button"
-                        onClick={onImageRemoveAll}>
+                        onClick={() => {
+                          onImageRemoveAll();
+                          setImageLinkList([]);
+                        }}>
                         حذف همه
                       </button>
                     </div>
-                    <div className="flex gap-4 ">
-                      {imageList.map((image, index) => (
-                        <div
-                          key={index}
-                          className="image-item h-24 w-24  rounded-lg">
+                    <div className="grid h-[240px] w-full grid-cols-2 grid-rows-2  gap-y-7 overflow-x-auto overflow-y-scroll  ">
+                      {imageLinkList?.map((image, index) => (
+                        <div key={index} className=" h-24 w-36 rounded-lg">
                           <img
-                            src={image.data_url}
+                            src={image}
                             alt=""
                             className="h-full w-full rounded-lg "
                           />
                           <div className="flex justify-between gap-3">
-                            <button
-                              type="button"
-                              onClick={() => onImageUpdate(index)}>
-                              تعویض
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => onImageRemove(index)}>
+                            <Button
+                              danger
+                              className="w-full"
+                              htmlType="button"
+                              onClick={() => {
+                                handleRemoveSingleImage(index);
+                                // onImageRemove(index)
+                              }}>
                               حذف
-                            </button>
+                            </Button>
                           </div>
                         </div>
                       ))}

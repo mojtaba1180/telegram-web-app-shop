@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // eslint-disable-next-line object-curly-newline
 import CategoriesAdd from "@pages/admin/categories/add";
 import {

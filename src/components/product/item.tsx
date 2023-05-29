@@ -5,9 +5,10 @@ interface Props {
   title: string;
   price: number;
   quantity: number;
+  imageURL: string | Array<string>;
 }
 
-function ProductItem({ url, title, price, quantity }: Props) {
+function ProductItem({ url, title, price, quantity, imageURL }: Props) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -36,7 +37,10 @@ function ProductItem({ url, title, price, quantity }: Props) {
           <div className="self-start text-left">تعداد :{quantity} عدد</div>
         </div>
       </div>
-      <div className=" ml-auto h-full w-1/3  bg-[var(--tg-theme-secondary-bg-color)]" />
+      <div
+        className=" ml-auto h-full w-1/3  bg-[var(--tg-theme-secondary-bg-color)] bg-cover"
+        style={{ backgroundImage: `url('${imageURL}')` }}
+      />
     </div>
   );
 }
