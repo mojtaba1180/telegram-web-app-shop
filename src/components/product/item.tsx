@@ -30,10 +30,7 @@ function ProductItem({ url, title, price, quantity, imageURL }: Props) {
             </div>
             <div className="select-none text-sm">غذا</div>
           </div> */}
-          <div className="self-start text-left">
-            {" "}
-            قیمت : {price * 1000} تومان
-          </div>
+          <div className="self-start text-left"> قیمت :{price} تومان</div>
           <div className="self-start text-left">تعداد :{quantity} عدد</div>
         </div>
       </div>
