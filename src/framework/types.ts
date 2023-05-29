@@ -102,10 +102,17 @@ export interface TypeProductPost {
   category_ids: number[];
   photos: string[];
 }
+
+export interface TypeDeleteProduct {
+  user_id: string;
+  product_id: string;
+}
+
 // ## photos
 export interface TypeProductPhotos {
   photo_base64: string;
 }
+
 // Cart
 
 export interface TypeAddToCartItems {

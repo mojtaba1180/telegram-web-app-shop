@@ -57,7 +57,7 @@ function ProductSingle() {
         <UserSingleProductSkeleton />
       ) : (
         <div className="flex flex-col">
-          <div className=" flex h-[170px] w-full items-center justify-center ">
+          <div className=" flex h-fit w-full items-center justify-center ">
             <Carousel className="h-full w-full" rootClassName="w-full h-full">
               {data?.photos?.map((img) => (
                 // <div
@@ -67,7 +67,7 @@ function ProductSingle() {
                 <img
                   src={img}
                   alt={data?.product_Name}
-                  className="h-full w-full"
+                  className="h-full w-full rounded-lg"
                 />
               ))}
             </Carousel>
@@ -111,6 +111,7 @@ function ProductSingle() {
           <div className="my-4">
             <Button
               className="w-full"
+              loading={mutation.isLoading}
               onClick={handleAddToCart}
               size="large"
               type="primary"

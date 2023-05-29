@@ -11,6 +11,7 @@ export { default as AdminProductList } from "./admin/product/list";
 export { default as HomePage } from "./home";
 // User pages
 export { default as UserCart } from "./user/cart/index";
+export { default as Checkout } from "./user/checkout/index";
 export { default as ProductList } from "./user/product/list";
 export { default as ProductSingle } from "./user/product/single";
 export { default as UserProfileAddAddresses } from "./user/profile/addresses/add";

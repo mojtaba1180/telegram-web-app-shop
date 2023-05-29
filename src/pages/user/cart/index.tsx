@@ -7,8 +7,8 @@ import useDeleteCartItem from "@framework/api/cart/delete";
 import { useGetCarts } from "@framework/api/cart/get";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { Button, List, message, Popconfirm } from "antd";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Cart() {
   const clearCartMutation = useClearCart();
@@ -16,8 +16,13 @@ function Cart() {
   const { id } = useTelegramUser();
   const [openClearModal, setOpenClearModal] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const { data } = useGetCarts(id);
-  console.log(data);
+  const { data, isFetching, isLoading, refetch } = useGetCarts(id);
+  const navigator = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    refetch();
+  }, [location, refetch]);
 
   const handleDeleteCartItem = (product_id: string | number) => {
     delCartItemMutation.mutate(
@@ -45,10 +50,12 @@ function Cart() {
         onSuccess: () => {
           message.success("سبد شما خالی شد ");
           setConfirmLoading(false);
+          refetch();
         },
         onError: () => {
           message.error("مشکلی رخ داده. دوباره تلاش کنید");
           setConfirmLoading(false);
+          refetch();
         }
       }
     );
@@ -58,6 +65,7 @@ function Cart() {
       <div className="flex flex-col gap-5">
         <div className=" rounded-lg bg-[var(--tg-theme-secondary-bg-color)] p-3 transition-all ">
           <List
+            loading={isLoading || isFetching}
             itemLayout="horizontal"
             dataSource={data?.cartItems}
             renderItem={(item, index) => (
@@ -117,7 +125,7 @@ function Cart() {
             cancelText="انصراف"
             onCancel={() => setOpenClearModal(false)}>
             <Button
-              disabled={confirmLoading}
+              disabled={confirmLoading || data?.cartItems.length === 0}
               onClick={() => setOpenClearModal(true)}
               className="!w-full"
               style={{ width: "100%" }}
@@ -136,8 +144,18 @@ function Cart() {
           </div>
 
           <div>
-            <Button disabled={confirmLoading} className="w-full" size="large">
-              پرداخت
+            <Button
+              onClick={() =>
+                navigator("/checkout", {
+                  state: {
+                    cart_id: data?.cart_Id
+                  }
+                })
+              }
+              disabled={confirmLoading || data?.cartItems.length === 0}
+              className="w-full"
+              size="large">
+              نهایی کردن خرید
             </Button>
           </div>
         </div>

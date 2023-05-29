@@ -8,6 +8,7 @@ import {
   AdminProductList,
   Categories,
   CategoriesEdit,
+  Checkout,
   HomePage,
   ProductAdd,
   ProductEdit,
@@ -59,6 +60,11 @@ export const routes = createBrowserRouter([
     path: "/cart",
     element: <UserCart />
   },
+  {
+    path: "/checkout",
+    element: <Checkout />
+  },
+
   // ## profile
   {
     path: "/profile",
