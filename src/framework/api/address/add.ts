@@ -10,14 +10,14 @@ const useAddAddress = () =>
   useMutation({
     mutationKey: ["add-address"],
     mutationFn: ({
-      user_id,
       city,
       country,
       state,
       street,
-      zipcode
+      zipcode,
+      user_Id
     }: TypeAddAddress) =>
-      Api.post(`/users/${user_id}/addresses`, {
+      Api.post(`/users/${user_Id}/addresses`, {
         city,
         country,
         state,

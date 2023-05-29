@@ -158,5 +158,5 @@ export interface TypeAddresses {
 
 export interface TypeDeleteAddressItem {
   user_id: string;
-  address_id: string;
+  address_id: string | number;
 }

@@ -6,19 +6,19 @@ import { useMutation } from "@tanstack/react-query";
 
 import Api from "../utils/api-config";
 
-const useAddAddress = () =>
+const useUpdateAddress = () =>
   useMutation({
-    mutationKey: ["add-address"],
+    mutationKey: ["update-address"],
     mutationFn: ({
       address_Id,
-      user_id,
+      user_Id,
       city,
       country,
       state,
       street,
       zipcode
     }: TypeAddAddress) =>
-      Api.put(`/users/${user_id}/addresses/${address_Id}`, {
+      Api.put(`/users/${user_Id}/addresses/${address_Id}`, {
         city,
         country,
         state,
@@ -27,4 +27,4 @@ const useAddAddress = () =>
       })
   });
 
-export default useAddAddress;
+export default useUpdateAddress;

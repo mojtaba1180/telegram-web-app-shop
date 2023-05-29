@@ -6,11 +6,11 @@ import { useMutation } from "@tanstack/react-query";
 
 import Api from "../utils/api-config";
 
-const useDeleteCartItem = () =>
+const useDeleteAddress = () =>
   useMutation({
     mutationKey: ["delete-address-item"],
     mutationFn: ({ user_id, address_id }: TypeDeleteAddressItem) =>
       Api.delete(`/users/${user_id}/addresses/${address_id}`)
   });
 
-export default useDeleteCartItem;
+export default useDeleteAddress;

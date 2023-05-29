@@ -30,7 +30,7 @@ function UserProfileButtonMenu() {
       <Link
         to="/profile/address"
         className="flex w-1/3 flex-col items-center justify-center gap-1 ">
-        <SettingOutlined /> تنظیمات
+        <SettingOutlined /> آدرس ها
       </Link>
     </div>
   );

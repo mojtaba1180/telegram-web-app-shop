@@ -1,29 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-wrap-multilines */
 
 import Container from "@components/container";
-import { Button, List, Popconfirm } from "antd";
-import { useNavigate } from "react-router";
+import useDeleteAddress from "@framework/api/address/delete";
+import { useGetAddresses } from "@framework/api/address/get";
+import useTelegramUser from "@hooks/useTelegramUser";
+import { Button, List, message, Popconfirm } from "antd";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router";
 
 function AddessesList() {
   const navigate = useNavigate();
-
-  const data = [
-    {
-      title: "آدرس  1"
-    },
-    {
-      title: "آدرس  2"
-    },
-    {
-      title: "آدرس  3"
-    },
-    {
-      title: "آدرس  4"
-    }
-  ];
-
+  const { id } = useTelegramUser();
+  const { data, isLoading, isFetching, refetch } = useGetAddresses(id);
+  const deleteMutation = useDeleteAddress();
+  const location = useLocation();
+  useEffect(() => {
+    refetch();
+  }, [location]);
   return (
     <Container
       title=" آدرس ها"
@@ -32,8 +28,9 @@ function AddessesList() {
       customButtonOnClick={() => navigate("add")}
       backwardUrl="/">
       <List
+        loading={isLoading || isFetching}
         itemLayout="horizontal"
-        dataSource={data}
+        dataSource={data?.addresses}
         renderItem={(item, index) => (
           <List.Item key={index}>
             <List.Item.Meta
@@ -42,14 +39,14 @@ function AddessesList() {
               //     src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
               //   />
               // }
-              title={<div className="w-full text-start">{item.title}</div>}
+              title={<div className="w-full text-start">{item.city}</div>}
               description={
                 <div className="flex gap-3  ">
                   <div className="flex flex-row-reverse gap-2">
-                    <span>گیلان</span>
+                    <span>{item.state}</span>
                   </div>
                   <div>
-                    <span>4173589744</span>
+                    <span>{item.zipcode}</span>
                   </div>
                 </div>
               }
@@ -60,13 +57,35 @@ function AddessesList() {
                 placement="left"
                 title="از حذف اطمینان دارید ؟"
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
-                onConfirm={() => {}}
+                onConfirm={() => {
+                  deleteMutation.mutate(
+                    { user_id: id, address_id: item.address_Id },
+                    {
+                      onSuccess: () => {
+                        message.success("آدرس با موفقیت حذف شد");
+                        refetch();
+                      },
+                      onError: (e) => {
+                        console.log(e);
+                        message.error("حذف نشد دوباره تلاش کنید!");
+                        refetch();
+                      }
+                    }
+                  );
+                }}
                 okText="حذف"
                 okType="default"
                 cancelText="انصراف">
-                <Button size="small">حذف</Button>
+                <Button
+                  key={index}
+                  size="small"
+                  loading={deleteMutation.isLoading}>
+                  حذف
+                </Button>
               </Popconfirm>
-              <Button onClick={() => navigate(`${index}`)} size="small">
+              <Button
+                onClick={() => navigate(`${item.address_Id}`)}
+                size="small">
                 ویرایش
               </Button>
             </div>
