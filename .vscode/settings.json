@@ -16,11 +16,14 @@
   },
   "search.sortOrder": "type",
   "explorer.sortOrder": "type",
-  "cSpell.words": ["Formik", "Signup"],
+  "cSpell.words": ["Formik", "Signup", "zipcode"],
   "[properties]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
   },
   "[nginx]": {
     "editor.defaultFormatter": "raynigon.nginx-formatter"
+  },
+  "[dockercompose]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
   }
 }

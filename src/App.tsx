@@ -2,51 +2,33 @@
 import "@style/app.scss";
 import "antd/dist/reset.css";
 
-import { useThemeParams } from "@vkruglikov/react-telegram-web-app";
-import { ConfigProvider, theme } from "antd";
+import useTelegramUser from "@hooks/useTelegramUser";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import Main from "./layouts/main";
 import Router from "./router";
 
 function App() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [colorScheme, themeParams] = useThemeParams();
-  // eslint-disable-next-line operator-linebreak
-  const mode = import.meta.env.VITE_DEV_MODE !== "true";
-  alert(window.Telegram.WebApp.platform);
-  // console.log(JSON.parse(sessionStorage.getItem("__telegram__initParams")));
+  const isTG = useTelegramUser();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: true,
+        refetchOnMount: true,
+        refetchOnReconnect: true,
+        retry: false,
+        staleTime: 5 * 60 * 1000
+      }
+    }
+  });
+
+  if (!isTG) return <>open in telegram app </>;
   return (
-    <div className="app w-full py-1">
-      <div className="w-full !max-w-[450px]">
-        {mode ? (
-          <ConfigProvider
-            direction="rtl"
-            theme={
-              themeParams.text_color
-                ? {
-                    algorithm:
-                      colorScheme === "dark"
-                        ? theme.darkAlgorithm
-                        : theme.defaultAlgorithm,
-                    token: {
-                      colorText: themeParams.text_color,
-                      colorPrimary: themeParams.button_color,
-                      colorBgBase: themeParams.bg_color
-                    }
-                  }
-                : undefined
-            }>
-            {/* <header className="App-header">
-              <img src="/vite.svg" className="App-logo" alt="logo" />
-            </header> */}
-            <div className="contentWrapper">
-              <Router />
-            </div>
-          </ConfigProvider>
-        ) : (
-          <>going to telegram</>
-        )}
-      </div>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Main>
+        <Router />
+      </Main>
+    </QueryClientProvider>
   );
 }
 

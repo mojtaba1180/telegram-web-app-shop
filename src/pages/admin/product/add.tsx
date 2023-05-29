@@ -1,96 +1,74 @@
-import { PlusOutlined } from "@ant-design/icons";
+/* eslint-disable no-unused-expressions */
+/* eslint-disable operator-linebreak */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable camelcase */
 import Container from "@components/container";
-import { getFileBase64 } from "@helpers/getFileBase64";
-import {
-  Button,
-  Cascader,
-  Form,
-  Input,
-  InputNumber,
-  Upload,
-  UploadFile,
-  UploadProps
-} from "antd";
-import { useRef, useState } from "react";
+import { useGetCategories } from "@framework/api/categories/get";
+import useAddProductImage from "@framework/api/photos-upload/add";
+import useAddProduct from "@framework/api/product/add";
+import { TypeProductPost } from "@framework/types";
+import useTelegramUser from "@hooks/useTelegramUser";
+import { Button, Cascader, Form, Input, InputNumber, message } from "antd";
+import { useEffect, useState } from "react";
+import ImageUploading from "react-images-uploading";
+import { useNavigate } from "react-router";
 
 const { TextArea } = Input;
-interface Option {
-  value: string | number;
-  label: string;
-  children?: Option[];
-}
-const options: Option[] = [
-  {
-    label: "Light",
-    value: "light",
-    children: new Array(20)
-      .fill(null)
-      .map((_, index) => ({ label: `Number ${index}`, value: index }))
-  },
-  {
-    label: "Bamboo",
-    value: "bamboo",
-    children: [
-      {
-        label: "Little",
-        value: "little",
-        children: [
-          {
-            label: "Toy Fish",
-            value: "fish"
-          },
-          {
-            label: "Toy Cards",
-            value: "cards"
-          },
-          {
-            label: "Toy Bird",
-            value: "bird"
-          }
-        ]
-      }
-    ]
-  }
-];
-
 function Add() {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-  const onChange = (value: any) => {
-    console.log(value);
-  };
-  const uploadRef = useRef(null);
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: "123",
-      name: "xxx.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-    }
-  ]);
+  const {
+    data: categoriesData,
+    isLoading: isCatLoading,
+    refetch: catRefetch,
+    isFetching: isCatFetching
+  } = useGetCategories();
+  const mutation = useAddProduct();
+  const mutationUploadPhotos = useAddProductImage();
+  const { id } = useTelegramUser();
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  useEffect(() => {
+    catRefetch();
+  }, []);
 
-  const handleOnChangeUploadFile: UploadProps["onChange"] = (e) => {
-    let newFileList: UploadFile[] = [...e.fileList];
-    console.log(newFileList);
-    newFileList = newFileList.map((item) => {
-      const imageBase64 = getFileBase64(item.originFileObj);
-      imageBase64.then((res) => console.log(res));
-      return {
-        name: item.name,
-        uid: item.uid,
-        url: item.url,
-        originFileObj: item.originFileObj
-      };
-    });
-    setFileList(newFileList);
+  const [imageLinkList, setImageLinkList] = useState<Array<string>>([]);
+  const [images, setImages] = useState([]);
+  const onChangeImage = async (imageList) => {
+    // data for submit
+    imageList.length &&
+      (await imageList.map(async (i: { data_url: string }) => {
+        mutationUploadPhotos.mutate(
+          { photo_base64: i.data_url.split(",")[1] },
+          {
+            onSuccess: (e) => {
+              console.log(`${import.meta.env.VITE_API_URL}/${e.data}`);
+              console.log("upload done");
+              setImageLinkList([
+                ...imageLinkList,
+                `${import.meta.env.VITE_API_URL}/${e.data}`
+              ]);
+            }
+          }
+        );
+      }));
+    setImages(imageList);
   };
-  const uploadFileListProps = {
-    accept: "image/*",
-    onChange: handleOnChangeUploadFile,
-    multiple: true,
-    showUploadList: true,
-    ref: uploadRef,
-    listType: "picture-card"
+  const handleRemoveSingleImage = (idx) => {
+    const arr = [...imageLinkList];
+    if (idx !== -1) {
+      arr.splice(idx, 1);
+      setImageLinkList(arr);
+    }
   };
+  // const uploadRef = useRef(null)
+  // const [fileList, setFileList] = useState<UploadFile[]>([
+  //   {
+  //     uid: "123",
+  //     name: "xxx.png",
+  //     status: "done",
+  //     url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+  //   }
+  // ])
   return (
     <Container backwardUrl={-1} title="افزودن محصول جدید">
       <Form
@@ -98,34 +76,56 @@ function Add() {
         wrapperCol={{ span: 20 }}
         layout="horizontal"
         disabled={componentDisabled}
-        onFinish={(e) => console.log(e)}>
-        <Form.Item name="name" label="نام محصول">
-          <Input />
-        </Form.Item>
-        {/* <Form.Item name="type" label="Radio">
-        <Radio.Group>
-          <Radio value="apple"> Apple </Radio>
-          <Radio value="pear"> Pear </Radio>
-        </Radio.Group>
-      </Form.Item> */}
-        {/* <Form.Item name="treeSelect" label="TreeSelect">
-        <TreeSelect
-          treeData={[
+        onFinish={({
+          category_ids,
+          description,
+          price,
+          photos,
+          product_name,
+          quantity
+        }: TypeProductPost) => {
+          // const phs = photos.map((ph) => ph.data_url.split(",")[1])
+          // console.log(phs)
+          mutation.mutate(
             {
-              title: "Light",
-              value: "light",
-              children: [{ title: "Bamboo", value: "bamboo" }]
+              category_ids: category_ids?.slice(-1) || [],
+              description,
+              photos: imageLinkList || [],
+              price,
+              product_name,
+              quantity,
+              user_id: id.toString()
+            },
+            {
+              onSuccess: () => {
+                message.success(" محصول شما با موفقیت ثبت شد");
+                form.resetFields();
+                navigate("/admin/products");
+              },
+              onError: (err) => {
+                // console.log(err)
+                message.error(err.response.data.title);
+              }
             }
-          ]}
-        />
-      </Form.Item> */}
-        <Form.Item name="categories" label="دسته بندی">
+          );
+        }}>
+        <Form.Item name="product_name" required label="نام محصول">
+          <Input required />
+        </Form.Item>
+        <Form.Item name="category_ids" label="دسته بندی">
           <Cascader
             style={{ width: "100%" }}
-            options={options}
-            onChange={onChange}
-            multiple
+            options={categoriesData}
+            multiple={false}
+            changeOnSelect
+            showSearch
             maxTagCount="responsive"
+            loading={isCatLoading || isCatFetching}
+            fieldNames={{
+              label: "category_Name",
+              value: "category_Id",
+              children: "children"
+            }}
           />
         </Form.Item>
         {/* <Form.Item label="DatePicker">
@@ -134,39 +134,118 @@ function Add() {
       <Form.Item label="RangePicker">
         <RangePicker />
       </Form.Item> */}
-        <Form.Item label="قیمت (تومان) " name="price">
-          <InputNumber type="number" />
+        <Form.Item label="قیمت (تومان) " required name="price">
+          <InputNumber required type="number" />
         </Form.Item>
-        <Form.Item label="تخفیف (تومان) " name="quantity">
-          <InputNumber type="number" />
+        <Form.Item label="تعداد موجودی" required name="quantity">
+          <InputNumber required type="number" />
         </Form.Item>
-        <Form.Item label="تعداد موجودی " name="stock">
+        {/* <Form.Item label="تعداد موجودی " name="stock">
           <InputNumber type="number" />
-        </Form.Item>
-        <Form.Item label="توضیحات" name="description">
-          <TextArea rows={4} />
+        </Form.Item> */}
+        <Form.Item label="توضیحات" required name="description">
+          <TextArea required rows={4} />
         </Form.Item>
         {/* <Form.Item label="Switch" valuePropName="checked">
         <Switch />
       </Form.Item> */}
         <Form.Item
-          className="w-full"
-          name="images"
+          className="mb-14 w-full"
+          name="photos"
           label="عکس محصول"
-          valuePropName="images">
-          <Upload
+          valuePropName="photos">
+          <ImageUploading
+            multiple
+            value={images}
+            onChange={onChangeImage}
+            maxNumber={4}
+            dataURLKey="data_url">
+            {({
+              onImageUpload,
+              onImageRemoveAll,
+              onImageRemove,
+              isDragging,
+              dragProps
+            }) => (
+              // write your building UI
+              <div className="upload__image-wrapper flex flex-col">
+                <div className="mb-5 flex h-[60px]  w-full">
+                  <button
+                    style={isDragging ? { color: "red" } : undefined}
+                    onClick={onImageUpload}
+                    type="button"
+                    className="h-full w-full border-[1px] border-dashed"
+                    {...dragProps}>
+                    افزودن عکس
+                  </button>
+                  &nbsp;
+                  <button
+                    className="h-full w-20 bg-red-600 "
+                    type="button"
+                    onClick={() => {
+                      onImageRemoveAll();
+                      setImageLinkList([]);
+                    }}>
+                    حذف همه
+                  </button>
+                </div>
+                <div className="grid h-[240px] w-full grid-cols-2 grid-rows-2  gap-y-7 overflow-x-auto overflow-y-scroll  ">
+                  {imageLinkList?.map((image, index) => (
+                    <div key={index} className=" h-24 w-36 rounded-lg">
+                      <img
+                        src={image}
+                        alt=""
+                        className="h-full w-full rounded-lg "
+                      />
+                      <div className="flex justify-between gap-3">
+                        <Button
+                          danger
+                          className="w-full"
+                          htmlType="button"
+                          onClick={() => {
+                            handleRemoveSingleImage(index);
+                            // onImageRemove(index)
+                          }}>
+                          حذف
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </ImageUploading>
+          {/* <Upload
             fileList={fileList}
             accept="image/*"
-            onChange={handleOnChangeUploadFile}
+            // onChange={(e) => console.log(e)}
             multiple
             showUploadList
+            customRequest={(e) => {
+              getFileBase64(e.file).then((r) => {
+                // console.log(r)
+              })
+            }}
+            beforeUpload={(e) => {
+              console.log(e)
+              const reader = new FileReader()
+              reader.onload = (z) => {
+                console.log(z?.target.result)
+              }
+              console.log(reader.readAsText({ e }))
+              return false
+            }}
+            // customRequest={async (e) => {
+            //   // const file = await file2Base64(e.file);
+            //   console.log(e);
+            // }}
             ref={uploadRef}
             listType="picture-card">
             <div>
               <PlusOutlined />
               <div style={{ marginTop: 8 }}>افزودن</div>
             </div>
-          </Upload>
+          </Upload> */}
         </Form.Item>
 
         <Button
@@ -174,6 +253,7 @@ function Add() {
           style={{ width: "100%" }}
           size="large"
           ghost
+          loading={mutation.isLoading}
           // className="sticky bottom-3"
           htmlType="submit">
           ذخیره

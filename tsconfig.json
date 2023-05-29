@@ -24,7 +24,9 @@
       "@router/*": ["./src/router/"],
       "@hooks/*": ["./src/hooks/*"],
       "@helpers/*": ["./src/helpers/*"],
-      "@containers/*": ["./src/containers/*"]
+      "@containers/*": ["./src/containers/*"],
+      "@framework/*": ["./src/framework/*"],
+      "@layout/*": ["./src/layout/*"]
     },
     "baseUrl": "."
   },

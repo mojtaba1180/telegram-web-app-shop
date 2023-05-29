@@ -1,176 +1,288 @@
-import { PlusOutlined } from "@ant-design/icons";
+/* eslint-disable no-unused-expressions */
+/* eslint-disable operator-linebreak */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable camelcase */
 import Container from "@components/container";
-import { getFileBase64 } from "@helpers/getFileBase64";
+import { useGetCategories } from "@framework/api/categories/get";
+import useAddProductImage from "@framework/api/photos-upload/add";
+import useDeleteProduct from "@framework/api/product/delete";
+import { useGetProductsById } from "@framework/api/product/get-by-id";
+import useUpdateProduct from "@framework/api/product/update";
+import { TypeProductPost } from "@framework/types";
+import useTelegramUser from "@hooks/useTelegramUser";
 import {
   Button,
   Cascader,
   Form,
   Input,
   InputNumber,
-  Upload,
-  UploadFile,
-  UploadProps
+  message,
+  Popconfirm,
+  Spin
 } from "antd";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import ImageUploading from "react-images-uploading";
+import { useNavigate, useParams } from "react-router";
 
 const { TextArea } = Input;
-interface Option {
-  value: string | number;
-  label: string;
-  children?: Option[];
-}
-const options: Option[] = [
-  {
-    label: "Light",
-    value: "light",
-    children: new Array(20)
-      .fill(null)
-      .map((_, index) => ({ label: `Number ${index}`, value: index }))
-  },
-  {
-    label: "Bamboo",
-    value: "bamboo",
-    children: [
-      {
-        label: "Little",
-        value: "little",
-        children: [
-          {
-            label: "Toy Fish",
-            value: "fish"
-          },
-          {
-            label: "Toy Cards",
-            value: "cards"
-          },
-          {
-            label: "Toy Bird",
-            value: "bird"
-          }
-        ]
-      }
-    ]
-  }
-];
-
 function Edit() {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+  const { product_id } = useParams();
+  const {
+    data: categoriesData,
+    isLoading: isCatLoading,
+    refetch: catRefetch,
+    isFetching: isCatFetching
+  } = useGetCategories();
+  const {
+    data: productData,
+    isLoading: isProductLoading,
+    isFetching: isProductFetching,
+    refetch: productRefetch
+  } = useGetProductsById({ product_id });
+  const mutation = useUpdateProduct({ product_id });
+  const { id } = useTelegramUser();
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const mutationUploadPhotos = useAddProductImage();
+  const [imageLinkList, setImageLinkList] = useState<Array<string>>([]);
+  const [images, setImages] = useState([]);
+  const deleteMutation = useDeleteProduct();
+  const onChangeImage = async (imageList) => {
+    // data for submit
+    imageList.length &&
+      (await imageList.map(async (i: { data_url: string }) => {
+        mutationUploadPhotos.mutate(
+          { photo_base64: i.data_url.split(",")[1] },
+          {
+            onSuccess: (e) => {
+              // console.log(`${import.meta.env.VITE_API_URL}/${e.data}`);
+              // console.log("upload done");
+              setImageLinkList([
+                ...imageLinkList,
+                `${import.meta.env.VITE_API_URL}/${e.data}`
+              ]);
+            }
+          }
+        );
+      }));
+    setImages(imageList);
+  };
+  const handleRemoveSingleImage = (idx) => {
+    const arr = [...imageLinkList];
+    if (idx !== -1) {
+      arr.splice(idx, 1);
+      setImageLinkList(arr);
+    }
+  };
+  useEffect(() => {
+    catRefetch();
+    productRefetch();
+  }, []);
+  useEffect(() => {
+    setComponentDisabled(isProductLoading || isProductFetching);
+  }, [isProductLoading, isProductFetching]);
+
+  useEffect(() => {
+    if (!componentDisabled) {
+      setImageLinkList(productData?.photos);
+    }
+  }, [componentDisabled]);
+
   const onChange = (value: any) => {
     console.log(value);
   };
-  const uploadRef = useRef(null);
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: "123",
-      name: "xxx.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-    }
-  ]);
-
-  const handleOnChangeUploadFile: UploadProps["onChange"] = (e) => {
-    let newFileList: UploadFile[] = [...e.fileList];
-    console.log(newFileList);
-    newFileList = newFileList.map((item) => {
-      const imageBase64 = getFileBase64(item.originFileObj);
-      imageBase64.then((res) => console.log(res));
-      return {
-        name: item.name,
-        uid: item.uid,
-        url: item.url,
-        originFileObj: item.originFileObj
-      };
-    });
-    setFileList(newFileList);
+  const handleDeleteProduct = () => {
+    deleteMutation.mutate(
+      { product_id, user_id: id },
+      {
+        onSuccess: (e) => {
+          message.success("محصول با موفقیت حذف شد ");
+          navigate("/admin/products");
+        },
+        onError: () => {
+          message.error(" مشکلی در حذف این محصول رخ داد. دوباره تلاش کنید");
+        }
+      }
+    );
   };
-  return (
-    <Container backwardUrl={-1} title="ویرایش محصول">
-      <Form
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 20 }}
-        layout="horizontal"
-        disabled={componentDisabled}
-        onFinish={(e) => console.log(e)}>
-        <Form.Item name="name" label="نام محصول">
-          <Input />
-        </Form.Item>
-        {/* <Form.Item name="type" label="Radio">
-        <Radio.Group>
-          <Radio value="apple"> Apple </Radio>
-          <Radio value="pear"> Pear </Radio>
-        </Radio.Group>
-      </Form.Item> */}
-        {/* <Form.Item name="treeSelect" label="TreeSelect">
-        <TreeSelect
-          treeData={[
-            {
-              title: "Light",
-              value: "light",
-              children: [{ title: "Bamboo", value: "bamboo" }]
-            }
-          ]}
-        />
-      </Form.Item> */}
-        <Form.Item name="categories" label="دسته بندی">
-          <Cascader
-            style={{ width: "100%" }}
-            options={options}
-            onChange={onChange}
-            multiple
-            maxTagCount="responsive"
-          />
-        </Form.Item>
-        {/* <Form.Item label="DatePicker">
-        <DatePicker />
-      </Form.Item>
-      <Form.Item label="RangePicker">
-        <RangePicker />
-      </Form.Item> */}
-        <Form.Item label="قیمت (تومان) " name="price">
-          <InputNumber type="number" />
-        </Form.Item>
-        <Form.Item label="تخفیف (تومان) " name="quantity">
-          <InputNumber type="number" />
-        </Form.Item>
-        <Form.Item label="تعداد موجودی " name="stock">
-          <InputNumber type="number" />
-        </Form.Item>
-        <Form.Item label="توضیحات" name="description">
-          <TextArea rows={4} />
-        </Form.Item>
-        {/* <Form.Item label="Switch" valuePropName="checked">
-        <Switch />
-      </Form.Item> */}
-        <Form.Item
-          className="w-full"
-          name="images"
-          label="عکس محصول"
-          valuePropName="images">
-          <Upload
-            accept="image/*"
-            onChange={handleOnChangeUploadFile}
-            multiple
-            showUploadList
-            ref={uploadRef}
-            listType="picture-card"
-            fileList={fileList}>
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>افزودن</div>
-            </div>
-          </Upload>
-        </Form.Item>
 
-        <Button
-          type="primary"
-          style={{ width: "100%" }}
-          size="large"
-          ghost
-          // className="sticky bottom-3"
-          htmlType="submit">
-          ذخیره
-        </Button>
-      </Form>
+  return (
+    <Container backwardUrl="/admin/products" title="بروز رسانی محصول ">
+      <Spin spinning={componentDisabled} tip="در حال بارگیری ...">
+        {componentDisabled ? (
+          <div className="h-screen" />
+        ) : (
+          <Form
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 20 }}
+            layout="horizontal"
+            initialValues={{
+              description: productData?.description,
+              product_name: productData?.product_Name,
+              price: productData?.price,
+              quantity: productData?.quantity,
+              category_ids: productData?.categoryIds
+            }}
+            disabled={componentDisabled}
+            onFinish={({
+              category_ids,
+              description,
+              price,
+              product_name,
+              quantity
+            }: TypeProductPost) => {
+              mutation.mutate(
+                {
+                  category_ids: category_ids?.slice(-1) || [],
+                  description,
+                  photos: imageLinkList || [],
+                  price,
+                  product_name,
+                  quantity,
+                  user_id: id.toString()
+                },
+                {
+                  onSuccess: () => {
+                    message.success(" محصول شما با موفقیت اپدیت شد");
+                    form.resetFields();
+                    navigate("/admin/products");
+                  },
+                  onError: (err) => {
+                    console.log(err);
+                  }
+                }
+              );
+            }}>
+            <Form.Item name="product_name" required label="نام محصول">
+              <Input required />
+            </Form.Item>
+            <Form.Item name="category_ids" required label="دسته بندی">
+              <Cascader
+                style={{ width: "100%" }}
+                options={categoriesData}
+                onChange={onChange}
+                multiple={false}
+                changeOnSelect
+                maxTagCount="responsive"
+                loading={isCatLoading || isCatFetching}
+                fieldNames={{
+                  label: "category_Name",
+                  value: "category_Id",
+                  children: "children"
+                }}
+              />
+            </Form.Item>
+
+            <Form.Item label="قیمت (تومان) " required name="price">
+              <InputNumber required type="number" />
+            </Form.Item>
+            <Form.Item label="تعداد موجودی" required name="quantity">
+              <InputNumber required type="number" />
+            </Form.Item>
+
+            <Form.Item label="توضیحات" required name="description">
+              <TextArea rows={4} />
+            </Form.Item>
+
+            <Form.Item
+              className="w-full"
+              name="photos"
+              label="عکس محصول"
+              valuePropName="photos">
+              <ImageUploading
+                multiple
+                value={images}
+                onChange={onChangeImage}
+                maxNumber={4}
+                dataURLKey="data_url">
+                {({
+                  onImageUpload,
+                  onImageRemoveAll,
+                  onImageRemove,
+                  isDragging,
+                  dragProps
+                }) => (
+                  // write your building UI
+                  <div className="upload__image-wrapper flex flex-col">
+                    <div className="mb-5 flex h-[60px]  w-full">
+                      <button
+                        style={isDragging ? { color: "red" } : undefined}
+                        onClick={onImageUpload}
+                        type="button"
+                        className="h-full w-full border-[1px] border-dashed"
+                        {...dragProps}>
+                        افزودن عکس
+                      </button>
+                      &nbsp;
+                      <button
+                        className="h-full w-20 bg-red-600 "
+                        type="button"
+                        onClick={() => {
+                          onImageRemoveAll();
+                          setImageLinkList([]);
+                        }}>
+                        حذف همه
+                      </button>
+                    </div>
+                    <div className="grid h-[240px] w-full grid-cols-2 grid-rows-2  gap-y-7 overflow-x-auto overflow-y-scroll  ">
+                      {imageLinkList?.map((image, index) => (
+                        <div key={index} className=" h-24 w-36 rounded-lg">
+                          <img
+                            src={image}
+                            alt=""
+                            className="h-full w-full rounded-lg "
+                          />
+                          <div className="flex justify-between gap-3">
+                            <Button
+                              danger
+                              className="w-full"
+                              htmlType="button"
+                              onClick={() => {
+                                handleRemoveSingleImage(index);
+                                // onImageRemove(index)
+                              }}>
+                              حذف
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </ImageUploading>
+            </Form.Item>
+
+            <div className="flex gap-3">
+              <Popconfirm
+                placement="top"
+                title="حذف این محصول ؟"
+                onConfirm={() => handleDeleteProduct()}
+                okText="حذف"
+                okType="default"
+                cancelText="انصراف">
+                <Button
+                  size="large"
+                  loading={deleteMutation.isLoading}
+                  style={{ width: "36%" }}
+                  danger>
+                  حذف این محصول
+                </Button>
+              </Popconfirm>
+              <Button
+                type="primary"
+                loading={mutation.isLoading}
+                style={{ width: "65%" }}
+                size="large"
+                ghost
+                // className="sticky bottom-3"
+                htmlType="submit">
+                ذخیره
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Spin>
     </Container>
   );
 }
