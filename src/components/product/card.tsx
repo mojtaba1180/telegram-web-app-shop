@@ -1,5 +1,5 @@
 /* eslint-disable object-curly-newline */
-import { useNavigate } from "react-router";
+import { Button } from "antd";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -10,21 +10,15 @@ interface Props {
   imageURL: string | [];
 }
 function Card({ url, title, price, quantity, imageURL }: Props) {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(url);
-  };
-
   return (
     <Link
       to={url}
       className=" flex h-[220px] w-full flex-col overflow-hidden  rounded-lg border-2 border-[var(--tg-theme-secondary-bg-color)]">
       <div
-        className=" ml-auto h-20 w-full  bg-[var(--tg-theme-secondary-bg-color)] bg-cover bg-no-repeat "
+        className=" ml-auto h-40 w-full  bg-[var(--tg-theme-secondary-bg-color)] bg-cover bg-no-repeat "
         style={{ backgroundImage: `url('${imageURL}')` }}
       />
-      <div className="flex w-full flex-col items-start justify-between p-2">
+      <div className="flex h-full w-full flex-col items-start justify-between gap-3 p-2">
         <div className="mb-1 ml-auto h-5 w-full select-none text-right ">
           {title}
         </div>
@@ -35,9 +29,12 @@ function Card({ url, title, price, quantity, imageURL }: Props) {
             </div>
             <div className="select-none text-sm">غذا</div>
           </div> */}
-          <div className="self-start text-right">قیمت :{price} تومان</div>
+          <div className="self-end text-right">قیمت :{price} تومان</div>
           {/* <div className="self-start text-left">تعداد :{quantity} عدد</div> */}
         </div>
+        <Button className="w-full self-end" type="default">
+          دیدن محصول
+        </Button>
       </div>
     </Link>
   );

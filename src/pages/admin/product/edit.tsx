@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable operator-linebreak */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable camelcase */
 import Container from "@components/container";
 import { useGetCategories } from "@framework/api/categories/get";
 import useAddProductImage from "@framework/api/photos-upload/add";
+import useDeleteProduct from "@framework/api/product/delete";
 import { useGetProductsById } from "@framework/api/product/get-by-id";
 import useUpdateProduct from "@framework/api/product/update";
 import { TypeProductPost } from "@framework/types";
@@ -14,6 +17,7 @@ import {
   Input,
   InputNumber,
   message,
+  Popconfirm,
   Spin
 } from "antd";
 import { useEffect, useState } from "react";
@@ -43,6 +47,7 @@ function Edit() {
   const mutationUploadPhotos = useAddProductImage();
   const [imageLinkList, setImageLinkList] = useState<Array<string>>([]);
   const [images, setImages] = useState([]);
+  const deleteMutation = useDeleteProduct();
   const onChangeImage = async (imageList) => {
     // data for submit
     imageList.length &&
@@ -86,6 +91,19 @@ function Edit() {
 
   const onChange = (value: any) => {
     console.log(value);
+  };
+  const handleDeleteProduct = () => {
+    deleteMutation.mutate(
+      { product_id, user_id: id },
+      {
+        onSuccess: (e) => {
+          message.success("محصول با موفقیت حذف شد ");
+        },
+        onError: () => {
+          message.error(" مشکلی در حذف این محصول رخ داد. دوباره تلاش کنید");
+        }
+      }
+    );
   };
 
   return (
@@ -154,27 +172,18 @@ function Edit() {
                 }}
               />
             </Form.Item>
-            {/* <Form.Item label="DatePicker">
-        <DatePicker />
-      </Form.Item>
-      <Form.Item label="RangePicker">
-        <RangePicker />
-      </Form.Item> */}
+
             <Form.Item label="قیمت (تومان) " required name="price">
               <InputNumber required type="number" />
             </Form.Item>
             <Form.Item label="تعداد موجودی" required name="quantity">
               <InputNumber required type="number" />
             </Form.Item>
-            {/* <Form.Item label="تعداد موجودی " name="stock">
-          <InputNumber type="number" />
-        </Form.Item> */}
+
             <Form.Item label="توضیحات" required name="description">
               <TextArea rows={4} />
             </Form.Item>
-            {/* <Form.Item label="Switch" valuePropName="checked">
-        <Switch />
-      </Form.Item> */}
+
             <Form.Item
               className="w-full"
               name="photos"
@@ -241,42 +250,31 @@ function Edit() {
                   </div>
                 )}
               </ImageUploading>
-              {/* <Upload
-            fileList={fileList}
-            accept="image/*"
-            onChange={handleOnChangeUploadFile}
-            multiple
-            showUploadList
-            beforeUpload={(e) => {
-              // const reader = new FileReader();
-              // reader.onload = (z) => {
-              //   console.log(z?.target.result);
-              // };
-              // console.log(reader.readAsText({ e }));
-              // return false;
-            }}
-            // customRequest={async (e) => {
-            //   // const file = await file2Base64(e.file);
-            //   console.log(e);
-            // }}
-            ref={uploadRef}
-            listType="picture-card">
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>افزودن</div>
-            </div>
-          </Upload> */}
             </Form.Item>
 
-            <Button
-              type="primary"
-              style={{ width: "100%" }}
-              size="large"
-              ghost
-              // className="sticky bottom-3"
-              htmlType="submit">
-              ذخیره
-            </Button>
+            <div className="flex gap-3">
+              <Popconfirm
+                placement="top"
+                title="حذف این محصول ؟"
+                onConfirm={() => handleDeleteProduct()}
+                okText="حذف"
+                okType="default"
+                cancelText="انصراف">
+                <Button size="large" style={{ width: "36%" }} danger>
+                  حذف این محصول
+                </Button>
+              </Popconfirm>
+              <Button
+                type="primary"
+                loading={mutation.isLoading}
+                style={{ width: "65%" }}
+                size="large"
+                ghost
+                // className="sticky bottom-3"
+                htmlType="submit">
+                ذخیره
+              </Button>
+            </div>
           </Form>
         )}
       </Spin>
