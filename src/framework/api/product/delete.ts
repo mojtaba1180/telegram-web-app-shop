@@ -9,7 +9,12 @@ const useDeleteProduct = () =>
   useMutation({
     mutationKey: ["delete-product"],
     mutationFn: ({ user_id, product_id }: TypeDeleteProduct) =>
-      Api.delete(`/products/${product_id}`)
+      Api.delete("/products", {
+        data: {
+          user_id: `${user_id}`,
+          product_id
+        }
+      })
   });
 
 export default useDeleteProduct;

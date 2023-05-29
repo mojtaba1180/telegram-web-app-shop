@@ -98,6 +98,7 @@ function Edit() {
       {
         onSuccess: (e) => {
           message.success("محصول با موفقیت حذف شد ");
+          navigate("/admin/products");
         },
         onError: () => {
           message.error(" مشکلی در حذف این محصول رخ داد. دوباره تلاش کنید");
@@ -260,7 +261,11 @@ function Edit() {
                 okText="حذف"
                 okType="default"
                 cancelText="انصراف">
-                <Button size="large" style={{ width: "36%" }} danger>
+                <Button
+                  size="large"
+                  loading={deleteMutation.isLoading}
+                  style={{ width: "36%" }}
+                  danger>
                   حذف این محصول
                 </Button>
               </Popconfirm>
