@@ -1,3 +1,7 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable operator-linebreak */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
@@ -7,7 +11,7 @@ import useAddOrder from "@framework/api/orders/add";
 import useAddReceiptPhotos from "@framework/api/receipt-photos/add";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { Alert, Button, Form, Input, message, Select } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ImageUploading from "react-images-uploading";
 import { useLocation, useNavigate } from "react-router";
 
@@ -42,14 +46,44 @@ function Checkout() {
   };
   const { data, isFetching, isLoading } = useGetAddresses(id);
   console.log(locState);
-  useEffect(() => {
-    if (!locState) {
-      navigate("/cart");
-    }
-  }, [locState]);
+  // useEffect(() => {
+  //   if (!locState) {
+  //     navigate("/cart");
+  //   }
+  // }, [locState]);
+  const personCart = {
+    name: "سینا صالحی",
+    cartNumber: "6219861065233172"
+  };
   return (
     <Container title="پرداخت سفارش و ثبت" backwardUrl={-1}>
       <div>
+        <Alert
+          message={
+            <div>
+              <div className="mb-2"> اطلاعات حساب برای واریز مبلغ</div>
+              <div className="flex flex-col items-center justify-center">
+                <div
+                  className="flex w-fit items-center justify-between gap-2 rounded-lg bg-white/10 px-3 py-1 "
+                  onClick={() => {
+                    navigator.clipboard.writeText(personCart.cartNumber);
+                    message.success("شماره کارت کپی شد ");
+                  }}>
+                  <div>شماره کارت : {personCart.cartNumber}</div>
+                  <Button>کپی</Button>
+                </div>
+                <br />
+                <span>
+                  نام صاحب حساب :
+                  <b className="mr-2 text-lg">{personCart.name}</b>
+                </span>
+              </div>
+            </div>
+          }
+          type="info"
+          showIcon
+        />
+        <br />
         <Alert
           message="آپلود عکس رسید پرداخت شده ضروری میباشد. بعد از اپلود میتوانید ثبت سفارش کنید"
           type="warning"
