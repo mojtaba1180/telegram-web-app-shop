@@ -42,7 +42,7 @@ export const routes = createBrowserRouter([
   { path: "/admin/categories/edit/:cat_id", element: <CategoriesEdit /> },
   // ## order
   { path: "/admin/orders", element: <AdminOrders /> },
-  { path: "/admin/orders/:id", element: <AdminOrdersSingle /> },
+  { path: "/admin/orders/:order_id", element: <AdminOrdersSingle /> },
   // user
   {
     path: "/products",
