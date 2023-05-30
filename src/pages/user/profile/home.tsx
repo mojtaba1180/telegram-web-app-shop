@@ -13,19 +13,19 @@ function UserProfileHome() {
   const BoxItem = [
     {
       title: "سفارش در حال انجام",
-      total: 1
+      total: 0
     },
     {
       title: "سفارش تکمیل شده",
-      total: 5
+      total: 0
     },
     {
       title: "سفارش در انتظار بررسی",
-      total: 2
+      total: 0
     },
     {
       title: "سفارش لغو شده",
-      total: 8
+      total: 0
     }
   ];
   return (
