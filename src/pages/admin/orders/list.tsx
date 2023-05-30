@@ -23,7 +23,6 @@ const columns: ColumnsType<DataType> = [
         to={`/admin/orders/${record.key}`}
         className="text-blue-[var(--tg-theme-button-color)]">
         {text}
-        {console.log(record)}
       </Link>
     )
   },
@@ -133,11 +132,12 @@ const columns: ColumnsType<DataType> = [
 // ];
 function AdminOrderList() {
   const { data, isLoading, isFetching } = useGetOrders();
+
   const orders = data?.orders || [];
   const dataChangingStructure: DataType[] =
     orders.map((item) => ({
       key: item.order_Id.toString(),
-      name: item.order_Status,
+      name: item.full_Address,
       status: item.order_Status,
       time: item.order_Date
     })) || [];
