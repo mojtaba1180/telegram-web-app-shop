@@ -7,6 +7,7 @@ import Api from "../utils/api-config";
 
 const fetch = async ({ queryKey }: any) => {
   const [_key, order_Id] = queryKey;
+  console.log("getttttt");
   const { data } = await Api.get(`/orders/${order_Id}`);
   return data as TypeSingleOrder;
 };

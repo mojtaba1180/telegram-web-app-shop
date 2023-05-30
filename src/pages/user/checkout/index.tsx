@@ -63,13 +63,23 @@ function Checkout() {
           style={{ maxWidth: 600 }}
           onFinish={(val) => {
             if (receiptPhoto) {
-              mutationOrder.mutate({
-                order_Description: val.order_Description,
-                shipping_Cost: locState.cart_id,
-                receipt_Photo_Path: receiptPhoto,
-                user_Address_Id: val.address,
-                user_Id: `${id}`
-              });
+              mutationOrder.mutate(
+                {
+                  order_Description: val.order_Description,
+                  shipping_Cost: locState.cart_id,
+                  receipt_Photo_Path: receiptPhoto,
+                  user_Address_Id: val.address,
+                  user_Id: `${id}`
+                },
+                {
+                  onSuccess: () => {
+                    message.success(
+                      "سفارش شما با موفقیت ثبت شد از حساب کار بری میتوانید سفارش خود را دنبال کنید."
+                    );
+                    navigate("/");
+                  }
+                }
+              );
             } else {
               message.error("لطفا عکس رسید پرداخت خود را وارد کنید.");
             }

@@ -82,7 +82,7 @@ export const routes = createBrowserRouter([
       },
       {
         index: true,
-        path: "order/:id",
+        path: "order/:order_id",
         element: <UserProfileOrderSingle />
       },
       {
