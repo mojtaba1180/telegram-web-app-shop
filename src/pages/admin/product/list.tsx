@@ -2,18 +2,14 @@
 /* eslint-disable object-curly-newline */
 import Container from "@components/container";
 import ProductLists from "@components/product/list";
-import ProductsSkeleton from "@components/skeleton/products";
-import { useGetProducts } from "@framework/api/product/get";
-import { Empty } from "antd";
-import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 function ProductList() {
   const navigate = useNavigate();
-  const { data, error, refetch, isLoading, isFetching } = useGetProducts({});
-  useEffect(() => {
-    refetch();
-  }, []);
+  // const { data, error, refetch, isLoading, isFetching } = useGetProducts({});
+  // useEffect(() => {
+  //   refetch();
+  // }, []);
 
   return (
     <Container
@@ -23,7 +19,7 @@ function ProductList() {
       customButtonTitle="افزودن"
       customButtonOnClick={() => navigate("/admin/products/add")}>
       {/* <Suspense fallback={<ProductsSkeleton />}> */}
-      {isLoading || isFetching ? (
+      {/* {isLoading || isFetching ? (
         <ProductsSkeleton />
       ) : error ? (
         <>مشکلی رخ داده</>
@@ -31,7 +27,9 @@ function ProductList() {
         <Empty description="اطلاعاتی موجود نیست" />
       ) : (
         <ProductLists pageType="admin" data={data} />
-      )}
+      )} */}
+      <ProductLists pageType="admin" />
+
       {/* </Suspense> */}
     </Container>
   );
