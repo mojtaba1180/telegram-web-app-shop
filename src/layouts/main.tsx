@@ -1,6 +1,4 @@
 /* eslint-disable indent */
-import useGetUserInfo from "@framework/api/user-information/get";
-import useTelegramUser from "@hooks/useTelegramUser";
 import { useThemeParams } from "@vkruglikov/react-telegram-web-app";
 import { ConfigProvider, theme } from "antd";
 import React from "react";
@@ -11,14 +9,19 @@ interface Props {
 
 function Main({ children }: Props) {
   const [colorScheme, themeParams] = useThemeParams();
-  const { id } = useTelegramUser();
-  const { data } = useGetUserInfo({ user_Id: id });
-
+  // const { id } = useTelegramUser();
+  // const { data } = useGetUserInfo({ user_Id: id });
+  const customizeRenderEmpty = () => (
+    <div style={{ textAlign: "center" }}>
+      <p>اطلاعاتی موجود نیست</p>
+    </div>
+  );
   return (
     <div className="app w-full py-1">
       <div className="w-full !max-w-[450px]">
         <ConfigProvider
           direction="rtl"
+          renderEmpty={customizeRenderEmpty}
           theme={
             themeParams.text_color
               ? {

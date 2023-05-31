@@ -1,5 +1,4 @@
 function ProductsSkeletonItem({ itemIndex }: { itemIndex: number }) {
-  console.log(itemIndex);
   return (
     <div
       style={{ animationDelay: `${itemIndex * 3}00ms` }}
