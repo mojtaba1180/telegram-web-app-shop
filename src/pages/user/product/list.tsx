@@ -6,6 +6,7 @@ import { Suspense } from "react";
 
 function ProductList() {
   const { data } = useGetProducts({});
+  console.log(data);
   return (
     <Container title="محصولات" backwardUrl="/">
       <Suspense fallback={<ProductsSkeleton />}>

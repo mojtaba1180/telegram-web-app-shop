@@ -4,6 +4,7 @@ import Container from "@components/container";
 import ProductLists from "@components/product/list";
 import ProductsSkeleton from "@components/skeleton/products";
 import { useGetProducts } from "@framework/api/product/get";
+import { Empty } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
@@ -26,6 +27,8 @@ function ProductList() {
         <ProductsSkeleton />
       ) : error ? (
         <>مشکلی رخ داده</>
+      ) : data?.products.length === 0 ? (
+        <Empty description="اطلاعاتی موجود نیست" />
       ) : (
         <ProductLists pageType="admin" data={data} />
       )}

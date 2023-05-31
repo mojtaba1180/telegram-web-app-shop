@@ -18,7 +18,7 @@ function Admin() {
       <Button onClick={() => navigate("/admin/categories")}>
         دسته بندی ها
       </Button>
-      <Button onClick={() => navigate("/admin/orders")}> سفارشات admin</Button>
+      <Button onClick={() => navigate("/admin/orders")}>سفارشات کاربران</Button>
     </div>
   );
 }

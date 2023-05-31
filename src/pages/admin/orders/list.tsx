@@ -143,7 +143,7 @@ function AdminOrderList() {
     })) || [];
 
   return (
-    <Container backwardUrl="/" title="لیست سفارشات">
+    <Container backwardUrl="/admin" title="لیست سفارشات">
       <Table
         columns={columns}
         loading={isLoading || isFetching}
