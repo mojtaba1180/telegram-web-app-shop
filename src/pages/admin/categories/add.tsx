@@ -44,6 +44,7 @@ function CategoriesAdd() {
                 navigate("/admin/categories");
               },
               onError: (err) => {
+                message.error("مشکلی رخ داده است لطفا دقایقی دیگر تلاش کنید");
                 console.log(err);
               }
             }
@@ -80,6 +81,7 @@ function CategoriesAdd() {
 
         <Button
           type="primary"
+          loading={mutation.isLoading}
           disabled={mutation.isLoading}
           style={{ width: "100%" }}
           size="large"

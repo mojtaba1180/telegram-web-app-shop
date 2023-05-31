@@ -54,9 +54,13 @@ function List() {
           message.success("دسته بندی حذف شد");
           refetch();
         },
-        onError: () => {
-          message.error("حذف با مشکل مواجه شد");
-          refetch();
+        onError: (err) => {
+          if (err.response.status !== 404) {
+            message.error("حذف با مشکل مواجه شد");
+            refetch();
+          } else {
+            window.location.reload();
+          }
         }
       }
     );
