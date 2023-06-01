@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
+    "@persian-tools/persian-tools": "^3.4.1",
     "@tanstack/react-query": "^4.29.7",
     "@vkruglikov/react-telegram-web-app": "^1.8.0",
     "antd": "^5.4.2",

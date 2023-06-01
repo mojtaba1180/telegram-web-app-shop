@@ -1,13 +1,19 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable radix */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable camelcase */
 /* eslint-disable object-curly-newline */
-import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  MinusOutlined,
+  PlusOutlined,
+  ShoppingCartOutlined
+} from "@ant-design/icons";
 import Container from "@components/container";
 import UserSingleProductSkeleton from "@components/skeleton/user-single-product";
 import useAddToCart from "@framework/api/cart/add";
 import { useGetProductsById } from "@framework/api/product/get-by-id";
 import useTelegramUser from "@hooks/useTelegramUser";
+import { addCommas } from "@persian-tools/persian-tools";
 import { Button, Carousel, InputNumber, Tabs, message } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
@@ -73,7 +79,10 @@ function ProductSingle() {
             </Carousel>
           </div>
           <div className=" my-6 text-right">{data?.product_Name}</div>
-          <div className="flex w-full justify-between">
+          <div className="flex w-full justify-end">
+            <div>قیمت :{data?.price && addCommas(data?.price)} تومان</div>
+          </div>
+          <div className="my-4 flex gap-2">
             <div className="flex w-44 items-center justify-center gap-2">
               <Button
                 htmlType="button"
@@ -106,15 +115,13 @@ function ProductSingle() {
                 <MinusOutlined />
               </Button>
             </div>
-            <div>قیمت : 1200000 تومان</div>
-          </div>
-          <div className="my-4">
             <Button
               className="w-full"
               loading={mutation.isLoading}
               onClick={handleAddToCart}
               size="large"
               type="primary"
+              icon={<ShoppingCartOutlined />}
               ghost>
               افزودن به سبد
             </Button>

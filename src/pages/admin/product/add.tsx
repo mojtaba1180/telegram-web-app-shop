@@ -55,6 +55,9 @@ function Add() {
                 ...imageLinkList,
                 `${import.meta.env.VITE_API_URL}/${e.data}`
               ]);
+            },
+            onError: () => {
+              message.error("افزودن عکس با مشکل مواجه شد");
             }
           }
         );
