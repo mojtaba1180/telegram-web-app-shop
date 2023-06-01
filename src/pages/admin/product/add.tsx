@@ -99,10 +99,9 @@ function Add() {
           quantity
         }: TypeProductPost) => {
           // const phs = photos.map((ph) => ph.data_url.split(",")[1])
-          // console.log(phs)
           mutation.mutate(
             {
-              category_ids: category_ids?.slice(-1) || [],
+              category_ids: [category_ids] || [],
               description,
               photos: imageLinkList || [],
               price,
@@ -196,7 +195,6 @@ function Add() {
             <Spin spinning />
           ) : (
             <ImageUploading
-              multiple
               value={images}
               onChange={onChangeImage}
               maxNumber={4}
