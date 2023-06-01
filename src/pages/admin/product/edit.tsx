@@ -10,15 +10,16 @@ import { useGetProductsById } from "@framework/api/product/get-by-id";
 import useUpdateProduct from "@framework/api/product/update";
 import { TypeProductPost } from "@framework/types";
 import useTelegramUser from "@hooks/useTelegramUser";
+import { numberToWords } from "@persian-tools/persian-tools";
 import {
   Button,
-  Cascader,
   Form,
   Input,
   InputNumber,
   message,
   Popconfirm,
-  Spin
+  Spin,
+  TreeSelect
 } from "antd";
 import { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
@@ -27,6 +28,7 @@ import { useNavigate, useParams } from "react-router";
 const { TextArea } = Input;
 function Edit() {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+  const [priceEnterd, setPriceEnterd] = useState<number>(0);
   const { product_id } = useParams();
   const {
     data: categoriesData,
@@ -95,9 +97,9 @@ function Edit() {
       setImageLinkList(productData?.photos);
     }
   }, [componentDisabled]);
-  console.log(imageLinkList);
+  // console.log(imageLinkList);
   const onChange = (value: any) => {
-    console.log(value);
+    // console.log(value);
   };
   const handleDeleteProduct = () => {
     deleteMutation.mutate(
@@ -165,7 +167,7 @@ function Edit() {
               <Input required />
             </Form.Item>
             <Form.Item name="category_ids" required label="دسته بندی">
-              <Cascader
+              {/* <Cascader
                 style={{ width: "100%" }}
                 options={categoriesData}
                 onChange={onChange}
@@ -178,14 +180,39 @@ function Edit() {
                   value: "category_Id",
                   children: "children"
                 }}
+              /> */}
+              <TreeSelect
+                showSearch
+                showCheckedStrategy="SHOW_PARENT"
+                treeData={categoriesData}
+                loading={isCatLoading || isCatFetching}
+                onChange={(e) => console.log(e)}
+                treeLine
+                style={{
+                  width: "100%"
+                }}
+                fieldNames={{
+                  label: "category_Name",
+                  value: "category_Id",
+                  key: "category_Id",
+                  children: "children"
+                }}
               />
             </Form.Item>
 
             <Form.Item label="قیمت (تومان) " required name="price">
-              <InputNumber required type="number" />
+              <InputNumber
+                required
+                onChange={(e) => setPriceEnterd(e || productData?.price)}
+                className="w-1/2"
+                type="number"
+              />
             </Form.Item>
+            <div className="-mt-4">
+              {numberToWords(priceEnterd)} <b>تومان</b>
+            </div>
             <Form.Item label="تعداد موجودی" required name="quantity">
-              <InputNumber required type="number" />
+              <InputNumber required type="number" className="w-1/2" />
             </Form.Item>
 
             <Form.Item label="توضیحات" required name="description">
@@ -237,13 +264,13 @@ function Edit() {
                       </div>
                       <div className="grid h-[240px] w-full grid-cols-2 grid-rows-2  gap-y-7 overflow-x-auto overflow-y-scroll  ">
                         {imageLinkList?.map((image, index) => (
-                          <div key={index} className=" h-24 w-36 rounded-lg">
+                          <div key={index} className=" h-36 w-36 rounded-lg">
                             <img
                               src={image}
                               alt=""
                               className="h-full w-full rounded-lg "
                             />
-                            <div className="flex justify-between gap-3">
+                            <div className="mt-2 flex justify-between gap-3">
                               <Button
                                 danger
                                 className="w-full"
@@ -277,7 +304,7 @@ function Edit() {
                   loading={deleteMutation.isLoading}
                   style={{ width: "36%" }}
                   danger>
-                  حذف این محصول
+                  حذف محصول
                 </Button>
               </Popconfirm>
               <Button
