@@ -143,7 +143,7 @@ function Edit() {
             }: TypeProductPost) => {
               mutation.mutate(
                 {
-                  category_ids: category_ids?.slice(-1) || [],
+                  category_ids: [category_ids] || [],
                   description,
                   photos: imageLinkList || [],
                   price,
