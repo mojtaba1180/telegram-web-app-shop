@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/jsx-one-expression-per-line */
+import { addCommas } from "@persian-tools/persian-tools";
 import { useNavigate } from "react-router";
 
 interface Props {
@@ -16,6 +19,7 @@ function ProductItem({ url, title, price, quantity, imageURL }: Props) {
   };
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       onClick={handleClick}
       className=" flex h-[120px] w-full overflow-hidden  rounded-lg border-2 border-[var(--tg-theme-secondary-bg-color)]">
@@ -30,8 +34,10 @@ function ProductItem({ url, title, price, quantity, imageURL }: Props) {
             </div>
             <div className="select-none text-sm">غذا</div>
           </div> */}
-          <div className="self-start text-left"> قیمت :{price} تومان</div>
-          <div className="self-start text-left">تعداد :{quantity} عدد</div>
+          <div className="self-end text-left">
+            قیمت :{addCommas(price)} تومان
+          </div>
+          <div className="self-end text-left">تعداد :{quantity} عدد</div>
         </div>
       </div>
       <div

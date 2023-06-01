@@ -2,10 +2,11 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-nested-ternary */
+import { SlidersOutlined } from "@ant-design/icons";
 import ProductsSkeleton from "@components/skeleton/products";
 import { useGetCategories } from "@framework/api/categories/get";
 import { useGetProducts } from "@framework/api/product/get";
-import { Cascader, Empty, Pagination } from "antd";
+import { Button, Divider, Empty, Pagination, TreeSelect } from "antd";
 import { useEffect, useState } from "react";
 
 import ProductItem from "./item";
@@ -35,33 +36,37 @@ function ProductList({ pageType }: Props) {
   }, [refetch, currentPage, categoryFilterId]);
   return (
     <div className="flex flex-col">
-      <div className="mb-10 flex flex-col items-end justify-center gap-2 ">
-        <span>فیلتر ها</span>
+      <div className=" flex flex-col items-end justify-center gap-2 ">
+        <Button icon={<SlidersOutlined />}>فیلتر ها</Button>
         <div className="w-1/2">
-          <Cascader
+          <TreeSelect
             loading={isCatLoading || isCatFetching}
             disabled={isCatLoading || isCatFetching}
             style={{ width: "100%" }}
-            options={catData}
+            treeData={catData}
+            treeLine
             placeholder="دسته بندی"
             fieldNames={{
               label: "category_Name",
               value: "category_Id",
               children: "children"
             }}
-            multiple={false}
-            changeOnSelect
+            dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+            showSearch
+            allowClear
             onChange={(e) => {
-              if (e) {
-                setCategoryFilterId(e.slice(-1)[0]);
-              } else {
-                setCategoryFilterId(undefined);
-              }
+              setCategoryFilterId(e);
+              // if (e) {
+              //   setCategoryFilterId(e.slice(-1)[0]);
+              // } else {
+              //   setCategoryFilterId(undefined);
+              // }
             }}
-            maxTagCount="responsive"
+            maxTagCount={1}
           />
         </div>
       </div>
+      <Divider />
       {/* <Suspense fallback={<ProductsSkeleton />}> */}
       {/* <ProductsSkeleton /> */}
       <div className="mb-10 flex flex-wrap gap-3">

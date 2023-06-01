@@ -32,10 +32,10 @@ function CategoriesEdit() {
     categories?.map((cat) => {
       if (cat.children && cat.category_Id === parseInt(cat_id, 10)) {
         // If category_Id matches parent_Id, remove the children
-        console.log({
-          ...cat,
-          disabled: true
-        });
+        // console.log({
+        //   ...cat,
+        //   disabled: true
+        // });
         return {
           ...cat,
           disabled: true
@@ -69,7 +69,7 @@ function CategoriesEdit() {
             }}
             className="flex  h-full flex-col items-stretch justify-start"
             onFinish={({ name, categories }: FromProps) => {
-              console.log(categories);
+              // console.log(categories);
               console.log({
                 user_id: `${id}`,
                 category_name: name,
