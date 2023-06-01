@@ -58,7 +58,7 @@ function ProductSingle() {
   const incriment = () => count < 100 && setcount(count + 1);
 
   return (
-    <Container title="نام محصول" backwardUrl={-1}>
+    <Container title={data?.product_Name || ""} backwardUrl={-1}>
       {isFetching || isLoading ? (
         <UserSingleProductSkeleton />
       ) : (
