@@ -58,10 +58,14 @@ function Edit() {
             onSuccess: (e) => {
               // console.log(`${import.meta.env.VITE_API_URL}/${e.data}`);
               // console.log("upload done");
-              setImageLinkList([
-                ...imageLinkList,
-                `${import.meta.env.VITE_API_URL}/${e.data}`
-              ]);
+              if (imageLinkList) {
+                setImageLinkList([
+                  ...imageLinkList,
+                  `${import.meta.env.VITE_API_URL}/${e.data}`
+                ]);
+              } else {
+                setImageLinkList([`${import.meta.env.VITE_API_URL}/${e.data}`]);
+              }
             }
           }
         );
@@ -88,7 +92,7 @@ function Edit() {
       setImageLinkList(productData?.photos);
     }
   }, [componentDisabled]);
-
+  console.log(imageLinkList);
   const onChange = (value: any) => {
     console.log(value);
   };
@@ -190,67 +194,71 @@ function Edit() {
               name="photos"
               label="عکس محصول"
               valuePropName="photos">
-              <ImageUploading
-                multiple
-                value={images}
-                onChange={onChangeImage}
-                maxNumber={4}
-                dataURLKey="data_url">
-                {({
-                  onImageUpload,
-                  onImageRemoveAll,
-                  onImageRemove,
-                  isDragging,
-                  dragProps
-                }) => (
-                  // write your building UI
-                  <div className="upload__image-wrapper flex flex-col">
-                    <div className="mb-5 flex h-[60px]  w-full">
-                      <button
-                        style={isDragging ? { color: "red" } : undefined}
-                        onClick={onImageUpload}
-                        type="button"
-                        className="h-full w-full border-[1px] border-dashed"
-                        {...dragProps}>
-                        افزودن عکس
-                      </button>
-                      &nbsp;
-                      <button
-                        className="h-full w-20 bg-red-600 "
-                        type="button"
-                        onClick={() => {
-                          onImageRemoveAll();
-                          setImageLinkList([]);
-                        }}>
-                        حذف همه
-                      </button>
-                    </div>
-                    <div className="grid h-[240px] w-full grid-cols-2 grid-rows-2  gap-y-7 overflow-x-auto overflow-y-scroll  ">
-                      {imageLinkList?.map((image, index) => (
-                        <div key={index} className=" h-24 w-36 rounded-lg">
-                          <img
-                            src={image}
-                            alt=""
-                            className="h-full w-full rounded-lg "
-                          />
-                          <div className="flex justify-between gap-3">
-                            <Button
-                              danger
-                              className="w-full"
-                              htmlType="button"
-                              onClick={() => {
-                                handleRemoveSingleImage(index);
-                                // onImageRemove(index)
-                              }}>
-                              حذف
-                            </Button>
+              {mutationUploadPhotos.isLoading ? (
+                <Spin spinning />
+              ) : (
+                <ImageUploading
+                  multiple
+                  value={images}
+                  onChange={onChangeImage}
+                  maxNumber={4}
+                  dataURLKey="data_url">
+                  {({
+                    onImageUpload,
+                    onImageRemoveAll,
+                    onImageRemove,
+                    isDragging,
+                    dragProps
+                  }) => (
+                    // write your building UI
+                    <div className="upload__image-wrapper flex flex-col">
+                      <div className="mb-5 flex h-[60px]  w-full">
+                        <button
+                          style={isDragging ? { color: "red" } : undefined}
+                          onClick={onImageUpload}
+                          type="button"
+                          className="h-full w-full border-[1px] border-dashed"
+                          {...dragProps}>
+                          افزودن عکس
+                        </button>
+                        &nbsp;
+                        <button
+                          className="h-full w-20 bg-red-600 "
+                          type="button"
+                          onClick={() => {
+                            onImageRemoveAll();
+                            setImageLinkList([]);
+                          }}>
+                          حذف همه
+                        </button>
+                      </div>
+                      <div className="grid h-[240px] w-full grid-cols-2 grid-rows-2  gap-y-7 overflow-x-auto overflow-y-scroll  ">
+                        {imageLinkList?.map((image, index) => (
+                          <div key={index} className=" h-24 w-36 rounded-lg">
+                            <img
+                              src={image}
+                              alt=""
+                              className="h-full w-full rounded-lg "
+                            />
+                            <div className="flex justify-between gap-3">
+                              <Button
+                                danger
+                                className="w-full"
+                                htmlType="button"
+                                onClick={() => {
+                                  handleRemoveSingleImage(index);
+                                  // onImageRemove(index)
+                                }}>
+                                حذف
+                              </Button>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </ImageUploading>
+                  )}
+                </ImageUploading>
+              )}
             </Form.Item>
 
             <div className="flex gap-3">
