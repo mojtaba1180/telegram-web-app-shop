@@ -228,7 +228,6 @@ function Edit() {
                 <Spin spinning />
               ) : (
                 <ImageUploading
-                  multiple
                   value={images}
                   onChange={onChangeImage}
                   maxNumber={4}
