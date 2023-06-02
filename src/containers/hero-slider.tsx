@@ -11,19 +11,12 @@ const contentStyle: React.CSSProperties = {
 
 function HeroSlider() {
   return (
-    <Carousel rootClassName="rounded-lg overflow-hidden  " autoplay>
-      <div>
-        <h3 style={contentStyle}>1</h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>2</h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>3</h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>4</h3>
-      </div>
+    <Carousel rootClassName="rounded-lg overflow-hidden" autoplay>
+      {[1, 2, 3].map((_, idx) => (
+        <div className="h-[160px] w-full">
+          <img src={`/images/slide-${_}.jpg`} alt="slider" />
+        </div>
+      ))}
     </Carousel>
   );
 }

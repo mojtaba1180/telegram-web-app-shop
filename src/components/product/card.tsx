@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable object-curly-newline */
-import { Button } from "antd";
+import { addCommas } from "@persian-tools/persian-tools";
+import { Button, Divider } from "antd";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -13,9 +15,9 @@ function Card({ url, title, price, quantity, imageURL }: Props) {
   return (
     <Link
       to={url}
-      className=" flex h-[220px] w-full flex-col overflow-hidden  rounded-lg border-2 border-[var(--tg-theme-secondary-bg-color)]">
+      className=" flex h-[280px] w-full  flex-col overflow-hidden  rounded-lg border-2 border-[var(--tg-theme-secondary-bg-color)]">
       <div
-        className=" ml-auto h-40 w-full  bg-[var(--tg-theme-secondary-bg-color)] bg-cover bg-no-repeat "
+        className=" ml-auto h-[280px] w-full  bg-[var(--tg-theme-secondary-bg-color)] bg-cover bg-no-repeat "
         style={{ backgroundImage: `url('${imageURL}')` }}
       />
       <div className="flex h-full w-full flex-col items-start justify-between gap-3 p-2">
@@ -29,7 +31,10 @@ function Card({ url, title, price, quantity, imageURL }: Props) {
             </div>
             <div className="select-none text-sm">غذا</div>
           </div> */}
-          <div className="self-end text-right">قیمت :{price} تومان</div>
+          <Divider className="my-0 py-0" />
+          <div className="flex gap-2 self-end text-right text-sm">
+            <span>تومان</span> <span> {addCommas(price || 0)}</span>
+          </div>
           {/* <div className="self-start text-left">تعداد :{quantity} عدد</div> */}
         </div>
         <Button className="w-full self-end" type="default">
