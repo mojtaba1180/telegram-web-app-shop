@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 function ProductSingle() {
-  const [count, setcount] = useState(1);
+  const [count, setCount] = useState(1);
   const { product_id } = useParams();
   const mutation = useAddToCart();
   const { id } = useTelegramUser();
@@ -54,8 +54,8 @@ function ProductSingle() {
     );
   };
 
-  const decriment = () => count > 1 && setcount(count - 1);
-  const incriment = () => count < 100 && setcount(count + 1);
+  const decriment = () => count > 1 && setCount(count - 1);
+  const incriment = () => count < 100 && setCount(count + 1);
 
   return (
     <Container title={data?.product_Name || ""} backwardUrl={-1}>
@@ -82,7 +82,7 @@ function ProductSingle() {
           <div className="flex w-full justify-end">
             <div>قیمت :{data?.price && addCommas(data?.price)} تومان</div>
           </div>
-          <div className="my-4 flex gap-2">
+          <div className="my-4 flex flex-col gap-2">
             <div className="flex w-44 items-center justify-center gap-2">
               <Button
                 htmlType="button"
@@ -100,7 +100,7 @@ function ProductSingle() {
                 maxLength={2}
                 onChange={(e) => {
                   if (e > 1 || e < 100) {
-                    setcount(e);
+                    setCount(e);
                   }
                 }}
                 defaultValue={count}
