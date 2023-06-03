@@ -34,7 +34,7 @@ function AddAddress() {
       {
         onSuccess: () => {
           message.success("آدرس شما با موفقیت ثبت شد");
-          navigate(-1);
+          setTimeout(() => navigate(-1), 1000);
         },
         onError: () => {
           message.error("مشکلی رخ داده است لطفا دوباره تلاش کنید");

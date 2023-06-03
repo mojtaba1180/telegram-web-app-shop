@@ -11,7 +11,7 @@ import useAddOrder from "@framework/api/orders/add";
 import useAddReceiptPhotos from "@framework/api/receipt-photos/add";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { Alert, Button, Form, Input, message, Select } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 import { useLocation, useNavigate } from "react-router";
 
@@ -35,6 +35,7 @@ function Checkout() {
             setImages(imageList);
             setReceiptPhoto(`${import.meta.env.VITE_API_URL}/${e.data}`);
           },
+
           onError: () => {
             message.error("در اپلود عکس مشکلی پیش آمده لطفا دوباره تلاش کنید!");
           }
@@ -44,13 +45,25 @@ function Checkout() {
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
-  const { data, isFetching, isLoading } = useGetAddresses(id);
+  const { data, error, refetch, isFetching, isLoading } = useGetAddresses(id);
   console.log(locState);
-  // useEffect(() => {
-  //   if (!locState) {
-  //     navigate("/cart");
-  //   }
-  // }, [locState]);
+  useEffect(() => {
+    if (!locState) {
+      navigate("/cart");
+    } else {
+      refetch();
+    }
+  }, [locState]);
+
+  useEffect(() => {
+    if (!data || !data?.addresses) {
+      navigate("/profile/address/add");
+      message.warning({
+        content: "باید قبل از پرداخت آدرس اضافه کنید ",
+        duration: 3
+      });
+    }
+  }, [data, error]);
   const personCart = {
     name: "سینا صالحی",
     cartNumber: "6219861065233172"
@@ -91,6 +104,7 @@ function Checkout() {
         />
 
         <Form
+          className="mt-5"
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}

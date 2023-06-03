@@ -1,5 +1,6 @@
 import { CheckSquareOutlined, EyeOutlined } from "@ant-design/icons";
 import Container from "@components/container";
+import { useGetOrders } from "@framework/api/orders/get";
 import { Button, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
@@ -55,84 +56,27 @@ const columns: ColumnsType<DataType> = [
     )
   }
 ];
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "4",
-    name: "Joe Black",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "5",
-    name: "Joe Black",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "6",
-    name: "Joe Black",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "7",
-    name: "Joe Black",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "8",
-    name: "Joe Black",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "9",
-    name: "Joe Black",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "10",
-    name: "Joe Black",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "11",
-    name: "Joe Black",
-    time: "12:22",
-    status: "درحال انجام"
-  },
-  {
-    key: "12",
-    name: "Joe Black",
-    time: "12:22",
-    status: "درحال انجام"
-  }
-];
+
 function AdminOrderList() {
+  const { data, isLoading, isFetching } = useGetOrders();
+
+  const orders = data?.orders || [];
+  const dataChangingStructure: DataType[] =
+    orders.map((item) => ({
+      key: item.order_Id.toString(),
+      name: item.full_Address,
+      status: item.order_Status,
+      time: item.order_Date
+    })) || [];
+
   return (
     <Container backwardUrl="/" title="لیست سفارشات">
-      <Table columns={columns} scroll={{ x: 400 }} dataSource={data} />
+      <Table
+        columns={columns}
+        loading={isLoading || isFetching}
+        scroll={{ x: 400 }}
+        dataSource={dataChangingStructure}
+      />
     </Container>
   );
 }

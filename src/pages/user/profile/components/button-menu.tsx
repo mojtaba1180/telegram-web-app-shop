@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-wrap-multilines */
 import {
-  SettingOutlined,
+  IdcardOutlined,
   UnorderedListOutlined,
   UserOutlined
 } from "@ant-design/icons";
@@ -30,7 +30,7 @@ function UserProfileButtonMenu() {
       <Link
         to="/profile/address"
         className="flex w-1/3 flex-col items-center justify-center gap-1 ">
-        <SettingOutlined /> آدرس ها
+        <IdcardOutlined /> آدرس ها
       </Link>
     </div>
   );
