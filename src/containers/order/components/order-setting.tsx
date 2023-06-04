@@ -1,6 +1,11 @@
+import { Order } from "@framework/types";
 import { Button, Divider, Segmented } from "antd";
 
-function OrderSetting() {
+interface Props {
+  orders: Order | undefined;
+}
+
+function OrderSetting({ orders }: Props) {
   return (
     <div>
       <Divider> تایین وضعیت سفارش</Divider>

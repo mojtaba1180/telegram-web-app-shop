@@ -1,44 +1,44 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable prettier/prettier */
 // eslint-disable-next-line object-curly-newline
 import { Order } from "@framework/types";
+import { addCommas } from "@persian-tools/persian-tools";
 import { Divider, List } from "antd";
 import { Link } from "react-router-dom";
 
 interface Props {
-  isLoading: boolean;
-  order: Order | undefined;
+  loading: boolean;
+  orders: Order | undefined;
 }
 
-function OrderList({ isLoading, order }: Props) {
-  // eslint-disable-next-line operator-linebreak
-  const orderItems = order?.order_Items || [];
+function OrderList({ loading, orders }: Props) {
   return (
     <>
       <List
-        className="demo-loadmore-list"
-        loading={isLoading}
+        loading={loading}
         itemLayout="horizontal"
         // loadMore={loadMore}
-        dataSource={orderItems}
+        dataSource={orders?.order_Items}
         renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
               title={
-                // eslint-disable-next-line react/jsx-wrap-multilines
                 <Link to={`/products/${item.product_Id}`}>
                   {item.product_Name}
                 </Link>
               }
             />
-            <div>{item.tag_Price}</div>
             <div>
-              {item.final_Price}
-              تومان
+              <span>{addCommas(item.tag_Price || 0)}</span> <span>تومان</span>
             </div>
           </List.Item>
         )}
       />
       <Divider> مجموع قیمت </Divider>
-      <div>{order?.total_Price}</div>
+      <div>
+        <span>{addCommas(orders?.total_Price || 0)}</span> <span>تومان</span>
+      </div>
     </>
   );
 }
