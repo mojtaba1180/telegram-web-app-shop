@@ -20,7 +20,7 @@ function UserProfileButtonMenu() {
         <UserOutlined /> پروفایل
       </Link>
       <Link
-        to="/profile/order"
+        to="/profile/orders"
         className="flex w-1/3 flex-col items-center justify-center gap-1 ">
         <UnorderedListOutlined /> سفارشات
       </Link>

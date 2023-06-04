@@ -44,6 +44,7 @@ export interface Order {
   shipping_cost: number;
   total_Price: number;
   order_Description: string;
+  user_Full_Name: string;
   receipt_Photo: string;
   order_Status: string;
   tracking_Code: string;

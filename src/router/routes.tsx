@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 // eslint-disable-next-line object-curly-newline
+import NotFoundPage from "@containers/404";
 import CategoriesAdd from "@pages/admin/categories/add";
 import {
   AdminHome,
@@ -77,12 +78,12 @@ export const routes = createBrowserRouter([
       },
       {
         index: true,
-        path: "order",
+        path: "orders",
         element: <UserProfileOrder />
       },
       {
         index: true,
-        path: "order/:order_id",
+        path: "orders/:order_id",
         element: <UserProfileOrderSingle />
       },
       {
@@ -101,5 +102,9 @@ export const routes = createBrowserRouter([
         element: <UserProfileEditAddresses />
       }
     ]
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />
   }
 ]);
