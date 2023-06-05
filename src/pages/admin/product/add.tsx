@@ -74,15 +74,7 @@ function Add() {
       setImageLinkList(arr);
     }
   };
-  // const uploadRef = useRef(null)
-  // const [fileList, setFileList] = useState<UploadFile[]>([
-  //   {
-  //     uid: "123",
-  //     name: "xxx.png",
-  //     status: "done",
-  //     url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-  //   }
-  // ])
+
   return (
     <Container backwardUrl={-1} title="افزودن محصول جدید">
       <Form
@@ -98,10 +90,12 @@ function Add() {
           product_name,
           quantity
         }: TypeProductPost) => {
-          // const phs = photos.map((ph) => ph.data_url.split(",")[1])
           mutation.mutate(
             {
-              category_ids: [category_ids] || [],
+              category_ids:
+                typeof category_ids === "number"
+                  ? [category_ids]
+                  : category_ids || [],
               description,
               photos: imageLinkList || [],
               price,
@@ -117,7 +111,7 @@ function Add() {
               },
               onError: (err) => {
                 // console.log(err)
-                message.error(err.response.data.title);
+                message.error(err?.response?.data?.title);
               }
             }
           );
