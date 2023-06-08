@@ -197,3 +197,18 @@ export interface TypeBotSetting {
   bot_settings: string;
   special: boolean;
 }
+
+export interface TypePostMaster {
+  user_Id: string;
+  name: string;
+  last_Name: string;
+  description: string;
+  photo_Path: string;
+}
+export interface TypeMasters {
+  id: string;
+  name: string;
+  last_Name: string;
+  description: string;
+  photo_Path: string;
+}

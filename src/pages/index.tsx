@@ -10,6 +10,10 @@ export { default as ProductAdd } from "./admin/product/add";
 export { default as ProductEdit } from "./admin/product/edit";
 export { default as AdminProductList } from "./admin/product/list";
 // Bot pages
+export { default as BotPanel } from "./bot/index";
+export { default as BotAddMasters } from "./bot/masters/add";
+export { default as BotEditMasters } from "./bot/masters/edit";
+export { default as BotMasters } from "./bot/masters/list";
 export { default as BotSetting } from "./bot/setting";
 export { default as HomePage } from "./home";
 // User pages

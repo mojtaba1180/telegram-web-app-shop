@@ -7,6 +7,10 @@ import {
   AdminOrders,
   AdminOrdersSingle,
   AdminProductList,
+  BotAddMasters,
+  BotEditMasters,
+  BotMasters,
+  BotPanel,
   BotSetting,
   Categories,
   CategoriesEdit,
@@ -103,6 +107,29 @@ export const routes = createBrowserRouter([
     path: "/bot-setting",
     element: <BotSetting />
   },
+  {
+    path: "/bot",
+    element: <BotPanel />,
+    children: [
+      {
+        path: "",
+        element: <BotSetting />
+      },
+      {
+        path: "masters",
+        element: <BotMasters />
+      },
+      {
+        path: "masters/add",
+        element: <BotAddMasters />
+      },
+      {
+        path: "masters/:master_id",
+        element: <BotEditMasters />
+      }
+    ]
+  },
+
   {
     path: "*",
     element: <NotFoundPage />
