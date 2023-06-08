@@ -24,6 +24,7 @@ function BotSetting() {
         ) : (
           <>
             <Form
+              disabled={mutation.isLoading}
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 20 }}
               layout="horizontal"
@@ -41,6 +42,13 @@ function BotSetting() {
                   {
                     onSuccess: () => {
                       message.success("تنظیمات با موفقیت ثبت شد.");
+                      refetch();
+                    },
+                    onError: () => {
+                      message.error(
+                        "ثبت با مشکل مواجه شد دقایقی دیگر تلاش کنید"
+                      );
+                      refetch();
                     }
                   }
                 );
@@ -65,6 +73,7 @@ function BotSetting() {
                 style={{ width: "100%" }}
                 size="large"
                 ghost
+                loading={mutation.isLoading}
                 // className="sticky bottom-3"
                 htmlType="submit">
                 ذخیره
