@@ -3,22 +3,12 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable camelcase */
 import Container from "@components/container";
-import { useGetCategories } from "@framework/api/categories/get";
-import useAddProductImage from "@framework/api/photos-upload/add";
-import useAddProduct from "@framework/api/product/add";
-import { TypeProductPost } from "@framework/types";
+import useAddMaster from "@framework/api/master/add";
+import useAddMasterImage from "@framework/api/photos-upload/add-master";
+import { TypePostMaster } from "@framework/types";
 import useTelegramUser from "@hooks/useTelegramUser";
-import { numberToWords } from "@persian-tools/persian-tools";
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Spin,
-  TreeSelect
-} from "antd";
-import { useEffect, useState } from "react";
+import { Button, Form, Input, message, Spin } from "antd";
+import { useState } from "react";
 import ImageUploading from "react-images-uploading";
 import { useNavigate } from "react-router";
 
@@ -26,22 +16,11 @@ const { TextArea } = Input;
 function Add() {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
   const [priceEnterd, setPriceEnterd] = useState<number>(0);
-
-  const {
-    data: categoriesData,
-    isLoading: isCatLoading,
-    refetch: catRefetch,
-    isFetching: isCatFetching
-  } = useGetCategories();
-  const mutation = useAddProduct();
-  const mutationUploadPhotos = useAddProductImage();
+  const mutation = useAddMaster();
+  const mutationUploadPhotos = useAddMasterImage();
   const { id } = useTelegramUser();
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  useEffect(() => {
-    catRefetch();
-  }, []);
-
   const [imageLinkList, setImageLinkList] = useState<Array<string>>([]);
   const [images, setImages] = useState([]);
   const onChangeImage = async (imageList) => {
@@ -76,38 +55,34 @@ function Add() {
   };
 
   return (
-    <Container backwardUrl={-1} title="افزودن محصول جدید">
+    <Container backwardUrl={-1} title="افزودن اساتید جدید">
       <Form
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 20 }}
         layout="horizontal"
         disabled={componentDisabled}
         onFinish={({
-          category_ids,
           description,
-          price,
-          photos,
-          product_name,
-          quantity
-        }: TypeProductPost) => {
+          last_Name,
+          name,
+          photo_Path,
+          user_Id
+        }: TypePostMaster) => {
+          console.log(imageLinkList.toString());
+
           mutation.mutate(
             {
-              category_ids:
-                typeof category_ids === "number"
-                  ? [category_ids]
-                  : category_ids || [],
               description,
-              photos: imageLinkList || [],
-              price,
-              product_name,
-              quantity,
-              user_id: id.toString()
+              last_Name,
+              name,
+              photo_Path: imageLinkList.toString() || "",
+              user_Id: id.toString()
             },
             {
               onSuccess: () => {
-                message.success(" محصول شما با موفقیت ثبت شد");
+                message.success(" استاد شما با موفقیت ثبت شد");
                 form.resetFields();
-                navigate("/admin/products");
+                navigate(-1);
               },
               onError: (err) => {
                 // console.log(err)
@@ -116,64 +91,12 @@ function Add() {
             }
           );
         }}>
-        <Form.Item name="product_name" required label="نام محصول">
+        <Form.Item name="name" required label="نام ">
           <Input required />
         </Form.Item>
-        <Form.Item name="category_ids" label="دسته بندی">
-          {/* <Cascader
-            style={{ width: "100%" }}
-            options={categoriesData}
-            multiple={false}
-            changeOnSelect
-            showSearch
-            maxTagCount="responsive"
-            loading={isCatLoading || isCatFetching}
-            fieldNames={{
-              label: "category_Name",
-              value: "category_Id",
-              children: "children"
-            }}
-          /> */}
-          <TreeSelect
-            showSearch
-            showCheckedStrategy="SHOW_PARENT"
-            treeData={categoriesData}
-            loading={isCatLoading || isCatFetching}
-            onChange={(e) => console.log(e)}
-            treeLine
-            style={{
-              width: "100%"
-            }}
-            fieldNames={{
-              label: "category_Name",
-              value: "category_Id",
-              key: "category_Id",
-              children: "children"
-            }}
-          />
+        <Form.Item name="last_Name" required label=" نام خانوادگی ">
+          <Input required />
         </Form.Item>
-        {/* <Form.Item label="DatePicker">
-        <DatePicker />
-      </Form.Item>
-      <Form.Item label="RangePicker">
-        <RangePicker />
-      </Form.Item> */}
-        <Form.Item label="قیمت (تومان) " required name="price">
-          <InputNumber
-            onChange={(e) => setPriceEnterd(e || 0)}
-            required
-            type="number"
-          />
-        </Form.Item>
-        <div className="-mt-4">
-          {numberToWords(priceEnterd)} <b>تومان</b>
-        </div>
-        <Form.Item label="تعداد موجودی" required name="quantity">
-          <InputNumber required type="number" />
-        </Form.Item>
-        {/* <Form.Item label="تعداد موجودی " name="stock">
-          <InputNumber type="number" />
-        </Form.Item> */}
         <Form.Item label="توضیحات" required name="description">
           <TextArea required rows={4} />
         </Form.Item>
@@ -183,7 +106,7 @@ function Add() {
         <Form.Item
           className="mb-14 w-full"
           name="photos"
-          label="عکس محصول"
+          label="عکس"
           valuePropName="photos">
           {mutationUploadPhotos.isLoading ? (
             <Spin spinning />
