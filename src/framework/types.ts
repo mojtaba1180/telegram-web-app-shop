@@ -168,3 +168,32 @@ export interface TypeDeleteAddressItem {
   user_id: string;
   address_id: string | number;
 }
+// Bot Setting
+export interface TypeUpdateBotSetting {
+  user_id: string;
+  welcome_message: string;
+  about_us: string;
+  contact_us: string;
+}
+
+export interface TypeBotSetting {
+  bot: null | string;
+  id: number;
+  owner_id: string;
+  owner_last_name: string;
+  owner_phone_number: string;
+  owner_national_code: string;
+  shop_name: string;
+  bot_username: string;
+  bot_token: string;
+  active: boolean;
+  welcome_message: string;
+  user_profile: string;
+  user_cart: string;
+  user_order: string;
+  admin_panel: string;
+  about_us: string;
+  contact_us: string;
+  bot_settings: string;
+  special: boolean;
+}
