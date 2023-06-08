@@ -7,6 +7,7 @@ import {
   AdminOrders,
   AdminOrdersSingle,
   AdminProductList,
+  BotSetting,
   Categories,
   CategoriesEdit,
   Checkout,
@@ -77,31 +78,30 @@ export const routes = createBrowserRouter([
         element: <UserProfileHome />
       },
       {
-        index: true,
         path: "orders",
         element: <UserProfileOrder />
       },
       {
-        index: true,
         path: "orders/:order_id",
         element: <UserProfileOrderSingle />
       },
       {
-        index: true,
         path: "address",
         element: <UserProfileAddresses />
       },
       {
-        index: true,
         path: "address/add",
         element: <UserProfileAddAddresses />
       },
       {
-        index: true,
         path: "address/:address_id",
         element: <UserProfileEditAddresses />
       }
     ]
+  },
+  {
+    path: "/bot-setting",
+    element: <BotSetting />
   },
   {
     path: "*",
