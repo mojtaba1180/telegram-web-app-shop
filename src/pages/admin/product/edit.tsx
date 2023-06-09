@@ -61,12 +61,9 @@ function Edit() {
               // console.log(`${import.meta.env.VITE_API_URL}/${e.data}`);
               // console.log("upload done");
               if (imageLinkList) {
-                setImageLinkList([
-                  ...imageLinkList,
-                  `${import.meta.env.VITE_API_URL}/${e.data}`
-                ]);
+                setImageLinkList([...imageLinkList, `${e.data}`]);
               } else {
-                setImageLinkList([`${import.meta.env.VITE_API_URL}/${e.data}`]);
+                setImageLinkList([`${e.data}`]);
               }
             },
             onError: () => {
@@ -268,7 +265,7 @@ function Edit() {
                         {imageLinkList?.map((image, index) => (
                           <div key={index} className=" h-36 w-36 rounded-lg">
                             <img
-                              src={image}
+                              src={`${import.meta.env.VITE_API_URL}/${image}`}
                               alt=""
                               className="h-full w-full rounded-lg "
                             />

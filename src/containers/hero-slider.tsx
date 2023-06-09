@@ -2,7 +2,7 @@ import { useGetSliders } from "@framework/api/slider/get";
 import { Carousel } from "antd";
 
 function HeroSlider() {
-  const { data, isFetching, isLoading } = useGetSliders();
+  const { data } = useGetSliders();
   return data?.length === 0 ? (
     <span />
   ) : (
@@ -10,7 +10,10 @@ function HeroSlider() {
       {data?.map((item, idx) => (
         <div className="h-[160px] w-full">
           <a href={item.url}>
-            <img src={item.photo_Path} alt="slider" />
+            <img
+              src={`${import.meta.env.VITE_API_URL}/${item.photo_Path}`}
+              alt="slider"
+            />
           </a>
         </div>
       ))}

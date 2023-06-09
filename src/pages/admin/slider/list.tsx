@@ -51,7 +51,10 @@ function list() {
       key: "name",
       render: (_, record) => (
         <div className="h-full w-14">
-          <img src={record.photo_Path} alt="slider" />
+          <img
+            src={`${import.meta.env.VITE_API_URL}/${record.photo_Path}`}
+            alt="slider"
+          />
         </div>
       )
     },
