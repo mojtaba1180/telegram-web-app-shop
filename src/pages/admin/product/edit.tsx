@@ -10,7 +10,6 @@ import { useGetProductsById } from "@framework/api/product/get-by-id";
 import useUpdateProduct from "@framework/api/product/update";
 import { TypeProductPost } from "@framework/types";
 import useTelegramUser from "@hooks/useTelegramUser";
-import { numberToWords } from "@persian-tools/persian-tools";
 import {
   Button,
   Form,
@@ -28,7 +27,7 @@ import { useNavigate, useParams } from "react-router";
 const { TextArea } = Input;
 function Edit() {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-  const [priceEnterd, setPriceEnterd] = useState<number>(0);
+  // const [priceEnterd, setPriceEnterd] = useState<number>(0);
   const { product_id } = useParams();
   const {
     data: categoriesData,
@@ -203,14 +202,14 @@ function Edit() {
             <Form.Item label="قیمت (تومان) " required name="price">
               <InputNumber
                 required
-                onChange={(e) => setPriceEnterd(e || productData?.price)}
+                // onChange={(e) => setPriceEnterd(e || productData?.price)}
                 className="w-1/2"
                 type="number"
               />
             </Form.Item>
-            <div className="-mt-4">
+            {/* <div className="-mt-4">
               {numberToWords(priceEnterd)} <b>تومان</b>
-            </div>
+            </div> */}
             <Form.Item label="تعداد موجودی" required name="quantity">
               <InputNumber required type="number" className="w-1/2" />
             </Form.Item>

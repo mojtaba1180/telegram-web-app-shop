@@ -8,7 +8,6 @@ import useAddProductImage from "@framework/api/photos-upload/add";
 import useAddProduct from "@framework/api/product/add";
 import { TypeProductPost } from "@framework/types";
 import useTelegramUser from "@hooks/useTelegramUser";
-import { numberToWords } from "@persian-tools/persian-tools";
 import {
   Button,
   Form,
@@ -25,7 +24,7 @@ import { useNavigate } from "react-router";
 const { TextArea } = Input;
 function Add() {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-  const [priceEnterd, setPriceEnterd] = useState<number>(0);
+  // const [priceEnterd, setPriceEnterd] = useState<number>(0);
 
   const {
     data: categoriesData,
@@ -155,16 +154,17 @@ function Add() {
       </Form.Item> */}
         <Form.Item label="قیمت (تومان) " required name="price">
           <InputNumber
-            onChange={(e) => setPriceEnterd(e || 0)}
+            // onChange={(e) => setPriceEnterd(e || 0)}
             required
+            className="w-1/2"
             type="number"
           />
         </Form.Item>
-        <div className="-mt-4">
+        {/* <div className="-mt-4">
           {numberToWords(priceEnterd)} <b>تومان</b>
-        </div>
+        </div> */}
         <Form.Item label="تعداد موجودی" required name="quantity">
-          <InputNumber required type="number" />
+          <InputNumber required type="number" className="w-1/2" />
         </Form.Item>
         {/* <Form.Item label="تعداد موجودی " name="stock">
           <InputNumber type="number" />
