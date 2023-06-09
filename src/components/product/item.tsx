@@ -9,9 +9,17 @@ interface Props {
   price: number;
   quantity: number;
   imageURL: string | Array<string>;
+  pageType: "admin" | "user";
 }
 
-function ProductItem({ url, title, price, quantity, imageURL }: Props) {
+function ProductItem({
+  url,
+  title,
+  price,
+  quantity,
+  imageURL,
+  pageType
+}: Props) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -37,7 +45,9 @@ function ProductItem({ url, title, price, quantity, imageURL }: Props) {
           <div className="self-end text-left">
             قیمت :{addCommas(price)} تومان
           </div>
-          <div className="self-end text-left">تعداد :{quantity} عدد</div>
+          {pageType === "admin" && (
+            <div className="self-end text-left">تعداد :{quantity} عدد</div>
+          )}
         </div>
       </div>
       <div

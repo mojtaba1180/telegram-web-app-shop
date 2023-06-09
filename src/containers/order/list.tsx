@@ -1,5 +1,6 @@
 import Container from "@components/container";
-import { useGetOrders } from "@framework/api/orders/get";
+import { useGetOrderByUser } from "@framework/api/orders/get-by-user";
+import useTelegramUser from "@hooks/useTelegramUser";
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "jalali-moment";
@@ -16,7 +17,8 @@ interface Props {
 }
 
 function OrderList({ type }: Props) {
-  const { data, isLoading, isFetching } = useGetOrders();
+  const { id } = useTelegramUser();
+  const { data, isLoading, isFetching } = useGetOrderByUser({ user_id: id });
 
   const orders = data?.orders || [];
   const dataChangingStructure: DataType[] =

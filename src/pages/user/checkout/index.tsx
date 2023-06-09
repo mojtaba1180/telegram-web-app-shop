@@ -33,7 +33,7 @@ function Checkout() {
         {
           onSuccess: (e) => {
             setImages(imageList);
-            setReceiptPhoto(`${import.meta.env.VITE_API_URL}/${e.data}`);
+            setReceiptPhoto(`${e.data}`);
           },
 
           onError: () => {

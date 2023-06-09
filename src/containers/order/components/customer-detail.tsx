@@ -19,7 +19,10 @@ function CustomerDetail({ orders }: Props) {
             <div className="flex w-full items-center justify-center">
               <img
                 className="h-fit min-h-[120px]"
-                src={orders?.receipt_Photo || ""}
+                src={
+                  `${import.meta.env.VITE_API_URL}/${orders?.receipt_Photo}` ||
+                  ""
+                }
                 alt="receipt-photo"
               />
             </div>
