@@ -18,7 +18,9 @@ function Card({ url, title, price, quantity, imageURL }: Props) {
       className=" flex h-[280px] w-full  flex-col overflow-hidden  rounded-lg border-2 border-[var(--tg-theme-secondary-bg-color)]">
       <div
         className=" ml-auto h-[280px] w-full  bg-[var(--tg-theme-secondary-bg-color)] bg-cover bg-no-repeat "
-        style={{ backgroundImage: `url('${imageURL}')` }}
+        style={{
+          backgroundImage: `url('${import.meta.env.VITE_API_URL}/${imageURL}')`
+        }}
       />
       <div className="flex h-full w-full flex-col items-start justify-between gap-3 p-2">
         <div className="mb-1 ml-auto h-5 w-full select-none text-right ">

@@ -42,7 +42,9 @@ function ProductItem({ url, title, price, quantity, imageURL }: Props) {
       </div>
       <div
         className=" ml-auto h-full w-1/3  bg-[var(--tg-theme-secondary-bg-color)] bg-cover"
-        style={{ backgroundImage: `url('${imageURL}')` }}
+        style={{
+          backgroundImage: `url('${import.meta.env.VITE_API_URL}/${imageURL}')`
+        }}
       />
     </div>
   );

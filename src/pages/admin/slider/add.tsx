@@ -30,12 +30,7 @@ function Add() {
           { photo_base64: i.data_url.split(",")[1] },
           {
             onSuccess: (e) => {
-              console.log(`${import.meta.env.VITE_API_URL}/${e.data}`);
-              console.log("upload done");
-              setImageLinkList([
-                ...imageLinkList,
-                `${import.meta.env.VITE_API_URL}/${e.data}`
-              ]);
+              setImageLinkList([...imageLinkList, `${e.data}`]);
             },
             onError: () => {
               message.error("افزودن عکس با مشکل مواجه شد");
@@ -138,7 +133,7 @@ function Add() {
                     {imageLinkList?.map((image, index) => (
                       <div key={index} className=" h-24 w-36 rounded-lg">
                         <img
-                          src={image}
+                          src={`${import.meta.env.VITE_API_URL}/${image}`}
                           alt=""
                           className="h-full w-full rounded-lg "
                         />

@@ -71,7 +71,7 @@ function ProductSingle() {
                 //   style={{ backgroundImage: `url("${img}")` }}
                 // />
                 <img
-                  src={img}
+                  src={`${import.meta.env.VITE_API_URL}/${img}`}
                   alt={data?.product_Name}
                   className="h-full w-full rounded-lg"
                 />
