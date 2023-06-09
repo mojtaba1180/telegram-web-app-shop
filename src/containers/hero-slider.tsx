@@ -1,3 +1,4 @@
+import { useGetSliders } from "@framework/api/slider/get";
 import { Carousel } from "antd";
 import React from "react";
 
@@ -10,11 +11,17 @@ const contentStyle: React.CSSProperties = {
 };
 
 function HeroSlider() {
-  return (
+  const { data, isFetching, isLoading } = useGetSliders();
+  console.log(data);
+  return data?.length === 0 ? (
+    <span />
+  ) : (
     <Carousel rootClassName="rounded-lg overflow-hidden" autoplay>
-      {[1, 2, 3].map((_, idx) => (
+      {data?.map((item, idx) => (
         <div className="h-[160px] w-full">
-          <img src={`/images/slide-${_}.jpg`} alt="slider" />
+          <a href={item.url}>
+            <img src={item.photo_Path} alt="slider" />
+          </a>
         </div>
       ))}
     </Carousel>

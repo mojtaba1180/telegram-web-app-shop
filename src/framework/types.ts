@@ -212,3 +212,13 @@ export interface TypeMasters {
   description: string;
   photo_Path: string;
 }
+export interface TypePostSlider {
+  photo_Path: string;
+  url: string;
+  user_Id: string;
+}
+export interface TypeSlider {
+  id: string;
+  photo_Path: string;
+  url: string;
+}

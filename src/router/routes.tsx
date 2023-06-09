@@ -3,10 +3,12 @@
 import NotFoundPage from "@containers/404";
 import CategoriesAdd from "@pages/admin/categories/add";
 import {
+  AdminAddSlider,
   AdminHome,
   AdminOrders,
   AdminOrdersSingle,
   AdminProductList,
+  AdminSlider,
   BotAddMasters,
   BotEditMasters,
   BotMasters,
@@ -49,6 +51,10 @@ export const routes = createBrowserRouter([
   // ## order
   { path: "/admin/orders", element: <AdminOrders /> },
   { path: "/admin/orders/:order_id", element: <AdminOrdersSingle /> },
+  // ## slider
+  { path: "/admin/slider", element: <AdminSlider /> },
+  { path: "/admin/slider/add", element: <AdminAddSlider /> },
+
   // user
   {
     path: "/products",
@@ -102,10 +108,6 @@ export const routes = createBrowserRouter([
         element: <UserProfileEditAddresses />
       }
     ]
-  },
-  {
-    path: "/bot-setting",
-    element: <BotSetting />
   },
   {
     path: "/bot",
