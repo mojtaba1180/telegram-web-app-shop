@@ -57,7 +57,7 @@ function Checkout() {
 
   useEffect(() => {
     if (!data || !data?.addresses) {
-      navigate("/profile/address/add");
+      // navigate("/profile/address/add");
       message.warning({
         content: "باید قبل از پرداخت آدرس اضافه کنید ",
         duration: 3
@@ -208,7 +208,7 @@ function Checkout() {
           </Form.Item>
 
           <Button
-            disabled={images.length === 0}
+            disabled={images.length === 0 && data?.addresses.length === 0}
             loading={mutationOrder.isLoading}
             type="default"
             className="w-full"

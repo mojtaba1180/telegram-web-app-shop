@@ -29,8 +29,14 @@ function OrderList({ loading, orders }: Props) {
                 </Link>
               }
             />
-            <div>
-              <span>{addCommas(item.tag_Price || 0)}</span> <span>تومان</span>
+
+            <div className="flex gap-3">
+              <div>
+                <span>{addCommas(item.quantity || 0)}</span> <span>عدد</span>
+              </div>
+              <div>
+                <span>{addCommas(item.tag_Price || 0)}</span> <span>تومان</span>
+              </div>
             </div>
           </List.Item>
         )}

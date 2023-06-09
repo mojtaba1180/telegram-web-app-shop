@@ -1,7 +1,7 @@
-import OrderList from "@containers/order/list";
+import OrderListAdmin from "@containers/order/list-admin";
 
 function AdminOrderList() {
-  return <OrderList type="admin" />;
+  return <OrderListAdmin />;
 }
 
 export default AdminOrderList;
