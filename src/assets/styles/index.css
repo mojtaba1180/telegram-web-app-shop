@@ -13,6 +13,14 @@
   --default-font: -apple-system, "Vazirmatn";
 }
 
+@font-face {
+  font-family: "iransans";
+  src: url("/fonts/IRANSansWeb(FaNum).ttf"),
+    url("/fonts/IRANSansWeb(FaNum).woff") format("woff"),
+    url("/fonts/IRANSansWeb(FaNum).woff2") format("woff2"),
+    url("/fonts/IRANSansWeb(FaNum).eot") format("eot");
+}
+
 /* button,
 [type="button"],
 [type="reset"],
@@ -24,7 +32,7 @@ body {
   margin: 0;
   padding: 20px 20px;
 
-  font-family: "Vazirmatn", sans-serif;
+  font-family: "iransans";
 
   background: var(--tg-theme-secondary-bg-color);
 
@@ -34,8 +42,10 @@ body {
 
 code,
 label,
-span {
-  font-family: "Vazirmatn", sans-serif;
+span,
+div,
+label {
+  font-family: "iransans";
 }
 
 .App-logo {
