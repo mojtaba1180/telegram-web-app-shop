@@ -14,7 +14,7 @@ import useAddToCart from "@framework/api/cart/add";
 import { useGetProductsById } from "@framework/api/product/get-by-id";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { addCommas } from "@persian-tools/persian-tools";
-import { Button, Carousel, InputNumber, Tabs, message } from "antd";
+import { Alert, Button, Carousel, InputNumber, Tabs, message } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
@@ -62,7 +62,10 @@ function ProductSingle() {
       {isFetching || isLoading ? (
         <UserSingleProductSkeleton />
       ) : (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-3">
+          {data?.quantity === 0 && (
+            <Alert message="این محصول ناموجود می باشد " type="error" showIcon />
+          )}
           <div className=" flex h-fit w-full items-center justify-center ">
             <Carousel className="h-full w-full" rootClassName="w-full h-full">
               {data?.photos?.map((img) => (
@@ -117,6 +120,7 @@ function ProductSingle() {
             </div>
             <Button
               className="w-full"
+              disabled={data?.quantity === 0}
               loading={mutation.isLoading}
               onClick={handleAddToCart}
               size="large"
