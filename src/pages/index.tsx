@@ -9,6 +9,9 @@ export { default as AdminOrdersSingle } from "./admin/orders/single";
 export { default as ProductAdd } from "./admin/product/add";
 export { default as ProductEdit } from "./admin/product/edit";
 export { default as AdminProductList } from "./admin/product/list";
+export { default as AdminAddSlider } from "./admin/slider/add";
+export { default as AdminSlider } from "./admin/slider/list";
+
 // Bot pages
 export { default as BotPanel } from "./bot/index";
 export { default as BotAddMasters } from "./bot/masters/add";
