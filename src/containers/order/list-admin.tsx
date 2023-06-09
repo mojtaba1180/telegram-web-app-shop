@@ -1,6 +1,5 @@
 import Container from "@components/container";
-import { useGetOrderByUser } from "@framework/api/orders/get-by-user";
-import useTelegramUser from "@hooks/useTelegramUser";
+import { useGetOrders } from "@framework/api/orders/get";
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "jalali-moment";
@@ -12,13 +11,9 @@ interface DataType {
   time: string;
   status: string;
 }
-interface Props {
-  type: "admin" | "user";
-}
 
-function OrderList({ type }: Props) {
-  const { id } = useTelegramUser();
-  const { data, isLoading, isFetching } = useGetOrderByUser({ user_id: id });
+function OrderListAdmin() {
+  const { data, isLoading, isFetching } = useGetOrders();
   const orders = data?.orders || [];
   const dataChangingStructure: DataType[] =
     orders.map((item) => ({
@@ -35,7 +30,7 @@ function OrderList({ type }: Props) {
       key: "name",
       render: (text, record) => (
         <Link
-          to={`/profile/orders/${record.key}`}
+          to={`/admin/orders/${record.key}`}
           className="text-blue-[var(--tg-theme-button-color)]">
           {text}
         </Link>
@@ -86,4 +81,4 @@ function OrderList({ type }: Props) {
   );
 }
 
-export default OrderList;
+export default OrderListAdmin;

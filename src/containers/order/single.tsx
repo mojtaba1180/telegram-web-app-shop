@@ -34,7 +34,7 @@ function OrdersSingle({ type }: Props) {
     }
   ];
   return (
-    <Container title="سفارش :name" backwardUrl={-1}>
+    <Container title="سفارش" backwardUrl={-1}>
       <Tabs items={type === "user" ? items.splice(0, 2) : items} />
     </Container>
   );

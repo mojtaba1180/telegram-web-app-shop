@@ -87,6 +87,7 @@ function ProductList({ pageType }: Props) {
                 imageURL={item.photo_path}
                 quantity={item.quantity}
                 product_Id={item.product_Id}
+                pageType={pageType}
                 url={
                   pageType === "admin"
                     ? `/admin/products/${item?.product_Id}`
