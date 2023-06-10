@@ -155,9 +155,13 @@ function Add() {
         <Form.Item label="قیمت (تومان) " required name="price">
           <InputNumber
             // onChange={(e) => setPriceEnterd(e || 0)}
+            formatter={(value) =>
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+            parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
             required
             className="w-1/2"
-            type="number"
+            // type="number"
           />
         </Form.Item>
         {/* <div className="-mt-4">
