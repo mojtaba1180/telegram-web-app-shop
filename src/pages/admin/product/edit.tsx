@@ -203,8 +203,11 @@ function Edit() {
               <InputNumber
                 required
                 // onChange={(e) => setPriceEnterd(e || productData?.price)}
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
                 className="w-1/2"
-                type="number"
               />
             </Form.Item>
             {/* <div className="-mt-4">
