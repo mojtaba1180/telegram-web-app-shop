@@ -98,15 +98,21 @@ function ProductSingle() {
               <InputNumber
                 controls={false}
                 className="text-center"
-                type="number"
+                min={1}
                 max={100}
-                maxLength={2}
+                maxLength={3}
                 onChange={(e) => {
-                  if (e > 1 || e < 100) {
+                  if (e >= 1) {
+                    console.log(e);
                     setCount(e);
                   }
                 }}
-                defaultValue={count}
+                onBlur={(e) => {
+                  if (e >= 1) {
+                    console.log(e);
+                    setCount(e);
+                  }
+                }}
                 value={count}
               />
               <Button
