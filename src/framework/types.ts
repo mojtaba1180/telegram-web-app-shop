@@ -222,3 +222,13 @@ export interface TypeSlider {
   photo_Path: string;
   url: string;
 }
+
+export interface TypePostDiscount {
+  user_id: string;
+  discount_type: string;
+  discount_value: number;
+  discount_start_date: string;
+  discount_end_date: string;
+  product_id: number;
+  category_id: number;
+}

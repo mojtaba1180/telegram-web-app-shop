@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 // Admin pages
 
+export { default as CategoriesAdd } from "./admin/categories/add";
 export { default as CategoriesEdit } from "./admin/categories/edit";
 export { default as Categories } from "./admin/categories/list";
 export { default as AdminHome } from "./admin/index";
@@ -11,7 +12,6 @@ export { default as ProductEdit } from "./admin/product/edit";
 export { default as AdminProductList } from "./admin/product/list";
 export { default as AdminAddSlider } from "./admin/slider/add";
 export { default as AdminSlider } from "./admin/slider/list";
-
 // Bot pages
 export { default as BotPanel } from "./bot/index";
 export { default as BotAddMasters } from "./bot/masters/add";

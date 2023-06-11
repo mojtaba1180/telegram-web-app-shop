@@ -48,6 +48,8 @@ function Edit() {
   const mutationUploadPhotos = useAddProductImage();
   const [imageLinkList, setImageLinkList] = useState<Array<string>>([]);
   const [images, setImages] = useState([]);
+  const [hasDiscount, sethasDiscount] = useState<boolean>(false);
+
   const deleteMutation = useDeleteProduct();
   const onChangeImage = async (imageList) => {
     // data for submit
@@ -118,55 +120,56 @@ function Edit() {
         {componentDisabled ? (
           <div className="h-screen" />
         ) : (
-          <Form
-            labelCol={{ span: 5 }}
-            wrapperCol={{ span: 20 }}
-            layout="horizontal"
-            initialValues={{
-              description: productData?.description,
-              product_name: productData?.product_Name,
-              price: productData?.price,
-              quantity: productData?.quantity,
-              category_ids: productData?.categoryIds
-            }}
-            disabled={componentDisabled}
-            onFinish={({
-              category_ids,
-              description,
-              price,
-              product_name,
-              quantity
-            }: TypeProductPost) => {
-              mutation.mutate(
-                {
-                  category_ids:
-                    typeof category_ids === "number"
-                      ? [category_ids]
-                      : category_ids || [],
-                  description,
-                  photos: imageLinkList || [],
-                  price,
-                  product_name,
-                  quantity,
-                  user_id: id.toString()
-                },
-                {
-                  onSuccess: () => {
-                    message.success(" محصول شما با موفقیت اپدیت شد");
-                    form.resetFields();
-                    navigate("/admin/products");
+          <>
+            <Form
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 20 }}
+              layout="horizontal"
+              initialValues={{
+                description: productData?.description,
+                product_name: productData?.product_Name,
+                price: productData?.price,
+                quantity: productData?.quantity,
+                category_ids: productData?.categoryIds
+              }}
+              disabled={componentDisabled}
+              onFinish={({
+                category_ids,
+                description,
+                price,
+                product_name,
+                quantity
+              }: TypeProductPost) => {
+                mutation.mutate(
+                  {
+                    category_ids:
+                      typeof category_ids === "number"
+                        ? [category_ids]
+                        : category_ids || [],
+                    description,
+                    photos: imageLinkList || [],
+                    price,
+                    product_name,
+                    quantity,
+                    user_id: id.toString()
                   },
-                  onError: (err) => {
-                    console.log(err);
+                  {
+                    onSuccess: () => {
+                      message.success(" محصول شما با موفقیت اپدیت شد");
+                      form.resetFields();
+                      navigate("/admin/products");
+                    },
+                    onError: (err) => {
+                      console.log(err);
+                    }
                   }
-                }
-              );
-            }}>
-            <Form.Item name="product_name" required label="نام محصول">
-              <Input required />
-            </Form.Item>
-            <Form.Item name="category_ids" required label="دسته بندی">
-              {/* <Cascader
+                );
+              }}>
+              <Form.Item name="product_name" required label="نام محصول">
+                <Input required />
+              </Form.Item>
+              <Form.Item name="category_ids" required label="دسته بندی">
+                {/* <Cascader
                 style={{ width: "100%" }}
                 options={categoriesData}
                 onChange={onChange}
@@ -180,146 +183,148 @@ function Edit() {
                   children: "children"
                 }}
               /> */}
-              <TreeSelect
-                showSearch
-                showCheckedStrategy="SHOW_PARENT"
-                treeData={categoriesData}
-                loading={isCatLoading || isCatFetching}
-                onChange={(e) => console.log(e)}
-                treeLine
-                style={{
-                  width: "100%"
-                }}
-                fieldNames={{
-                  label: "category_Name",
-                  value: "category_Id",
-                  key: "category_Id",
-                  children: "children"
-                }}
-              />
-            </Form.Item>
+                <TreeSelect
+                  showSearch
+                  showCheckedStrategy="SHOW_PARENT"
+                  treeData={categoriesData}
+                  loading={isCatLoading || isCatFetching}
+                  onChange={(e) => console.log(e)}
+                  treeLine
+                  style={{
+                    width: "100%"
+                  }}
+                  fieldNames={{
+                    label: "category_Name",
+                    value: "category_Id",
+                    key: "category_Id",
+                    children: "children"
+                  }}
+                />
+              </Form.Item>
 
-            <Form.Item label="قیمت (تومان) " required name="price">
-              <InputNumber
-                required
-                // onChange={(e) => setPriceEnterd(e || productData?.price)}
-                formatter={(value) =>
-                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
-                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                className="w-1/2"
-              />
-            </Form.Item>
-            {/* <div className="-mt-4">
+              <Form.Item label="قیمت (تومان) " required name="price">
+                <InputNumber
+                  required
+                  // onChange={(e) => setPriceEnterd(e || productData?.price)}
+                  formatter={(value) =>
+                    `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }
+                  parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                  className="w-1/2"
+                />
+              </Form.Item>
+              {/* <div className="-mt-4">
               {numberToWords(priceEnterd)} <b>تومان</b>
             </div> */}
-            <Form.Item label="تعداد موجودی" required name="quantity">
-              <InputNumber required type="number" className="w-1/2" />
-            </Form.Item>
+              <Form.Item label="تعداد موجودی" required name="quantity">
+                <InputNumber required type="number" className="w-1/2" />
+              </Form.Item>
 
-            <Form.Item label="توضیحات" required name="description">
-              <TextArea rows={4} />
-            </Form.Item>
+              <Form.Item label="توضیحات" required name="description">
+                <TextArea rows={4} />
+              </Form.Item>
 
-            <Form.Item
-              className="w-full"
-              name="photos"
-              label="عکس محصول"
-              valuePropName="photos">
-              {mutationUploadPhotos.isLoading ? (
-                <Spin spinning />
-              ) : (
-                <ImageUploading
-                  value={images}
-                  onChange={onChangeImage}
-                  maxNumber={4}
-                  dataURLKey="data_url">
-                  {({
-                    onImageUpload,
-                    onImageRemoveAll,
-                    onImageRemove,
-                    isDragging,
-                    dragProps
-                  }) => (
-                    // write your building UI
-                    <div className="upload__image-wrapper flex flex-col">
-                      <div className="mb-5 flex h-[60px]  w-full">
-                        <button
-                          style={isDragging ? { color: "red" } : undefined}
-                          onClick={onImageUpload}
-                          type="button"
-                          className="h-full w-full border-[1px] border-dashed"
-                          {...dragProps}>
-                          افزودن عکس
-                        </button>
-                        &nbsp;
-                        <button
-                          className="h-full w-20 bg-red-600 "
-                          type="button"
-                          onClick={() => {
-                            onImageRemoveAll();
-                            setImageLinkList([]);
-                          }}>
-                          حذف همه
-                        </button>
-                      </div>
-                      <div className="grid h-[240px] w-full grid-cols-2 grid-rows-2  gap-y-7 overflow-x-auto overflow-y-scroll  ">
-                        {imageLinkList?.map((image, index) => (
-                          <div key={index} className=" h-36 w-36 rounded-lg">
-                            <img
-                              src={`${import.meta.env.VITE_API_URL}/${image}`}
-                              alt=""
-                              className="h-full w-full rounded-lg "
-                            />
-                            <div className="mt-2 flex justify-between gap-3">
-                              <Button
-                                danger
-                                className="w-full"
-                                htmlType="button"
-                                onClick={() => {
-                                  handleRemoveSingleImage(index);
-                                  // onImageRemove(index)
-                                }}>
-                                حذف
-                              </Button>
+              <Form.Item
+                className="w-full"
+                name="photos"
+                label="عکس محصول"
+                valuePropName="photos">
+                {mutationUploadPhotos.isLoading ? (
+                  <Spin spinning />
+                ) : (
+                  <ImageUploading
+                    value={images}
+                    onChange={onChangeImage}
+                    maxNumber={4}
+                    dataURLKey="data_url">
+                    {({
+                      onImageUpload,
+                      onImageRemoveAll,
+                      onImageRemove,
+                      isDragging,
+                      dragProps
+                    }) => (
+                      // write your building UI
+                      <div className="upload__image-wrapper flex flex-col">
+                        <div className="mb-5 flex h-[60px]  w-full">
+                          <button
+                            style={isDragging ? { color: "red" } : undefined}
+                            onClick={onImageUpload}
+                            type="button"
+                            className="h-full w-full border-[1px] border-dashed"
+                            {...dragProps}>
+                            افزودن عکس
+                          </button>
+                          &nbsp;
+                          <button
+                            className="h-full w-20 bg-red-600 "
+                            type="button"
+                            onClick={() => {
+                              onImageRemoveAll();
+                              setImageLinkList([]);
+                            }}>
+                            حذف همه
+                          </button>
+                        </div>
+                        <div className="grid h-[240px] w-full grid-cols-2 grid-rows-2  gap-y-7 overflow-x-auto overflow-y-scroll  ">
+                          {imageLinkList?.map((image, index) => (
+                            <div key={index} className=" h-36 w-36 rounded-lg">
+                              <img
+                                src={`${import.meta.env.VITE_API_URL}/${image}`}
+                                alt=""
+                                className="h-full w-full rounded-lg "
+                              />
+                              <div className="mt-2 flex justify-between gap-3">
+                                <Button
+                                  danger
+                                  className="w-full"
+                                  htmlType="button"
+                                  onClick={() => {
+                                    handleRemoveSingleImage(index);
+                                    // onImageRemove(index)
+                                  }}>
+                                  حذف
+                                </Button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </ImageUploading>
-              )}
-            </Form.Item>
+                    )}
+                  </ImageUploading>
+                )}
+              </Form.Item>
 
-            <div className="flex gap-3">
-              <Popconfirm
-                placement="top"
-                title="حذف این محصول ؟"
-                onConfirm={() => handleDeleteProduct()}
-                okText="حذف"
-                okType="default"
-                cancelText="انصراف">
+              <div className="flex gap-3">
+                <Popconfirm
+                  placement="top"
+                  title="حذف این محصول ؟"
+                  onConfirm={() => handleDeleteProduct()}
+                  okText="حذف"
+                  okType="default"
+                  cancelText="انصراف">
+                  <Button
+                    size="large"
+                    loading={deleteMutation.isLoading}
+                    style={{ width: "36%" }}
+                    danger>
+                    حذف محصول
+                  </Button>
+                </Popconfirm>
                 <Button
+                  type="primary"
+                  loading={mutation.isLoading}
+                  style={{ width: "65%" }}
                   size="large"
-                  loading={deleteMutation.isLoading}
-                  style={{ width: "36%" }}
-                  danger>
-                  حذف محصول
+                  ghost
+                  // className="sticky bottom-3"
+                  htmlType="submit">
+                  ذخیره
                 </Button>
-              </Popconfirm>
-              <Button
-                type="primary"
-                loading={mutation.isLoading}
-                style={{ width: "65%" }}
-                size="large"
-                ghost
-                // className="sticky bottom-3"
-                htmlType="submit">
-                ذخیره
-              </Button>
-            </div>
-          </Form>
+              </div>
+            </Form>
+            {/* <Discount type="product" /> */}
+          </>
         )}
       </Spin>
     </Container>

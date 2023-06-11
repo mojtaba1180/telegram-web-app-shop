@@ -1,6 +1,8 @@
+/* eslint-disable camelcase */
 /* eslint-disable indent */
 import { useThemeParams } from "@vkruglikov/react-telegram-web-app";
 import { ConfigProvider, theme } from "antd";
+import fa_IR from "antd/lib/locale/fa_IR";
 import React from "react";
 
 interface Props {
@@ -21,6 +23,7 @@ function Main({ children }: Props) {
       <div className="w-full !max-w-[450px]">
         <ConfigProvider
           direction="rtl"
+          locale={fa_IR}
           renderEmpty={customizeRenderEmpty}
           theme={
             themeParams.text_color
