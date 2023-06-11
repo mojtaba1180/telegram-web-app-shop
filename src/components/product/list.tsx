@@ -6,7 +6,7 @@ import { SlidersOutlined } from "@ant-design/icons";
 import ProductsSkeleton from "@components/skeleton/products";
 import { useGetCategories } from "@framework/api/categories/get";
 import { useGetProducts } from "@framework/api/product/get";
-import { Button, Divider, Empty, Pagination, TreeSelect } from "antd";
+import { Button, Divider, Drawer, Empty, Pagination, TreeSelect } from "antd";
 import { useEffect, useState } from "react";
 
 import ProductItem from "./item";
@@ -16,6 +16,8 @@ interface Props {
   // data: TypeListProducts | undefined;
 }
 function ProductList({ pageType }: Props) {
+  const [open, setOpen] = useState(false);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [categoryFilterId, setCategoryFilterId] = useState<number | undefined>(
     undefined
@@ -33,38 +35,61 @@ function ProductList({ pageType }: Props) {
   } = useGetCategories();
   useEffect(() => {
     refetch();
-  }, [refetch, currentPage, categoryFilterId]);
+  }, [refetch, currentPage]);
   return (
     <div className="flex flex-col">
       <div className=" flex flex-col items-end justify-center gap-2 ">
-        <Button icon={<SlidersOutlined />}>فیلتر ها</Button>
-        <div className="w-1/2">
-          <TreeSelect
-            loading={isCatLoading || isCatFetching}
-            disabled={isCatLoading || isCatFetching}
-            style={{ width: "100%" }}
-            treeData={catData}
-            treeLine
-            placeholder="دسته بندی"
-            fieldNames={{
-              label: "category_Name",
-              value: "category_Id",
-              children: "children"
-            }}
-            dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
-            showSearch
-            allowClear
-            onChange={(e) => {
-              setCategoryFilterId(e);
-              // if (e) {
-              //   setCategoryFilterId(e.slice(-1)[0]);
-              // } else {
-              //   setCategoryFilterId(undefined);
-              // }
-            }}
-            maxTagCount={1}
-          />
-        </div>
+        <Button onClick={() => setOpen(true)} icon={<SlidersOutlined />}>
+          فیلتر ها
+        </Button>
+        <Drawer
+          title=" فیلتر ها"
+          placement="right"
+          onClose={() => setOpen(false)}
+          width="100%"
+          open={open}>
+          <div className="flex h-full w-full flex-col items-center justify-between">
+            <div className="w-full">
+              <TreeSelect
+                loading={isCatLoading || isCatFetching}
+                disabled={isCatLoading || isCatFetching}
+                style={{ width: "100%" }}
+                treeData={catData}
+                treeLine
+                placeholder="دسته بندی"
+                fieldNames={{
+                  label: "category_Name",
+                  value: "category_Id",
+                  children: "children"
+                }}
+                dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+                showSearch
+                allowClear
+                multiple
+                onChange={(e) => {
+                  setCategoryFilterId(e);
+
+                  // if (e) {
+                  //   setCategoryFilterId(e.slice(-1)[0]);
+                  // } else {
+                  //   setCategoryFilterId(undefined);
+                  // }
+                }}
+              />
+            </div>
+            {console.log(categoryFilterId)}
+            <Button
+              className="w-full"
+              onClick={() => {
+                refetch();
+                setOpen(false);
+              }}
+              size="large"
+              icon={<SlidersOutlined />}>
+              اعمال فیلتر
+            </Button>
+          </div>
+        </Drawer>
       </div>
       <Divider />
       {/* <Suspense fallback={<ProductsSkeleton />}> */}

@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 // eslint-disable-next-line object-curly-newline
 import NotFoundPage from "@containers/404";
-import CategoriesAdd from "@pages/admin/categories/add";
 import {
   AdminAddSlider,
   AdminHome,
@@ -15,6 +14,7 @@ import {
   BotPanel,
   BotSetting,
   Categories,
+  CategoriesAdd,
   CategoriesEdit,
   Checkout,
   HomePage,
