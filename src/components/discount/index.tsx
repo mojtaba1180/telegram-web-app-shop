@@ -111,7 +111,7 @@ function Discount({ type, id, data }: Props) {
         </Form.Item>
 
         <Form.Item name="discount_start_date" required label="از شروع">
-          <DatePicker disabledDate={disabledDate} />
+          <DatePicker />
         </Form.Item>
         <Form.Item name="discount_end_date" required label="تا پایان">
           <DatePicker disabledDate={disabledDate} />

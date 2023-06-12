@@ -35,7 +35,7 @@ function Edit() {
     isLoading: isCatLoading,
     refetch: catRefetch,
     isFetching: isCatFetching
-  } = useGetCategories();
+  } = useGetCategories({});
   const {
     data: productData,
     isLoading: isProductLoading,

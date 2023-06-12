@@ -31,7 +31,7 @@ function Add() {
     isLoading: isCatLoading,
     refetch: catRefetch,
     isFetching: isCatFetching
-  } = useGetCategories();
+  } = useGetCategories({});
   const mutation = useAddProduct();
   const mutationUploadPhotos = useAddProductImage();
   const { id } = useTelegramUser();
