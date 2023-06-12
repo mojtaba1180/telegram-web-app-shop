@@ -4,7 +4,10 @@ import { useGetProducts } from "@framework/api/product/get";
 import { Divider } from "antd";
 
 function ProductNews() {
-  const { data, isLoading, isFetching } = useGetProducts({ limit: 6 });
+  const { data, isLoading, isFetching } = useGetProducts({
+    limit: 6,
+    sortBy: "created_at"
+  });
   return (
     <div className="flex flex-col  gap-3">
       <div>محصولات جدید ما</div>
