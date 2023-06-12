@@ -5,7 +5,8 @@ import useTelegramUser from "@hooks/useTelegramUser";
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "jalali-moment";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 interface DataType {
   key: string;
@@ -21,7 +22,13 @@ interface Props {
 
 function OrderList({ type }: Props) {
   const { id } = useTelegramUser();
-  const { data, isLoading, isFetching } = useGetOrderByUser({ user_id: id });
+  const location = useLocation();
+  const { data, isLoading, isFetching, refetch } = useGetOrderByUser({
+    user_id: id
+  });
+  useEffect(() => {
+    refetch();
+  }, [refetch, location]);
   const orders = data?.orders || [];
   const dataChangingStructure: DataType[] =
     orders.map((item) => ({
