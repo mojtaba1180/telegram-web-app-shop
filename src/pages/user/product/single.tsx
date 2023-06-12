@@ -49,6 +49,9 @@ function ProductSingle() {
       {
         onSuccess: () => {
           message.success("محصول شما به سبد اضافه شد ");
+        },
+        onError: () => {
+          message.error("مشکل در افزودن کارت لطفا دقایقی دیگر تلاش کنید");
         }
       }
     );
@@ -56,9 +59,8 @@ function ProductSingle() {
 
   const decriment = () => count > 1 && setCount(count - 1);
   const incriment = () => count < 100 && setCount(count + 1);
-  const finalPrice =
-    data?.discountedPrice !== data?.price &&
-    100 - (data?.discountedPrice * 100) / data?.price;
+  const finalPrice = data?.discountedPrice !== data?.price;
+  100 - (data?.discountedPrice * 100) / data?.price;
   return (
     <Container title={data?.product_Name || ""} backwardUrl={-1}>
       {isFetching || isLoading ? (
