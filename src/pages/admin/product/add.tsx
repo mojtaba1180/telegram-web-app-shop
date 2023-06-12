@@ -174,7 +174,7 @@ function Add() {
           <InputNumber type="number" />
         </Form.Item> */}
         <Form.Item label="توضیحات" required name="description">
-          <TextArea required rows={4} />
+          <TextArea required rows={10} />
         </Form.Item>
         {/* <Form.Item label="Switch" valuePropName="checked">
         <Switch />

@@ -26,6 +26,7 @@ function ProductNews() {
               quantity={item.quantity}
               title={item.product_Name}
               url={`/products/${item.product_Id}`}
+              discountedPrice={item.discountedPrice}
             />
           ))
         )}

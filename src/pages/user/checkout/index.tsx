@@ -7,9 +7,11 @@
 /* eslint-disable no-undef */
 import Container from "@components/container";
 import { useGetAddresses } from "@framework/api/address/get";
+import { useGetCarts } from "@framework/api/cart/get";
 import useAddOrder from "@framework/api/orders/add";
 import useAddReceiptPhotos from "@framework/api/receipt-photos/add";
 import useTelegramUser from "@hooks/useTelegramUser";
+import { addCommas } from "@persian-tools/persian-tools";
 import { Alert, Button, Form, Input, message, Select } from "antd";
 import { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
@@ -23,6 +25,13 @@ function Checkout() {
   const navigate = useNavigate();
   const mutationPhotos = useAddReceiptPhotos();
   const mutationOrder = useAddOrder();
+
+  const {
+    data: CartData,
+    isFetching: CartFetching,
+    isLoading: CartLoading
+  } = useGetCarts(id);
+
   const onChangeImage = async (imageList) => {
     setImages(imageList);
     imageList.length &&
@@ -89,6 +98,14 @@ function Checkout() {
                 <span>
                   نام صاحب حساب :
                   <b className="mr-2 text-lg">{personCart.name}</b>
+                </span>
+                <br />
+
+                <span>
+                  مبلغ واریز:
+                  <b className="mr-2 text-lg">
+                    {addCommas(CartData?.totalPrice) || 0} تومان
+                  </b>
                 </span>
               </div>
             </div>

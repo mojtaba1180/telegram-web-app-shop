@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-nested-ternary */
-import { SlidersOutlined } from "@ant-design/icons";
+import { ReloadOutlined, SlidersOutlined } from "@ant-design/icons";
 import ProductsSkeleton from "@components/skeleton/products";
 import { useGetCategories } from "@framework/api/categories/get";
 import { useGetProducts } from "@framework/api/product/get";
@@ -77,7 +77,7 @@ function ProductList({ pageType }: Props) {
                 }}
               />
             </div>
-            {console.log(categoryFilterId)}
+
             <Button
               className="w-full"
               onClick={() => {
@@ -98,7 +98,12 @@ function ProductList({ pageType }: Props) {
         {isLoading || isFetching ? (
           <ProductsSkeleton />
         ) : error ? (
-          <>مشکلی رخ داده</>
+          <div className="flex w-full flex-col items-center justify-center gap-5">
+            مشکلی رخ داده
+            <Button onClick={() => refetch()} icon={<ReloadOutlined />}>
+              تلاش مجدد
+            </Button>
+          </div>
         ) : data?.products.length === 0 ? (
           <div className="flex w-full items-center justify-center">
             <Empty description="اطلاعاتی موجود نیست" />
@@ -112,6 +117,7 @@ function ProductList({ pageType }: Props) {
                 imageURL={item.photo_path}
                 quantity={item.quantity}
                 product_Id={item.product_Id}
+                discountedPrice={item.discountedPrice}
                 pageType={pageType}
                 url={
                   pageType === "admin"

@@ -6,6 +6,7 @@ import useClearCart from "@framework/api/cart/clear";
 import useDeleteCartItem from "@framework/api/cart/delete";
 import { useGetCarts } from "@framework/api/cart/get";
 import useTelegramUser from "@hooks/useTelegramUser";
+import { addCommas } from "@persian-tools/persian-tools";
 import { Button, List, message, Popconfirm } from "antd";
 import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -14,9 +15,9 @@ function Cart() {
   const clearCartMutation = useClearCart();
   const delCartItemMutation = useDeleteCartItem();
   const { id } = useTelegramUser();
+  const { data, isFetching, isLoading, refetch } = useGetCarts(id);
   const [openClearModal, setOpenClearModal] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const { data, isFetching, isLoading, refetch } = useGetCarts(id);
   const navigator = useNavigate();
   const location = useLocation();
 
@@ -25,6 +26,8 @@ function Cart() {
   }, [location, refetch]);
 
   const handleDeleteCartItem = (product_id: string | number) => {
+    setConfirmLoading(true);
+
     delCartItemMutation.mutate(
       {
         user_id: `${id}`,
@@ -33,9 +36,13 @@ function Cart() {
       {
         onSuccess: () => {
           message.success("حذف شد");
+          setConfirmLoading(false);
+          refetch();
         },
         onError: () => {
           message.error("مشکلی رخ داده. دوباره تلاش کنید");
+          setConfirmLoading(false);
+          refetch();
         }
       }
     );
@@ -87,7 +94,7 @@ function Cart() {
                     <div className="flex gap-3  ">
                       <div className="flex flex-row-reverse gap-2">
                         <span>تومان</span>
-                        <span>{item.price}</span>
+                        <span>{addCommas(item.discountedPrice)}</span>
                       </div>
                       <div>
                         <span>عدد</span>
@@ -138,7 +145,7 @@ function Cart() {
           <div>
             <p>
               <span>قیمت کل: </span>
-              <span>{data?.totalPrice} </span>
+              <span>{addCommas(data?.totalPrice)}</span>
               <span>تومان</span>
             </p>
           </div>

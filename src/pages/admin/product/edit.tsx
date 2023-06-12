@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable camelcase */
 import Container from "@components/container";
+import Discount from "@components/discount";
 import { useGetCategories } from "@framework/api/categories/get";
 import useAddProductImage from "@framework/api/photos-upload/add";
 import useDeleteProduct from "@framework/api/product/delete";
@@ -221,7 +222,7 @@ function Edit() {
               </Form.Item>
 
               <Form.Item label="توضیحات" required name="description">
-                <TextArea rows={4} />
+                <TextArea rows={10} />
               </Form.Item>
 
               <Form.Item
@@ -323,7 +324,11 @@ function Edit() {
                 </Button>
               </div>
             </Form>
-            {/* <Discount type="product" /> */}
+            <Discount
+              data={productData?.discount}
+              id={product_id}
+              type="product"
+            />
           </>
         )}
       </Spin>
