@@ -7,7 +7,7 @@ import Api from "../utils/api-config";
 
 interface Props {
   name?: string;
-  sortBy?: "product_name" | "";
+  sortBy?: "product_name" | "created_at";
   order?: "asc";
   limit?: number;
   page?: number;
