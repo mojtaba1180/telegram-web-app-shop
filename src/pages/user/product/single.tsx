@@ -56,7 +56,9 @@ function ProductSingle() {
 
   const decriment = () => count > 1 && setCount(count - 1);
   const incriment = () => count < 100 && setCount(count + 1);
-
+  const finalPrice =
+    data?.discountedPrice !== data?.price &&
+    100 - (data?.discountedPrice * 100) / data?.price;
   return (
     <Container title={data?.product_Name || ""} backwardUrl={-1}>
       {isFetching || isLoading ? (
@@ -82,8 +84,25 @@ function ProductSingle() {
             </Carousel>
           </div>
           <div className=" my-6 text-right">{data?.product_Name}</div>
-          <div className="flex w-full justify-end">
-            <div>قیمت :{data?.price && addCommas(data?.price)} تومان</div>
+          <div className="flex w-full flex-row-reverse items-center justify-start gap-3">
+            {finalPrice && (
+              <span className="rounded-lg  bg-red-700/50 p-2">
+                {finalPrice} %
+              </span>
+            )}
+
+            <div
+              className={`flex flex-row items-center gap-2 self-end text-right ${
+                finalPrice && " text-gray-500 line-through"
+              }`}>
+              <span>تومان</span> <span>{addCommas(data?.price) || 0}</span>
+            </div>
+            {finalPrice && (
+              <div className="flex flex-row items-center gap-2 self-end text-right">
+                <span>تومان</span>{" "}
+                <span>{addCommas(data?.discountedPrice) || 0}</span>
+              </div>
+            )}
           </div>
           <div className="my-4 flex flex-col gap-2">
             <div className="flex w-44 items-center justify-center gap-2">

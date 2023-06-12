@@ -73,6 +73,30 @@ export interface TypeSingleOrder {
   message: string;
   order: Order;
 }
+// discount
+export interface TypePostDiscount {
+  user_id: string;
+  discount_type: "percent" | "price";
+  discount_value: number;
+  discount_start_date: string;
+  discount_end_date: string;
+  product_id: number | null;
+  category_id: number | null;
+}
+export interface TypeDiscount {
+  category_Id: null;
+  discount_End_Date: string;
+  discount_Id: number;
+  discount_Start_Date: string;
+  discount_Type: "percent" | "price";
+  discount_Value: number;
+  product_Id: number;
+  discountedPrice: number;
+}
+export interface TypeUpdateDiscount extends TypePostDiscount {
+  discount_Id: number;
+}
+
 // Products
 
 export interface Product {
@@ -85,6 +109,7 @@ export interface Product {
   categoryIds: Array<number | string>;
   photo_path: string;
   updated_At: string;
+  discount: TypeDiscount | null;
 }
 export interface TypeListProducts {
   page: number;
@@ -221,14 +246,4 @@ export interface TypeSlider {
   id: string;
   photo_Path: string;
   url: string;
-}
-
-export interface TypePostDiscount {
-  user_id: string;
-  discount_type: string;
-  discount_value: number;
-  discount_start_date: string;
-  discount_end_date: string;
-  product_id: number;
-  category_id: number;
 }
