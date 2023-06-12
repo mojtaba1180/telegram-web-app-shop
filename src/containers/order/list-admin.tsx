@@ -1,5 +1,6 @@
 import Container from "@components/container";
 import { useGetOrders } from "@framework/api/orders/get";
+import { GetOrderStatus } from "@helpers/get-order-status";
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "jalali-moment";
@@ -7,9 +8,11 @@ import { Link } from "react-router-dom";
 
 interface DataType {
   key: string;
+  code: string;
   name: string;
   time: string;
   status: string;
+  tracking_code: string;
 }
 
 function OrderListAdmin() {
@@ -18,12 +21,19 @@ function OrderListAdmin() {
   const dataChangingStructure: DataType[] =
     orders.map((item) => ({
       key: item.order_Id.toString(),
+      code: item.order_Id.toString(),
       name: item.full_Address,
       status: item.order_Status,
-      time: item.order_Date
+      time: item.order_Date,
+      tracking_code: item.tracking_Code
     })) || [];
-
   const columns: ColumnsType<DataType> = [
+    {
+      title: "شماره سفارش",
+      dataIndex: "code",
+      key: "code",
+      render: (text, record) => <>{text}</>
+    },
     {
       title: "نام",
       dataIndex: "name",
@@ -41,7 +51,7 @@ function OrderListAdmin() {
       title: "وضعیت",
       dataIndex: "status",
       key: "status",
-      render: (text) => <p>{text}</p>
+      render: (text) => <p>{GetOrderStatus(text)}</p>
     },
     {
       title: "زمان",
@@ -50,23 +60,13 @@ function OrderListAdmin() {
       render: (text) => (
         <p>{moment(text).locale("fa").format("YYYY/MM/DD") || ""}</p>
       )
+    },
+    {
+      title: "کد رهگیری",
+      dataIndex: "tracking_code",
+      key: "tracking_code",
+      render: (text, record) => <p>{text || "ثبت نشده"}</p>
     }
-    // ,{
-    //   title: "عملیات",
-    //   key: "action",
-    //   fixed: "right",
-    //   width: 100,
-    //   render: (_, record) => (
-    //     <Space size="small">
-    //       <Button type="link" size="small">
-    //         <CheckSquareOutlined />
-    //       </Button>
-    //       <Button type="link" size="small">
-    //         <EyeOutlined />
-    //       </Button>
-    //     </Space>
-    //   )
-    // }
   ];
 
   return (

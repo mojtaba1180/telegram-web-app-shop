@@ -1,3 +1,26 @@
+// discount
+export interface TypePostDiscount {
+  user_id: string;
+  discount_type: "percent" | "price";
+  discount_value: number;
+  discount_start_date: string;
+  discount_end_date: string;
+  product_id: number | null;
+  category_id: number | null;
+}
+export interface TypeDiscount {
+  category_Id: null;
+  discount_End_Date: string;
+  discount_Id: number;
+  discount_Start_Date: string;
+  discount_Type: "percent" | "price";
+  discount_Value: number;
+  product_Id: number;
+  discountedPrice: number;
+}
+export interface TypeUpdateDiscount extends TypePostDiscount {
+  discount_Id: number;
+}
 export interface TypeUserInfo {
   user_Id: string;
   name: string;
@@ -14,6 +37,7 @@ export interface TypeCategories {
   category_Name: string | number;
   parent_Id: string | number;
   children: Array<TypeCategories>;
+  discount: TypeDiscount | null;
 }
 
 export interface TypePostCategories {
@@ -67,34 +91,17 @@ export interface TypeOrderPost {
   order_Description: string;
   receipt_Photo_Path: string;
 }
+
+export interface TypeUpdateOrder {
+  user_Id: string;
+  order_Status: string;
+  tracking_Code: string;
+}
 // order single page type
 export interface TypeSingleOrder {
   success: boolean;
   message: string;
   order: Order;
-}
-// discount
-export interface TypePostDiscount {
-  user_id: string;
-  discount_type: "percent" | "price";
-  discount_value: number;
-  discount_start_date: string;
-  discount_end_date: string;
-  product_id: number | null;
-  category_id: number | null;
-}
-export interface TypeDiscount {
-  category_Id: null;
-  discount_End_Date: string;
-  discount_Id: number;
-  discount_Start_Date: string;
-  discount_Type: "percent" | "price";
-  discount_Value: number;
-  product_Id: number;
-  discountedPrice: number;
-}
-export interface TypeUpdateDiscount extends TypePostDiscount {
-  discount_Id: number;
 }
 
 // Products

@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 const { confirm } = Modal;
 function List() {
-  const { data, error, isLoading, isFetching, refetch } = useGetCategories();
+  const { data, error, isLoading, isFetching, refetch } = useGetCategories({});
   const mutationDelete = useDeleteCategories();
   const { id } = useTelegramUser();
   const navigate = useNavigate();

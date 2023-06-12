@@ -35,7 +35,8 @@ function OrderList({ loading, orders }: Props) {
                 <span>{addCommas(item.quantity || 0)}</span> <span>عدد</span>
               </div>
               <div>
-                <span>{addCommas(item.tag_Price || 0)}</span> <span>تومان</span>
+                <span>{addCommas(item.final_Price || 0)}</span>{" "}
+                <span>تومان</span>
               </div>
             </div>
           </List.Item>

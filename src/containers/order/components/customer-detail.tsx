@@ -41,7 +41,12 @@ function CustomerDetail({ orders }: Props) {
           description={`${orders?.full_Address || ""}`}
         />
       </List.Item>
-
+      <List.Item>
+        <List.Item.Meta
+          title="کد رهگیری:"
+          description={<div>{orders?.tracking_Code || "ثبت نشده"}</div>}
+        />
+      </List.Item>
       <List.Item>
         <List.Item.Meta
           title="تاریخ سفارش:"

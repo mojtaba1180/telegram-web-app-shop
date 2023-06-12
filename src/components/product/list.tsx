@@ -24,7 +24,7 @@ function ProductList({ pageType }: Props) {
   );
 
   const { data, error, refetch, isLoading, isFetching } = useGetProducts({
-    limit: 15,
+    limit: 10,
     page: currentPage,
     categoryId: categoryFilterId
   });
@@ -32,7 +32,7 @@ function ProductList({ pageType }: Props) {
     data: catData,
     isLoading: isCatLoading,
     isFetching: isCatFetching
-  } = useGetCategories();
+  } = useGetCategories({});
   useEffect(() => {
     refetch();
   }, [refetch, currentPage]);
@@ -133,7 +133,7 @@ function ProductList({ pageType }: Props) {
       <Pagination
         defaultCurrent={currentPage}
         onChange={(e) => setCurrentPage(e)}
-        pageSize={15}
+        pageSize={10}
         total={data?.totalRows}
       />
       {/* </Suspense> */}
