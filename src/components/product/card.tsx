@@ -26,7 +26,7 @@ function Card({
     <Link
       to={url}
       className={`flex h-[300px] w-full ${
-        finalPrice && "border-red-700/30"
+        finalPrice && "border-red-700/70"
       }  flex-col overflow-hidden  rounded-lg border-2 border-[var(--tg-theme-secondary-bg-color)]`}>
       <div
         className=" relative ml-auto h-[280px] w-full  bg-[var(--tg-theme-secondary-bg-color)] bg-cover bg-no-repeat "
@@ -34,7 +34,7 @@ function Card({
           backgroundImage: `url('${import.meta.env.VITE_API_URL}/${imageURL}')`
         }}>
         {finalPrice && (
-          <span className="absolute right-0 top-0 rounded-bl-lg bg-red-700/50 p-2">
+          <span className="absolute right-0 top-0 rounded-bl-lg bg-red-700 p-2">
             {finalPrice} %
           </span>
         )}
