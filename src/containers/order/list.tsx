@@ -1,5 +1,6 @@
 import Container from "@components/container";
 import { useGetOrderByUser } from "@framework/api/orders/get-by-user";
+import { GetOrderStatus } from "@helpers/get-order-status";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
@@ -9,8 +10,10 @@ import { Link } from "react-router-dom";
 interface DataType {
   key: string;
   name: string;
+  code: string;
   time: string;
   status: string;
+  tracking_code: string;
 }
 interface Props {
   type: "admin" | "user";
@@ -23,12 +26,20 @@ function OrderList({ type }: Props) {
   const dataChangingStructure: DataType[] =
     orders.map((item) => ({
       key: item.order_Id.toString(),
+      code: item.order_Id.toString(),
       name: item.full_Address,
       status: item.order_Status,
-      time: item.order_Date
+      time: item.order_Date,
+      tracking_code: item.tracking_Code
     })) || [];
 
   const columns: ColumnsType<DataType> = [
+    {
+      title: "شماره سفارش",
+      dataIndex: "code",
+      key: "code",
+      render: (text, record) => <>{text}</>
+    },
     {
       title: "نام",
       dataIndex: "name",
@@ -46,7 +57,7 @@ function OrderList({ type }: Props) {
       title: "وضعیت",
       dataIndex: "status",
       key: "status",
-      render: (text) => <p>{text}</p>
+      render: (text) => <p>{GetOrderStatus(text)}</p>
     },
     {
       title: "زمان",
@@ -55,6 +66,12 @@ function OrderList({ type }: Props) {
       render: (text) => (
         <p>{moment(text).locale("fa").format("YYYY/MM/DD") || ""}</p>
       )
+    },
+    {
+      title: "کد رهگیری",
+      dataIndex: "tracking_code",
+      key: "tracking_code",
+      render: (text) => <p>{text || "ثبت نشده"}</p>
     }
     // ,{
     //   title: "عملیات",

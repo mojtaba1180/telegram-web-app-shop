@@ -91,6 +91,12 @@ export interface TypeOrderPost {
   order_Description: string;
   receipt_Photo_Path: string;
 }
+
+export interface TypeUpdateOrder {
+  user_Id: string;
+  order_Status: string;
+  tracking_Code: string;
+}
 // order single page type
 export interface TypeSingleOrder {
   success: boolean;
