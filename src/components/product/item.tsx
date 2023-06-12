@@ -35,7 +35,7 @@ function ProductItem({
     <div
       onClick={handleClick}
       className={` ${
-        finalPrice && "border-red-700/30"
+        finalPrice && "border-red-700/70"
       }  flex h-[120px] w-full overflow-hidden  rounded-lg border-2 border-[var(--tg-theme-secondary-bg-color)]`}>
       <div className="flex w-2/3 flex-col items-center justify-between p-2">
         <p className="mb-1 ml-auto h-5 w-full select-none text-right ">
@@ -70,7 +70,7 @@ function ProductItem({
           backgroundImage: `url('${import.meta.env.VITE_API_URL}/${imageURL}')`
         }}>
         {finalPrice && (
-          <span className="absolute right-0 top-0 rounded-bl-lg bg-red-700/50 p-2">
+          <span className="absolute right-0 top-0 rounded-bl-lg bg-red-700 p-2">
             {finalPrice} %
           </span>
         )}
