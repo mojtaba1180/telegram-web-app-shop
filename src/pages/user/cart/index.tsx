@@ -25,6 +25,8 @@ function Cart() {
   }, [location, refetch]);
 
   const handleDeleteCartItem = (product_id: string | number) => {
+    setConfirmLoading(true);
+
     delCartItemMutation.mutate(
       {
         user_id: `${id}`,
@@ -33,9 +35,13 @@ function Cart() {
       {
         onSuccess: () => {
           message.success("حذف شد");
+          setConfirmLoading(false);
+          refetch();
         },
         onError: () => {
           message.error("مشکلی رخ داده. دوباره تلاش کنید");
+          setConfirmLoading(false);
+          refetch();
         }
       }
     );
