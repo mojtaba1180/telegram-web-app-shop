@@ -7,8 +7,8 @@ import Api from "../utils/api-config";
 
 interface Props {
   name?: string;
-  sortBy?: "product_name" | "created_at";
-  order?: "asc";
+  sortBy?: "Product_Name" | "Updated_At" | "Price";
+  order?: "asc" | "desc";
   limit?: number;
   page?: number;
   categoryId?: number;
@@ -32,9 +32,9 @@ export const useGetProducts = ({
   categoryId,
   limit = 10,
   name,
-  order = "asc",
+  order,
   page = 1,
-  sortBy
+  sortBy = "Price"
 }: Props) =>
   useQuery<TypeListProducts>(
     ["products", categoryId, limit, name, order, page, sortBy],

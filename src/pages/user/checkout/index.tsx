@@ -46,7 +46,7 @@ function Checkout() {
           },
 
           onError: () => {
-            message.error("در اپلود عکس مشکلی پیش آمده لطفا دوباره تلاش کنید!");
+            message.error("در آپلود عکس مشکلی پیش آمده لطفا دوباره تلاش کنید!");
           }
         }
       );
@@ -96,15 +96,15 @@ function Checkout() {
                 </div>
                 <br />
                 <span>
-                  نام صاحب حساب :
+                  به نام:
                   <b className="mr-2 text-lg">{personCart.name}</b>
                 </span>
                 <br />
 
                 <span>
                   مبلغ واریز:
-                  <b className="mr-2 text-lg">
-                    {addCommas(CartData?.totalPrice) || 0} تومان
+                  <b className="mr-2 gap-3 text-lg">
+                    {addCommas(CartData?.totalPrice) || 0} <span>تومان</span>
                   </b>
                 </span>
               </div>
@@ -115,7 +115,7 @@ function Checkout() {
         />
         <br />
         <Alert
-          message="آپلود عکس رسید پرداخت شده ضروری میباشد. بعد از اپلود میتوانید ثبت سفارش کنید"
+          message="آپلود عکس رسید پرداخت شده ضروری میباشد. بعد از آپلود میتوانید ثبت سفارش کنید"
           type="warning"
           showIcon
         />
