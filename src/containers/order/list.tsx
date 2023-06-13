@@ -2,6 +2,7 @@ import Container from "@components/container";
 import { useGetOrderByUser } from "@framework/api/orders/get-by-user";
 import { GetOrderStatus } from "@helpers/get-order-status";
 import useTelegramUser from "@hooks/useTelegramUser";
+import { addCommas } from "@persian-tools/persian-tools";
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "jalali-moment";
