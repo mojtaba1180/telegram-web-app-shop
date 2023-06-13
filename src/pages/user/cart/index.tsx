@@ -93,15 +93,24 @@ function Cart() {
                     </div>
                   }
                   description={
-                    <div className="flex gap-3  ">
+                    <div className="flex flex-col gap-3  ">
                       <div className="flex flex-row gap-1">
                         <span>تومان</span>
                         <span>{addCommas(item.discountedPrice)}</span>
+                        <span>: قیمت واحد</span>
                       </div>
-                      |
                       <div className="flex gap-1">
                         <span>عدد</span>
                         <span>{item.quantity}</span>
+                        <span>: تعداد</span>
+                      </div>
+
+                      <div className="flex flex-row gap-1">
+                        <span>تومان</span>
+                        <span>
+                          {addCommas(item.discountedPrice * item.quantity)}
+                        </span>
+                        <span>: قیمت کل</span>
                       </div>
                     </div>
                   }
