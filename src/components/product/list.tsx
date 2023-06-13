@@ -58,6 +58,7 @@ function ProductList({ pageType }: Props) {
       <div className=" flex flex-col items-end justify-center gap-2 ">
         <Input.Search
           loading={isLoading || isFetching}
+          allowClear
           onSearch={(e) => {
             setSearch(e);
             refetch();

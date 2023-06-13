@@ -55,7 +55,7 @@ function Checkout() {
     console.log("Failed:", errorInfo);
   };
   const { data, error, refetch, isFetching, isLoading } = useGetAddresses(id);
-  console.log(locState);
+
   useEffect(() => {
     if (!locState) {
       navigate("/cart");
@@ -131,7 +131,7 @@ function Checkout() {
               mutationOrder.mutate(
                 {
                   order_Description: val.order_Description,
-                  shipping_Cost: locState.cart_id,
+                  shipping_Cost: 0,
                   receipt_Photo_Path: receiptPhoto,
                   user_Address_Id: val.address,
                   user_Id: `${id}`
