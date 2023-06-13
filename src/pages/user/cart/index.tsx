@@ -57,11 +57,13 @@ function Cart() {
         onSuccess: () => {
           message.success("سبد شما خالی شد ");
           setConfirmLoading(false);
+          setOpenClearModal(false);
           refetch();
         },
         onError: () => {
           message.error("مشکلی رخ داده. دوباره تلاش کنید");
           setConfirmLoading(false);
+          setOpenClearModal(false);
           refetch();
         }
       }
@@ -91,14 +93,24 @@ function Cart() {
                     </div>
                   }
                   description={
-                    <div className="flex gap-3  ">
-                      <div className="flex flex-row-reverse gap-2">
+                    <div className="flex flex-col gap-3  ">
+                      <div className="flex flex-row gap-1">
                         <span>تومان</span>
                         <span>{addCommas(item.discountedPrice)}</span>
+                        <span>: قیمت واحد</span>
                       </div>
-                      <div>
+                      <div className="flex gap-1">
                         <span>عدد</span>
                         <span>{item.quantity}</span>
+                        <span>: تعداد</span>
+                      </div>
+
+                      <div className="flex flex-row gap-1">
+                        <span>تومان</span>
+                        <span>
+                          {addCommas(item.discountedPrice * item.quantity)}
+                        </span>
+                        <span>: قیمت کل</span>
                       </div>
                     </div>
                   }
@@ -143,8 +155,8 @@ function Cart() {
         </div>
         <div className="flex flex-col gap-5  rounded-lg bg-[var(--tg-theme-secondary-bg-color)] p-3 transition-all">
           <div>
-            <p>
-              <span>قیمت کل: </span>
+            <p className="flex w-full flex-row-reverse items-center justify-center gap-2">
+              <span>قیمت کل </span>
               <span>{addCommas(data?.totalPrice)}</span>
               <span>تومان</span>
             </p>

@@ -46,7 +46,7 @@ function Checkout() {
           },
 
           onError: () => {
-            message.error("در اپلود عکس مشکلی پیش آمده لطفا دوباره تلاش کنید!");
+            message.error("در آپلود عکس مشکلی پیش آمده لطفا دوباره تلاش کنید!");
           }
         }
       );
@@ -55,7 +55,7 @@ function Checkout() {
     console.log("Failed:", errorInfo);
   };
   const { data, error, refetch, isFetching, isLoading } = useGetAddresses(id);
-  console.log(locState);
+
   useEffect(() => {
     if (!locState) {
       navigate("/cart");
@@ -96,15 +96,15 @@ function Checkout() {
                 </div>
                 <br />
                 <span>
-                  نام صاحب حساب :
+                  به نام:
                   <b className="mr-2 text-lg">{personCart.name}</b>
                 </span>
                 <br />
 
                 <span>
                   مبلغ واریز:
-                  <b className="mr-2 text-lg">
-                    {addCommas(CartData?.totalPrice) || 0} تومان
+                  <b className="mr-2 gap-3 text-lg">
+                    {addCommas(CartData?.totalPrice) || 0} <span>تومان</span>
                   </b>
                 </span>
               </div>
@@ -115,7 +115,7 @@ function Checkout() {
         />
         <br />
         <Alert
-          message="آپلود عکس رسید پرداخت شده ضروری میباشد. بعد از اپلود میتوانید ثبت سفارش کنید"
+          message="آپلود عکس رسید پرداخت شده ضروری میباشد. بعد از آپلود میتوانید ثبت سفارش کنید"
           type="warning"
           showIcon
         />
@@ -131,7 +131,7 @@ function Checkout() {
               mutationOrder.mutate(
                 {
                   order_Description: val.order_Description,
-                  shipping_Cost: locState.cart_id,
+                  shipping_Cost: 0,
                   receipt_Photo_Path: receiptPhoto,
                   user_Address_Id: val.address,
                   user_Id: `${id}`
@@ -139,7 +139,7 @@ function Checkout() {
                 {
                   onSuccess: () => {
                     message.success(
-                      "سفارش شما با موفقیت ثبت شد از حساب کار بری میتوانید سفارش خود را دنبال کنید."
+                      "سفارش شما با موفقیت ثبت شد از حساب کاربری میتوانید سفارش خود را دنبال کنید."
                     );
                     navigate("/");
                   }
