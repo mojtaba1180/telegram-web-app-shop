@@ -1,6 +1,7 @@
 import Container from "@components/container";
 import { useGetOrders } from "@framework/api/orders/get";
 import { GetOrderStatus } from "@helpers/get-order-status";
+import { addCommas } from "@persian-tools/persian-tools";
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "jalali-moment";
@@ -22,20 +23,29 @@ function OrderListAdmin() {
     orders.map((item) => ({
       key: item.order_Id.toString(),
       code: item.order_Id.toString(),
-      name: item.full_Address,
+      name: item.user_Full_Name,
+      price: item.total_Price,
       status: item.order_Status,
       time: item.order_Date,
       tracking_code: item.tracking_Code
     })) || [];
   const columns: ColumnsType<DataType> = [
     {
-      title: "شماره سفارش",
+      title: "شماره ",
+      width: "fit-content",
       dataIndex: "code",
       key: "code",
-      render: (text, record) => <>{text}</>
+      render: (text, record) => (
+        <Link
+          to={`/admin/orders/${record.key}`}
+          className="text-blue-[var(--tg-theme-button-color)]">
+          {text}#
+        </Link>
+      )
     },
     {
       title: "نام",
+
       dataIndex: "name",
       key: "name",
       render: (text, record) => (
@@ -43,6 +53,19 @@ function OrderListAdmin() {
           to={`/admin/orders/${record.key}`}
           className="text-blue-[var(--tg-theme-button-color)]">
           {text}
+        </Link>
+      )
+    },
+    {
+      title: "مبلغ",
+
+      dataIndex: "price",
+      key: "price",
+      render: (text, record) => (
+        <Link
+          to={`/admin/orders/${record.key}`}
+          className="text-blue-[var(--tg-theme-button-color)]">
+          {addCommas(text || 0)}
         </Link>
       )
     },
@@ -54,18 +77,12 @@ function OrderListAdmin() {
       render: (text) => <p>{GetOrderStatus(text)}</p>
     },
     {
-      title: "زمان",
+      title: "تاریخ ثبت سفارش",
       dataIndex: "time",
       key: "time",
       render: (text) => (
         <p>{moment(text).locale("fa").format("YYYY/MM/DD") || ""}</p>
       )
-    },
-    {
-      title: "کد رهگیری",
-      dataIndex: "tracking_code",
-      key: "tracking_code",
-      render: (text, record) => <p>{text || "ثبت نشده"}</p>
     }
   ];
 

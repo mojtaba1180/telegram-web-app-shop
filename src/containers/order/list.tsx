@@ -17,7 +17,7 @@ interface DataType {
   tracking_code: string;
 }
 interface Props {
-  type: "admin" | "user";
+  type: "profile" | "user";
 }
 
 function OrderList({ type }: Props) {
@@ -34,7 +34,8 @@ function OrderList({ type }: Props) {
     orders.map((item) => ({
       key: item.order_Id.toString(),
       code: item.order_Id.toString(),
-      name: item.full_Address,
+      name: item.user_Full_Name,
+      price: item.total_Price,
       status: item.order_Status,
       time: item.order_Date,
       tracking_code: item.tracking_Code
@@ -42,13 +43,21 @@ function OrderList({ type }: Props) {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "شماره سفارش",
+      title: "شماره ",
+      width: "fit-content",
       dataIndex: "code",
       key: "code",
-      render: (text, record) => <>{text}</>
+      render: (text, record) => (
+        <Link
+          to={`/profile/orders/${record.key}`}
+          className="text-blue-[var(--tg-theme-button-color)]">
+          {text}#
+        </Link>
+      )
     },
     {
       title: "نام",
+
       dataIndex: "name",
       key: "name",
       render: (text, record) => (
@@ -56,6 +65,19 @@ function OrderList({ type }: Props) {
           to={`/profile/orders/${record.key}`}
           className="text-blue-[var(--tg-theme-button-color)]">
           {text}
+        </Link>
+      )
+    },
+    {
+      title: "مبلغ",
+
+      dataIndex: "price",
+      key: "price",
+      render: (text, record) => (
+        <Link
+          to={`/profile/orders/${record.key}`}
+          className="text-blue-[var(--tg-theme-button-color)]">
+          {addCommas(text || 0)}
         </Link>
       )
     },
@@ -67,35 +89,13 @@ function OrderList({ type }: Props) {
       render: (text) => <p>{GetOrderStatus(text)}</p>
     },
     {
-      title: "زمان",
+      title: "تاریخ ثبت سفارش",
       dataIndex: "time",
       key: "time",
       render: (text) => (
         <p>{moment(text).locale("fa").format("YYYY/MM/DD") || ""}</p>
       )
-    },
-    {
-      title: "کد رهگیری",
-      dataIndex: "tracking_code",
-      key: "tracking_code",
-      render: (text) => <p>{text || "ثبت نشده"}</p>
     }
-    // ,{
-    //   title: "عملیات",
-    //   key: "action",
-    //   fixed: "right",
-    //   width: 100,
-    //   render: (_, record) => (
-    //     <Space size="small">
-    //       <Button type="link" size="small">
-    //         <CheckSquareOutlined />
-    //       </Button>
-    //       <Button type="link" size="small">
-    //         <EyeOutlined />
-    //       </Button>
-    //     </Space>
-    //   )
-    // }
   ];
 
   return (
