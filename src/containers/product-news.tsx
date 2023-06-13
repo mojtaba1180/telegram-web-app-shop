@@ -6,7 +6,7 @@ import { Divider } from "antd";
 function ProductNews() {
   const { data, isLoading, isFetching } = useGetProducts({
     limit: 6,
-    sortBy: "created_at"
+    sortBy: "Updated_At"
   });
   return (
     <div className="flex flex-col  gap-3">

@@ -34,7 +34,7 @@ function Boxes() {
           </span>
         </Link>
 
-        <Link className={`${itemClass} col-span-2 `} to="/cart">
+        <Link className={`${itemClass} col-span-2 `} to="/profile/orders">
           سفارشات من
           <span>
             <svg
