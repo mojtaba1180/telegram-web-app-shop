@@ -70,7 +70,7 @@ function Cart() {
     );
   };
   return (
-    <Container title="لیست سفارشات" backwardUrl="/">
+    <Container title="سبد خرید" backwardUrl="/">
       <div className="flex flex-col gap-5">
         <div className=" rounded-lg bg-[var(--tg-theme-secondary-bg-color)] p-3 transition-all ">
           <List
