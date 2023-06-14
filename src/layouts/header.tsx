@@ -12,7 +12,7 @@ function AppHeader() {
       </Link>
       <Link
         className="flex items-center gap-2 rounded-lg  bg-[var(--tg-theme-secondary-bg-color)]  p-3"
-        to="/profile">
+        to="/profile/home">
         <span>حساب کاربری</span>
         <UserOutlined style={{ fontSize: "22px" }} />
       </Link>
