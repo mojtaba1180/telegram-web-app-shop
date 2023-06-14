@@ -1,0 +1,5 @@
+.profile-menu {
+  a.active {
+    @apply bg-[var(--tg-theme-bg-color)];
+  }
+}

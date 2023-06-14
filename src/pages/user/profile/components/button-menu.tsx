@@ -2,36 +2,36 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-wrap-multilines */
+import "./style.scss";
+
 import {
   IdcardOutlined,
   UnorderedListOutlined,
   UserOutlined
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function UserProfileButtonMenu() {
   return (
-    <div
-      style={{ boxShadow: "0 0 10px -6px" }}
-      className=" mx-auto flex h-16 w-full max-w-[450px] justify-between rounded-t-lg border-b-2 border-[var(--tg-theme-button-color)] bg-[var(--tg-theme-bg-color)] p-2 shadow-lg ">
-      <Link
-        to="/profile"
-        className="flex w-1/3 flex-col items-center justify-center gap-1 ">
-        <UserOutlined /> پروفایل
-      </Link>
-      <Link
+    <div className=" profile-menu mx-auto flex h-16 w-full max-w-[450px] justify-between rounded-lg  bg-[var(--tg-theme-secondary-bg-color)] p-2  ">
+      <NavLink
+        to="/profile/home"
+        className="flex w-1/3 flex-col items-center justify-center gap-1 rounded-lg  ">
+        <UserOutlined /> حساب کاربری
+      </NavLink>
+      <NavLink
         to="/profile/orders"
-        className="flex w-1/3 flex-col items-center justify-center gap-1 ">
+        className="flex w-1/3 flex-col items-center justify-center gap-1 rounded-lg ">
         <UnorderedListOutlined /> سفارشات
-      </Link>
+      </NavLink>
       {/* <div className="flex w-1/4 flex-col items-center justify-center ">
         <UserOutlined />
       </div> */}
-      <Link
+      <NavLink
         to="/profile/address"
-        className="flex w-1/3 flex-col items-center justify-center gap-1 ">
+        className="flex w-1/3 flex-col items-center justify-center gap-1 rounded-lg ">
         <IdcardOutlined /> آدرس ها
-      </Link>
+      </NavLink>
     </div>
   );
 }
