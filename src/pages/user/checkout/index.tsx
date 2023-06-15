@@ -163,7 +163,6 @@ function Checkout() {
               required
               valuePropName="photos">
               <ImageUploading
-                multiple
                 value={images}
                 onChange={onChangeImage}
                 maxNumber={1}
