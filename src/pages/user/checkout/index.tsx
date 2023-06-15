@@ -12,13 +12,14 @@ import useAddOrder from "@framework/api/orders/add";
 import useAddReceiptPhotos from "@framework/api/receipt-photos/add";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { addCommas } from "@persian-tools/persian-tools";
-import { Alert, Button, Form, Input, message, Select } from "antd";
+import { Alert, Button, Form, Input, message, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 import { useLocation, useNavigate } from "react-router";
 
 function Checkout() {
   const [images, setImages] = useState([]);
+  const [imagesLoading, setImagesLoading] = useState(false);
   const [receiptPhoto, setReceiptPhoto] = useState<null | string>(null);
   const { id } = useTelegramUser();
   const { state: locState } = useLocation();
@@ -33,7 +34,8 @@ function Checkout() {
   } = useGetCarts(id);
 
   const onChangeImage = async (imageList) => {
-    setImages(imageList);
+    imageList.length && setImagesLoading(true);
+    // setImages(imageList);
     imageList.length &&
       mutationPhotos.mutate(
         {
@@ -43,10 +45,12 @@ function Checkout() {
           onSuccess: (e) => {
             setImages(imageList);
             setReceiptPhoto(`${e.data}`);
+            setImagesLoading(false);
           },
 
           onError: () => {
             message.error("در آپلود عکس مشکلی پیش آمده لطفا دوباره تلاش کنید!");
+            setImagesLoading(false);
           }
         }
       );
@@ -151,60 +155,62 @@ function Checkout() {
           }}
           onFinishFailed={onFinishFailed}
           autoComplete="off">
-          <Form.Item
-            className="mb-14 w-full"
-            name="photos"
-            label=" عکس رسید پرداخت"
-            required
-            valuePropName="photos">
-            <ImageUploading
-              multiple
-              value={images}
-              onChange={onChangeImage}
-              maxNumber={1}
-              dataURLKey="data_url">
-              {({ onImageUpload, onImageRemove, isDragging, dragProps }) => (
-                // write your building UI
-                <div className="upload__image-wrapper flex flex-col">
-                  <div className="mb-5 flex h-[60px]  w-full">
-                    <button
-                      style={isDragging ? { color: "red" } : undefined}
-                      onClick={onImageUpload}
-                      type="button"
-                      className="h-full w-full border-[1px] border-dashed"
-                      {...dragProps}>
-                      افزودن عکس
-                    </button>
-                  </div>
-                  <div className="grid h-fit w-full grid-cols-1 grid-rows-1  gap-y-7   ">
-                    {images?.map((image, index) => (
-                      <div
-                        key={index}
-                        className=" flex h-full w-full flex-col gap-2 rounded-lg">
-                        <img
-                          src={image.data_url}
-                          alt=""
-                          className="h-full w-full rounded-lg "
-                        />
-                        <div className="flex justify-between gap-3">
-                          <Button
-                            danger
-                            className="w-full"
-                            htmlType="button"
-                            onClick={() => {
-                              onImageRemove(index);
-                              setReceiptPhoto(null);
-                            }}>
-                            حذف
-                          </Button>
+          <Spin spinning={imagesLoading} tip="درحال اپلود">
+            <Form.Item
+              className="mb-14 w-full"
+              name="photos"
+              label=" عکس رسید پرداخت"
+              required
+              valuePropName="photos">
+              <ImageUploading
+                multiple
+                value={images}
+                onChange={onChangeImage}
+                maxNumber={1}
+                dataURLKey="data_url">
+                {({ onImageUpload, onImageRemove, isDragging, dragProps }) => (
+                  // write your building UI
+                  <div className="upload__image-wrapper flex flex-col">
+                    <div className="mb-5 flex h-[60px]  w-full">
+                      <button
+                        style={isDragging ? { color: "red" } : undefined}
+                        onClick={onImageUpload}
+                        type="button"
+                        className="h-full w-full border-[1px] border-dashed"
+                        {...dragProps}>
+                        افزودن عکس
+                      </button>
+                    </div>
+                    <div className="grid h-fit w-full grid-cols-1 grid-rows-1  gap-y-7   ">
+                      {images?.map((image, index) => (
+                        <div
+                          key={index}
+                          className=" flex h-full w-full flex-col gap-2 rounded-lg">
+                          <img
+                            src={image.data_url}
+                            alt=""
+                            className="h-full w-full rounded-lg "
+                          />
+                          <div className="flex justify-between gap-3">
+                            <Button
+                              danger
+                              className="w-full"
+                              htmlType="button"
+                              onClick={() => {
+                                setReceiptPhoto(null);
+                                setImages([]);
+                              }}>
+                              حذف
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </ImageUploading>
-          </Form.Item>
+                )}
+              </ImageUploading>
+            </Form.Item>
+          </Spin>
 
           <Form.Item name="address" label="آدرس" rules={[{ required: true }]}>
             <Select
