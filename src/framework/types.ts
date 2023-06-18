@@ -32,6 +32,13 @@ export interface TypeUserInfo {
   created_At: string;
   updated_At: string;
 }
+export interface TypePostUserInfo {
+  name: string;
+  last_name: string;
+  username: string;
+  email: null;
+  phone_number: null;
+}
 export interface TypeCategories {
   category_Id: string | number;
   category_Name: string | number;
