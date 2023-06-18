@@ -26,6 +26,7 @@ import {
   UserProfile,
   UserProfileAddAddresses,
   UserProfileAddresses,
+  UserProfileEdit,
   UserProfileEditAddresses,
   UserProfileHome,
   UserProfileOrder,
@@ -86,6 +87,11 @@ export const routes = createBrowserRouter([
         index: true,
         path: "home",
         element: <UserProfileHome />
+      },
+      {
+        index: true,
+        path: "home/edit",
+        element: <UserProfileEdit />
       },
       {
         path: "orders",

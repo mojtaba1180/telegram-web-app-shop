@@ -16,7 +16,7 @@
   },
   "search.sortOrder": "type",
   "explorer.sortOrder": "type",
-  "cSpell.words": ["Formik", "Signup", "zipcode"],
+  "cSpell.words": ["Formik", "Signup", "zipcode", "ذخیره"],
   "[properties]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
   },

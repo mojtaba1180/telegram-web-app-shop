@@ -1,7 +1,10 @@
 import Container from "@components/container";
 import useGetUserInfo from "@framework/api/user-information/get";
 import useTelegramUser from "@hooks/useTelegramUser";
-import { List } from "antd";
+import { Alert, List } from "antd";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 function StatusBox({ title, total }: { title: string; total: number }) {
   return (
@@ -13,39 +16,52 @@ function StatusBox({ title, total }: { title: string; total: number }) {
 }
 
 function UserProfileHome() {
-  // const BoxItem = [
-  //   {
-  //     title: "سفارش در حال انجام",
-  //     total: 0
-  //   },
-  //   {
-  //     title: "سفارش تکمیل شده",
-  //     total: 0
-  //   },
-  //   {
-  //     title: "سفارش در انتظار بررسی",
-  //     total: 0
-  //   },
-  //   {
-  //     title: "سفارش لغو شده",
-  //     total: 0
-  //   }
-  // ];
+  const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useTelegramUser();
-  const { data, isFetching, isLoading } = useGetUserInfo({ user_Id: id });
+  const { data, isFetching, isLoading, refetch } = useGetUserInfo({
+    user_Id: id
+  });
+  useEffect(() => {
+    refetch();
+  }, [location, refetch]);
+  const isCompleteProfile =
+    !data?.phone_Number || !data?.name || !data?.last_Name;
   return (
-    <Container title="حساب کاربری" backwardUrl="/">
+    <Container
+      title="حساب کاربری"
+      customButton
+      customButtonTitle="ویرایش"
+      customButtonOnClick={() => navigate("edit")}
+      backwardUrl="/">
       {/* <div className="grid h-52 w-full grid-cols-2 gap-2">
         {BoxItem.map((item) => (
           <StatusBox title={item.title} total={item.total} />
         ))}
       </div> */}
 
-      <List loading={isFetching || isLoading} className="w-full" bordered>
+      {isCompleteProfile && (
+        <Alert
+          type="info"
+          message={
+            <div className="flex">
+              <div>لطفا حساب کاربری خود را قبل از ثبت سفارش تکمیل کنید</div>
+              <Link
+                className=" mx-2 flex items-center justify-center rounded-lg border-2 px-2"
+                to="edit">
+                تکمیل
+              </Link>
+            </div>
+          }
+        />
+      )}
+      <List loading={isFetching || isLoading} className="mt-5 w-full" bordered>
         <List.Item>
           <List.Item.Meta
             title="نام :"
-            description={`${data?.name} ${data?.last_Name}` || "ندارد"}
+            description={
+              `${data?.name || ""} ${data?.last_Name || ""}` || "ندارد"
+            }
           />
         </List.Item>
         <List.Item>
