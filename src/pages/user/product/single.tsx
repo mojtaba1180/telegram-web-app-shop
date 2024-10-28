@@ -20,8 +20,8 @@ import {
   Carousel,
   Image,
   InputNumber,
-  Tabs,
-  message
+  message,
+  Tabs
 } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";

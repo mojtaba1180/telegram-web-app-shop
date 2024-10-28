@@ -260,9 +260,7 @@ export type WebAppUser = {
   username?: string;
 
   /** [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag) of the user's language. Returns in {@link WebAppInitData.user user} field only */
-  language_code?:
-  | "en"
-  | string;
+  language_code?: "en" | string;
 
   /**
    * URL of the user’s profile photo. The photo can be in `.jpeg` or `.svg` formats.

@@ -7,14 +7,18 @@ import Container from "@components/container";
 import useDeleteAddress from "@framework/api/address/delete";
 import { useGetAddresses } from "@framework/api/address/get";
 import useTelegramUser from "@hooks/useTelegramUser";
-import { Button, List, message, Popconfirm } from "antd";
+import {
+  Button, List, message, Popconfirm
+} from "antd";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 function AddessesList() {
   const navigate = useNavigate();
   const { id } = useTelegramUser();
-  const { data, isLoading, isFetching, refetch } = useGetAddresses(id);
+  const {
+    data, isLoading, isFetching, refetch
+  } = useGetAddresses(id);
   const deleteMutation = useDeleteAddress();
   const location = useLocation();
   useEffect(() => {

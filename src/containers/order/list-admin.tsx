@@ -21,14 +21,14 @@ function OrderListAdmin() {
   const orders = data?.orders || [];
   const dataChangingStructure: DataType[] =
     orders.map((item) => ({
-      key: item.order_Id.toString(),
-      code: item.order_Id.toString(),
-      name: item.user_Full_Name,
-      price: item.total_Price,
-      status: item.order_Status,
-      time: item.order_Date,
-      tracking_code: item.tracking_Code
-    })) || [];
+    key: item.order_Id.toString(),
+    code: item.order_Id.toString(),
+    name: item.user_Full_Name,
+    price: item.total_Price,
+    status: item.order_Status,
+    time: item.order_Date,
+    tracking_code: item.tracking_Code
+  })) || [];
   const columns: ColumnsType<DataType> = [
     {
       title: "شماره ",

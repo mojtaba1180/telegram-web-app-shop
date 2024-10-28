@@ -52,11 +52,13 @@ function CustomerDetail({ orders }: Props) {
           title="تاریخ سفارش:"
           description={
             <div>
-              <span>شمسی : </span>{" "}
+              <span>شمسی : </span>
+              {" "}
               {moment(orders?.order_Date).locale("fa").format("YYYY/MM/DD") ||
                 ""}
               <br />
-              <span>میلادی : </span>{" "}
+              <span>میلادی : </span>
+              {" "}
               {moment(orders?.order_Date).locale("en").format("YYYY/MM/DD") ||
                 ""}
             </div>

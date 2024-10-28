@@ -7,7 +7,9 @@ import useDeleteCartItem from "@framework/api/cart/delete";
 import { useGetCarts } from "@framework/api/cart/get";
 import useTelegramUser from "@hooks/useTelegramUser";
 import { addCommas } from "@persian-tools/persian-tools";
-import { Button, List, message, Popconfirm } from "antd";
+import {
+  Button, List, message, Popconfirm
+} from "antd";
 import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -15,7 +17,9 @@ function Cart() {
   const clearCartMutation = useClearCart();
   const delCartItemMutation = useDeleteCartItem();
   const { id } = useTelegramUser();
-  const { data, isFetching, isLoading, refetch } = useGetCarts(id);
+  const {
+    data, isFetching, isLoading, refetch
+  } = useGetCarts(id);
   const [openClearModal, setOpenClearModal] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const navigator = useNavigate();
@@ -164,13 +168,11 @@ function Cart() {
 
           <div>
             <Button
-              onClick={() =>
-                navigator("/checkout", {
-                  state: {
-                    cart_id: data?.cart_Id
-                  }
-                })
-              }
+              onClick={() => navigator("/checkout", {
+                state: {
+                  cart_id: data?.cart_Id
+                }
+              })}
               disabled={confirmLoading || data?.cartItems.length === 0}
               className="w-full"
               size="large">
