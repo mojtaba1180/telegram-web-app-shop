@@ -29,9 +29,9 @@ function UserProfileHome() {
     !data?.phone_Number || !data?.name || !data?.last_Name;
   return (
     <Container
-      title="حساب کاربری"
+      title="hometsx 1"
       customButton
-      customButtonTitle="ویرایش"
+      customButtonTitle="btnhometsx"
       customButtonOnClick={() => navigate("edit")}
       backwardUrl="/">
       {/* <div className="grid h-52 w-full grid-cols-2 gap-2">
@@ -45,11 +45,11 @@ function UserProfileHome() {
           type="info"
           message={
             <div className="flex">
-              <div>لطفا حساب کاربری خود را قبل از ثبت سفارش تکمیل کنید</div>
+              <div>hometsx 2</div>
               <Link
                 className=" mx-2 flex items-center justify-center rounded-lg border-2 px-2"
                 to="edit">
-                تکمیل
+                یxxxxx
               </Link>
             </div>
           }
@@ -58,7 +58,7 @@ function UserProfileHome() {
       <List loading={isFetching || isLoading} className="mt-5 w-full" bordered>
         <List.Item>
           <List.Item.Meta
-            title="نام :"
+            title="Name"
             description={
               `${data?.name || ""} ${data?.last_Name || ""}` || "ندارد"
             }
@@ -66,7 +66,7 @@ function UserProfileHome() {
         </List.Item>
         <List.Item>
           <List.Item.Meta
-            title="شماره همراه:"
+            title="Telephone"
             description={`${data?.phone_Number || "ندارد"}`}
           />
         </List.Item>
