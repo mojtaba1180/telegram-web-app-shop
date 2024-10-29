@@ -171,16 +171,16 @@ function Checkout() {
                   // write your building UI
   <div className="upload__image-wrapper flex flex-col">
                     {!images.length && (
-                      <div className="mb-5 flex h-[60px]  w-full">
+    <div className="mb-5 flex h-[60px]  w-full">
                         <button
-        style={isDragging ? { color: "red" } : undefined}
-        onClick={onImageUpload}
-        type="button"
-        className="h-full w-full border-[1px] border-dashed"
-        {...dragProps}>
-        افزودن عکس
+                          style={isDragging ? { color: "red" } : undefined}
+                          onClick={onImageUpload}
+                          type="button"
+                          className="h-full w-full border-[1px] border-dashed"
+                          {...dragProps}>
+                          افزودن عکس
                         </button>
-                    </div>
+                      </div>
     )}
                     <div className="grid h-fit w-full grid-cols-1 grid-rows-1  gap-y-7   ">
       {images?.map((image, index) => (
