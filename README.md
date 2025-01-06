@@ -1,7 +1,3 @@
-Here’s the updated `README.md` file for your Telegram web app shop project, modeled closely on the style and structure of the provided backend `README.md`:
-
----
-
 # Telegram Web App Shop
 
 Welcome to the `Telegram Web App Shop` repository! This project is an innovative e-commerce solution built as a Telegram web app using modern web technologies. It integrates with a backend API to deliver a seamless shopping experience.
@@ -78,7 +74,7 @@ Follow these steps to set up and run the project:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/telegram-web-app-shop.git
+   git clone https://github.com/mojtaba1180/telegram-web-app-shop.git
    cd telegram-web-app-shop
    ```
 
