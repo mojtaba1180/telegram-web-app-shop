@@ -123,6 +123,3 @@ If you have any questions, suggestions, or feedback about this project, feel fre
 - **GitHub Profile**: [My GitHub](https://github.com/mojtaba1180)  
 - **Telegram**: [@mojtaba1180](https://t.me/mojtaba1180)
 
----
-
-Let me know if you'd like me to save this as a downloadable file.
