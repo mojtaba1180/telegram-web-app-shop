@@ -169,9 +169,9 @@ function Checkout() {
                 dataURLKey="data_url">
                 {({ onImageUpload, onImageRemove, isDragging, dragProps }) => (
                   // write your building UI
-                  <div className="upload__image-wrapper flex flex-col">
+  <div className="upload__image-wrapper flex flex-col">
                     {!images.length && (
-                      <div className="mb-5 flex h-[60px]  w-full">
+    <div className="mb-5 flex h-[60px]  w-full">
                         <button
                           style={isDragging ? { color: "red" } : undefined}
                           onClick={onImageUpload}
@@ -181,32 +181,32 @@ function Checkout() {
                           افزودن عکس
                         </button>
                       </div>
-                    )}
+    )}
                     <div className="grid h-fit w-full grid-cols-1 grid-rows-1  gap-y-7   ">
-                      {images?.map((image, index) => (
+      {images?.map((image, index) => (
                         <div
-                          key={index}
-                          className=" flex h-full w-full flex-col gap-2 rounded-lg">
-                          <img
+          key={index}
+          className=" flex h-full w-full flex-col gap-2 rounded-lg">
+          <img
                             src={image.data_url}
                             alt=""
                             className="h-full w-full rounded-lg "
                           />
-                          <div className="flex justify-between gap-3">
+          <div className="flex justify-between gap-3">
                             <Button
-                              danger
-                              className="w-full"
-                              htmlType="button"
-                              onClick={() => {
+              danger
+              className="w-full"
+              htmlType="button"
+              onClick={() => {
                                 setReceiptPhoto(null);
                                 setImages([]);
                               }}>
-                              حذف
+              حذف
                             </Button>
                           </div>
-                        </div>
+        </div>
                       ))}
-                    </div>
+    </div>
                   </div>
                 )}
               </ImageUploading>

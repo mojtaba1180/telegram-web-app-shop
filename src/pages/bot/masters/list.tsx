@@ -6,7 +6,7 @@ import Container from "@components/container";
 import useDeleteMaster from "@framework/api/master/delete";
 import { useGetMasters } from "@framework/api/master/get";
 import useTelegramUser from "@hooks/useTelegramUser";
-import { Button, Popconfirm, Space, Table, message } from "antd";
+import { Button, message, Popconfirm, Space, Table } from "antd";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";

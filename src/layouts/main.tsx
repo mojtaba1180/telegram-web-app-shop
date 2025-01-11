@@ -15,7 +15,7 @@ function Main({ children }: Props) {
   // const { data } = useGetUserInfo({ user_Id: id });
   const customizeRenderEmpty = () => (
     <div style={{ textAlign: "center" }}>
-      <p>اطلاعاتی موجود نیست</p>
+      <p>اmaintsx</p>
     </div>
   );
   return (

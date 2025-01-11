@@ -12,8 +12,8 @@ import {
   message,
   Popconfirm
 } from "antd";
-import { DatePicker, useJalaliLocaleListener } from "antd-jalali";
 import type { RangePickerProps } from "antd/es/date-picker";
+import { DatePicker, useJalaliLocaleListener } from "antd-jalali";
 import dayjs from "dayjs";
 import moment from "jalali-moment";
 import { useState } from "react";
